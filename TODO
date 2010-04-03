@@ -1,0 +1,14 @@
+*******
+*TO DO*
+*******
+MAJOR FEATURES
+- undo/redo
+- interface cleanup
+- tetromino palette change (ARS <-> SRS <-> GB <-> others)
+
+MINOR FEATURES
+- save comment and print for every frame
+- save/load borders/preview/hold
+- a button to switch the hold piece with the first next piece
+- a button to shift the next pieces forward by one
+- a mirror button that would mirror the field with the option to also mirror the colors of JL/SZ

@@ -1,0 +1,7 @@
+TeDiGe a.k.a. Tetris Diagram Generator
+("te dis-je", lame french pun)
+
+Tedige is a javascript application that let draw, browse and animate Tetris diagram.
+It is quite similar to Fumen (http://fumen.zui.jp/) and Tage (http://tage.emaame.com/),
+only it has an english interface, documentation and source code and is generally 
+awesomer than its japanese counterpart :D . 
