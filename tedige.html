@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>TeDiGe</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		
+<link rel="stylesheet" type="text/css" href="img/tedige.css" />
+                             
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="tedige.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){   
+	
+		$('#palette input[type=radio]').click(function(){
+		   if($(this).is(':checked')) 
+		   {
+		   	   //$(this).parent() select the td, to which we add a class
+		   	   $('#palette input[type=radio]').parent().removeClass("boxcheck");
+		   	   $(this).parent().addClass("boxcheck");
+
+		   }
+		});	
+	
+})
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+
+<h1>TeDiGe</h1>
+
+<!-- ------------------------- Palette ------------------------- -->
+<div id="palette">  
+<label for="select-i"> <img src="img/blocks/ARS/lowercase/ARSiTet.png" alt="i"><input id="select-i" class="i" name="tetramino" value="i" type="radio">
+<label for="select-t"> <img src="img/blocks/ARS/lowercase/ARStTet.png" alt="t"><input id="select-t" class="t" name="tetramino" value="t" type="radio">
+<label for="select-j"> <img src="img/blocks/ARS/lowercase/ARSjTet.png" alt="j"><input id="select-j" class="j" name="tetramino" value="j" type="radio">
+<label for="select-o"> <img src="img/blocks/ARS/lowercase/ARSoTet.png" alt="o"><input id="select-o" class="o" name="tetramino" value="o" type="radio">
+<label for="select-l"> <img src="img/blocks/ARS/lowercase/ARSlTet.png" alt="l"><input id="select-l" class="l" name="tetramino" value="l" type="radio">
+<label for="select-s"> <img src="img/blocks/ARS/lowercase/ARSsTet.png" alt="s"><input id="select-s" class="s" name="tetramino" value="s" type="radio">
+<label for="select-z"> <img src="img/blocks/ARS/lowercase/ARSzTet.png" alt="z"><input id="select-z" class="z" name="tetramino" value="z" type="radio">
+<label for="select-g"> <img src="img/blocks/ARS/lowercase/ARSgTet.png" alt="g"><input id="select-g" class="g" name="tetramino" value="g" type="radio">
+<br>
+<label for="select-0"> <img src="img/blocks/ARS/ARS0Tet.png" alt="0"><input id="select-0" class="0" name="tetramino" value="0" type="radio">
+<label for="select-1"> <img src="img/blocks/ARS/ARS1Tet.png" alt="1"><input id="select-1" class="1" name="tetramino" value="1" type="radio">
+<label for="select-2"> <img src="img/blocks/ARS/ARS2Tet.png" alt="2"><input id="select-2" class="2" name="tetramino" value="2" type="radio">
+<label for="select-3"> <img src="img/blocks/ARS/ARS3Tet.png" alt="3"><input id="select-3" class="3" name="tetramino" value="3" type="radio">
+<label for="select-4"> <img src="img/blocks/ARS/ARS4Tet.png" alt="4"><input id="select-4" class="4" name="tetramino" value="4" type="radio">
+<label for="select-5"> <img src="img/blocks/ARS/ARS5Tet.png" alt="5"><input id="select-5" class="5" name="tetramino" value="5" type="radio">
+<label for="select-6"> <img src="img/blocks/ARS/ARS6Tet.png" alt="6"><input id="select-6" class="6" name="tetramino" value="6" type="radio">
+<label for="select-7"> <img src="img/blocks/ARS/ARS7Tet.png" alt="7"><input id="select-7" class="7" name="tetramino" value="7" type="radio">
+<label for="select-8"> <img src="img/blocks/ARS/ARS8Tet.png" alt="8"><input id="select-8" class="8" name="tetramino" value="8" type="radio">
+<label for="select-9"> <img src="img/blocks/ARS/ARS9Tet.png" alt="9"><input id="select-9" class="9" name="tetramino" value="9" type="radio">
+<br>
+<label for="select-C"> <img src="img/blocks/ARS/ARSCTet.png" alt="C"><input id="select-C" class="C" name="tetramino" value="C" type="radio">
+<label for="select-c"> <img src="img/blocks/ARS/lowercase/ARScTet.png" alt="c"><input id="select-c" class="c" name="tetramino" value="c" type="radio">
+<label for="select--"> <img src="img/blocks/ARS/ARS-Tet.png" alt="-"><input id="select--" class="-" name="tetramino" value="-" type="radio">
+<label for="select-."> <img src="img/blocks/ARS/ARS.Tet.png" alt="."><input id="select-." class="." name="tetramino" value="." type="radio">
+<label for="select-X"> <img src="img/blocks/ARS/ARSXTet.png" alt="X"><input id="select-X" class="X" name="tetramino" value="X" type="radio">
+<label for="select-x"> <img src="img/blocks/ARS/lowercase/ARSxTet.png" alt="x"><input id="select-x" class="x" name="tetramino" value="x" type="radio">
+<label for="select-B"> <img src="img/blocks/ARS/ARSBTet.png" alt="B"><input id="select-B" class="B" name="tetramino" value="B" type="radio">
+<label for="select-@"> <img src="img/blocks/ARS/ARS@Tet.png" alt="@"><input id="select-@" class="@" name="tetramino" value="@" type="radio">
+	<table>							                                                                                   
+	<tbody>
+		<tr>
+			<td> <label for="select-T"> <img src="img/t.png" alt="T"> </label> <input checked="checked" id="select-T" class="T" name="tetramino" value="T" type="radio"> </td> 
+			<td> <label for="select-Ti"> <img src="img/ti.png" alt="Ti"> </label> <input id="select-Ti" class="T" name="tetramino" value="Ti" type="radio"> </td> 
+			<td> <label for="select-Tcw"> <img src="img/tcw.png" alt="Tcw"> </label> <input id="select-Tcw" class="T" name="tetramino" value="Tcw" type="radio"> </td> 
+			<td> <label for="select-Tccw"> <img src="img/tccw.png" alt="Tccw"> </label> <input id="select-Tccw" name="tetramino" class="T" value="Tccw" type="radio"> </td> 
+			<td> <label for="select-Tu"> <img src="img/tu.png" alt="Tu"> </label> <input id="select-Tu" name="tetramino" class="T" value="Tu" type="radio"> </td>  
+		</tr>	                                                           
+		<tr>                                                             
+			<td> <label for="select-L"> <img src="img/l.png" alt="L"> </label> <input id="select-L" class="L" name="tetramino" value="L" type="radio"> </td> 
+			<td> <label for="select-Li"> <img src="img/li.png" alt="Li"> </label> <input id="select-Li" class="L" name="tetramino" value="Li" type="radio"> </td> 
+			<td> <label for="select-Lcw"> <img src="img/lcw.png" alt="Lcw"> </label> <input id="select-Lcw" class="L" name="tetramino" value="Lcw" type="radio"> </td> 
+			<td> <label for="select-Lccw"> <img src="img/lccw.png" alt="Lccw"> </label> <input id="select-Lccw" name="tetramino" class="L" value="Lccw" type="radio"> </td> 
+			<td> <label for="select-Lu"> <img src="img/lu.png" alt="Lu"> </label> <input id="select-Lu" name="tetramino" class="L" value="Lu" type="radio"> </td>    
+		</tr>	                                                           
+		<tr>                                                             
+			<td> <label for="select-J"> <img src="img/j.png" alt="J"> </label> <input id="select-J" class="J" name="tetramino" value="J" type="radio"> </td> 
+			<td> <label for="select-Ji"> <img src="img/ji.png" alt="Ji"> </label> <input id="select-Ji" class="J" name="tetramino" value="Ji" type="radio"> </td> 
+			<td> <label for="select-Jccw"> <img src="img/jccw.png" alt="Jccw"> </label> <input id="select-Jccw" class="J" name="tetramino" value="Jccw" type="radio"> </td> 
+			<td> <label for="select-Jcw"> <img src="img/jcw.png" alt="Jcw"> </label> <input id="select-Jcw" name="tetramino" class="J" value="Jcw" type="radio"> </td> 
+			<td> <label for="select-Ju"> <img src="img/ju.png" alt="Ju"> </label> <input id="select-Ju" name="tetramino" class="J" value="Ju" type="radio"> </td>       
+		</tr>	                                                           
+		<tr>                                                             
+			<td> <label for="select-S"> <img src="img/s.png" alt="S"> </label> <input id="select-S" class="S" name="tetramino" value="S" type="radio"> </td> 
+			<td> <label for="select-Si"> <img src="img/si.png" alt="Si"> </label> <input id="select-Si" class="S" name="tetramino" value="Si" type="radio"> </td>
+			<td> <label for="select-Scw"> <img src="img/scw.png" alt="Scw"> </label> <input id="select-Scw" class="S" name="tetramino" value="Scw" type="radio"> </td> 
+		</tr>	                                                           
+		<tr>                                                             
+			<td> <label for="select-Z"> <img src="img/z.png" alt="Z"> </label> <input id="select-Z" class="Z" name="tetramino" value="Z" type="radio"> </td>
+			<td> <label for="select-Zi"> <img src="img/zi.png" alt="Zi"> </label> <input id="select-Zi" class="Z" name="tetramino" value="Zi" type="radio"> </td> 
+			<td> <label for="select-Zcw"> <img src="img/zcw.png" alt="Zcw"> </label> <input id="select-Zcw" class="Z" name="tetramino" value="Zcw" type="radio"> </td>
+		</tr>                                                            
+		<tr>                                                             
+			<td> <label for="select-I"> <img src="img/i.png" alt="I"> </label> <input id="select-I" class="I" name="tetramino" value="I" type="radio"> </td> 
+			<td> <label for="select-Ii"> <img src="img/ii.png" alt="Ii"> </label> <input id="select-Ii" class="I" name="tetramino" value="Ii" type="radio"> </td>
+			<td> <label for="select-Iu"> <img src="img/iu.png" alt="Iu"> </label> <input id="select-Iu" class="I" name="tetramino" value="Iu" type="radio"> </td>
+		</tr>
+		<tr>
+			<td> <label for="select-O"> <img src="img/o.png" alt="O"> </label> <input id="select-O" class="O" name="tetramino" value="O" type="radio"> </td> 
+			<td> <label for="select-Oi"> <img src="img/oi.png" alt="Oi"> </label> <input id="select-Oi" class="O" name="tetramino" value="Oi" type="radio"> </td>
+		</tr>	
+		<tr>
+			<td> <label for="select-G"> <img src="img/g.png" alt="G"> </label> <input id="select-G" class="G" name="tetramino" value="G" type="radio"> </td>
+	</tbody>
+	</table>
+
+	<input id="active" type="checkbox"> Active ?
+	
+	<select id="hold" >
+		<option value=""></option>
+		<option value="I">I</option>
+		<option value="O">O</option>
+		<option value="J">J</option>
+		<option value="L">L</option>
+		<option value="S">S</option>
+		<option value="Z">Z</option>
+		<option value="T">T</option>
+		</optgroup>
+	</select>
+	
+	<select id="next1" >
+		<option value=""></option>
+		<option value="I">I</option>
+		<option value="O">O</option>
+		<option value="J">J</option>
+		<option value="L">L</option>
+		<option value="S">S</option>
+		<option value="Z">Z</option>
+		<option value="T">T</option>
+		</optgroup>
+	</select>
+	<select id="next2" >
+		<option value=""></option>
+		<option value="I">I</option>
+		<option value="O">O</option>
+		<option value="J">J</option>
+		<option value="L">L</option>
+		<option value="S">S</option>
+		<option value="Z">Z</option>
+		<option value="T">T</option>
+		</optgroup>
+	</select>
+	<select id="next3" >
+		<option value=""></option>
+		<option value="I">I</option>
+		<option value="O">O</option>
+		<option value="J">J</option>
+		<option value="L">L</option>
+		<option value="S">S</option>
+		<option value="Z">Z</option>
+		<option value="T">T</option>
+		</optgroup>
+	</select>
+	
+</div>
+
+<!-- ------------------------- Playfield ------------------------- -->
+<div id="seed">
+<div>
+	<p><textarea id="com" rows="3" style="width:90%; border:1px solid #202020; background: #070707;"></textarea></p>
+
+	<p><span id="current-frame">1</span> / <span id="total-frame">1</span></p>
+	
+	<input id="cmd_first" value="◄◄" type="button">
+	<input id="cmd_prev" value="◄" type="button">
+	<input id="cmd_next" value="►" type="button">
+	<input id="cmd_last" value="►►" type="button">
+	</div>
+</div>
+
+<!-- ------------------------- Controls ------------------------- -->
+<div id="controls-wrapper">
+	W: <input id="width" tabindex="1" type="text" value="10" size="2"/>
+	H: <input id="height" tabindex="1" type="text" value="20" size="2"/>
+
+	<br><br>
+
+	Border: <select id="border_color" >
+		<option value=""></option>
+		<option value="gray" style="background-color: gray; color: #EEEEEE;">Gray</option>
+		<option value="yellow" style="background-color: yellow">Yellow</option>
+		<option value="blue" style="background-color: blue; color: #EEEEEE;">Blue</option>
+		<option value="red" style="background-color: red; color: #EEEEEE;">Red</option>
+		<option value="green" style="background-color: green; color: #EEEEEE;">Green</option>
+		<option value="clear">Clear</option>
+		<option value="none">None</option>
+		</optgroup>
+	</select>
+	
+	System: <select id="system" >
+		<option value="ARS" selected>ARS</option>
+		<option value="SRS">SRS</option>
+		<option value="GB">GB</option>
+		<option value="TNT">TNT</option>
+		</optgroup>
+	</select>
+
+	<div id="active-control">
+	<h2>Active Piece</h2>
+	<table id="movement" style="margin:0 auto 0 auto">
+	<tbody>
+		<tr>
+			<td></td>
+			<td><input id="cmd_up" value="↑" type="button"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><input id="cmd_left" value="←" type="button"></td>
+			<td></td>
+			<td><input id="cmd_right" value="→" type="button"></td>
+		</tr>
+		<tr>
+			<td><input id="cmd_ccw" value="↪" type="button"></td>
+			<td><input id="cmd_down" value="↓" type="button"></td>
+			<td><input id="cmd_cw" value="↩" type="button"></td>
+		</tr>
+	</tbody>
+	</table>
+	</div>
+
+	<div id="field-control">
+	<h2>Field Control</h2>
+	<table style="margin:0 auto 0 auto">
+	<tbody>
+		<tr>
+			<td></td>
+			<td><input id="cmd_shift_field_up" value="↑" type="button"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><input id="cmd_shift_field_left" value="←" type="button"></td>
+			<td></td>
+			<td><input id="cmd_shift_field_right" value="→" type="button"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input id="cmd_shift_field_down" value="↓" type="button"></td>
+			<td></td>
+		</tr>
+	</tbody>
+	</table>
+	<input id="cmd_line_clear" value="Clear line(s)" type="button">
+	<input id="cmd_clear_field" value="Clear field" type="button">
+	</div>
+
+	<div id="new-delete-wrapper">
+		<h2>New Frame</h2>
+
+		<input id="cmd_new" value="Empty" type="button">
+		<input id="cmd_new_copy" value="Copy" type="button">
+	
+		<h2>Delete Frame</h2>
+	
+		<input id="cmd_del" value="Current" type="button">
+		<input id="cmd_del_follow" value="After" type="button">
+		<input id="cmd_del_all" value="All" type="button">	
+		</div>
+</div> <!-- close controls-wrapper-->
+
+<!-- ------------------------- Console ------------------------- -->
+<div id="console-wrapper">
+
+	<div class="console">
+		Export Console
+		<br>
+		<textarea id="export" class="console-textarea" readonly="readonly"></textarea>
+		<br>
+		<span id="console-description"></span>
+	</div>
+
+	<div class="console">
+		Import Console
+		<br>
+		<textarea id="import" class="console-textarea"></textarea>
+	</div>
+
+	<div id="import-export-wrapper" style="clear:left">                                                       
+		<input id="save-button" value="Export" type="button">
+		<input id="load-button" value="Import" type="button">
+		<input name="export" value="All" type="radio" checked="checked"> All
+		<input name="export" value="Current" type="radio"> Current
+		<input id="wiki" type="checkbox"> Wiki
+		<input id="slidagram" type="checkbox"> Slidagram
+	</div> <!-- close import-export-wrapper-->
+
+</div> <!-- close console-wrapper-->
+
+</div> <!-- close wrapper-->
+
+</body>
+</html>

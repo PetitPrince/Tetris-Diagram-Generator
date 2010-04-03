@@ -1,0 +1,145 @@
+head, body {
+	background: black;
+}
+
+table#diagram{
+	border:5px solid gray;	
+	line-height: 12px;
+	border-spacing: 0px;
+	margin: 0 auto 0 auto;
+}
+
+#diagram tr{	
+	height: 12px;
+	padding: 0px;
+}
+#diagram td{
+	margin-left: 1px;
+	padding:0px;
+	width: 12px;	
+}		
+.right-frame{ valign: top;}                                                                       
+.ARS_{ background-color: #000000;} 		
+
+.ARST{ background-color: cyan;}        
+.ARSL{ background-color: orange;}        
+.ARSJ{ background-color: blue;}                                                                        
+.ARSS{ background-color: magenta;}           
+.ARSZ{ background-color: green;}                                                                   
+.ARSI{ background-color: red;} 
+.ARSO{ background-color: yellow;} 
+
+.SRST{ background-color: cyan;}        
+.SRSL{ background-color: orange;}        
+.SRSJ{ background-color: blue;}                                                                        
+.SRSS{ background-color: magenta;}           
+.SRSZ{ background-color: green;}                                                                   
+.SRSI{ background-color: red;} 
+.SRSO{ background-color: yellow;} 
+
+.active{}
+.cover{background-color:red;}
+.preview{background-image: url("preview.png");}
+.bordered{border: 1px solid black;}  
+
+#palette{
+	float:left;
+	width: 30%;
+}
+
+#palette input[id^=select]{
+	display:none;
+}
+.boxcheck{
+background-color: lightgreen !important;
+}
+
+
+#movement{ 	line-height: 15px;}
+#movement tr{	
+	height: 10px;
+	padding: 0px;
+}
+#movement td{                                                                                                          
+	margin-left: 1px;
+	padding:0px;
+	width: 10px;
+}
+
+h1{text-align: center}
+h2{margin:.5em;}
+
+#header-green {
+	border-bottom: 1px solid #337715;
+	width: 100%;
+}
+
+.wrapper{
+	position:relative;
+	width: 800px;
+	background-color:#000000;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em;
+	color: #EEEEEE;
+}
+
+#seed{
+float:left;
+	width: 40%;
+	text-align:center;
+}
+
+#controls-wrapper{
+	float:left;
+	width: 30%;
+	text-align: center;
+}
+
+#active-control{
+	margin: 1em 0 1em 0;
+	border:1px solid #761C16;
+	background: #0C0000;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#field-control{
+	margin: 1em 0 1em 0;
+	border:1px solid #337715;
+	background: #000A00;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#new-delete-wrapper{
+	margin: 1em 0 1em 0;
+	border:1px solid #766216;
+	background: #090A00;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#console-wrapper{
+	clear:left;
+	text-align: center;
+}
+.console{
+	float:left;
+	width: 46%;
+	padding: 1em;
+	text-align: left;
+}
+.console-textarea{
+	height: 10em;
+	width: 100%;
+	border: 1px solid #202020;
+	background: #070707;
+	color: #EEEEEE;
+}
