@@ -20,7 +20,7 @@ C 		Rotation center of a piece, a bomb in Bombliss, or any other specially marke
 P 		Purple block for the T Tetromino, designed for use in documenting T-Spin setups
 B 		Mark a cell that has to be occupied for something (like a wallkick) to happen
 X 		Mark a cell that cannot be occupied for something (like a wallkick) to happen
-1�9 		Mark the cells that reject a given kick position 
+1–9 		Mark the cells that reject a given kick position 
 
 Note that for obvious CSS reasons, . (dot) was remplaced by _ (underscore).
  */
@@ -354,6 +354,13 @@ $(document).ready(function(){
 			this.Tetrion_Preview = new Array();
 			this.system = $('#system').val();
 
+			this.border_color = $('#border_color').val();
+			this.hold = "";
+			this.next1 = "";
+			this.next2 = "";
+			this.next3 = "";
+			
+			
 			this.Tetrion_History = new Array(); // an array that stores a new Array
 			this.Tetrion_History_Index = 0; // where in the history are we ?
 			this.Tetrion_History_Save = function (){
@@ -370,7 +377,6 @@ $(document).ready(function(){
 				 this.Tetrion_History.slice(this.Tetrion_History_Index-1);
 				 this.Tetrion_History.push(this.Tetrion.clone());
 				 this.Tetrion_History_Index++;
-				 this.comment="";
 			}
 			this.Tetrion_History_Recall = function (){
 				/**
@@ -381,16 +387,7 @@ $(document).ready(function(){
 				this.Tetrion = this.Tetrion_History[this.Tetrion_History_Index-1].clone();
 				this.draw();
 				this.Tetrion_History_Index--;
-				 this.comment="";
-
-			}
-
-			
-			this.border_color = $('#border_color').val();
-			this.hold = "";
-			this.next1 = "";
-			this.next2 = "";
-			this.next3 = "";
+			}			
 			
 			this.init=function(){
 				/**
@@ -955,14 +952,82 @@ $(document).ready(function(){
 			this.print = function (){							
 				/**
 				 * Generates an encoded string that describes the playfield.
-				 * Each cases are separated by a "-".
-				 * Coordinates are encoded by two letters (see alphanumconvert()).
-				 * The active piece center (if any) is separated by a pipe character ("|") and is encoded in the same way as the normal piece
-				 * There's also a comment part, also separated by a pipe, encoded in base64.
-				 */				
-				var TetrionState="";	
+				 ******************
+				 * Encoding format*
+				 ******************
+				 * - Each frame are separated by a "+"
+				 * - within each frame, a "_" separates different data
+				 * - those data are identified with a two letters identifier, starting with ")" and the following
+				 *   -> "r" : "rotation", or rotation system currently in use
+				 *	 -> "b" : border color
+				 *	 -> "n" : "next" preview
+				 *   -> "m" : "next" + 1
+				 *   -> "o  : "next" + 2
+				 *   -> "g" : "garbage", or the inactive pieces coordinates
+				 *			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
+				 *   -> "a" : "active", or the active center coordoniates
+				 *			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
+				 *   -> "c" : "comment", encoded in base64
+				 *
+				 * Example:
+				 * )rARS_)geeT-feT-dfT-efT-ffT-cgT-dgT-fgT-fhT-fiT-fjT-fkT-flT-fmT-fnT-_)cT25lIGJsdWU%3D+)rARS_)gdcL-ecL-fcL-ddL-fdL-gdL-ceL-geL-heL-cfL-hfL-cgL-hgL-chL-hhL-hiL-gjL-fkL-gkL-flL-emL-dnL-enL-doL-dpL-epL-fpL-gpL-hpL-_)cVHdvIG9yYW5nZQ%3D%3D+)rARS_)gbfZ-cfZ-dfZ-efZ-fgZ-fhZ-fiZ-cjZ-djZ-ejZ-fjZ-ekZ-flZ-glZ-fmZ-gmZ-enZ-fnZ-boZ-coZ-doZ-eoZ-_)ahc-Oi_)cVGhyZWUgZ3JlZW4gYW5kIGFjdGl2ZSB5ZWxsb3c%3D+
+                 * <- that should be One blue, Two Orange, Three green and yellow active.
+
+                 * Old string, disregard that 
+				 * irARS_igdcT-ecT-fcT-edT-+igfbL-gbL-gcL-gdL-_icSSBsb3ZlIFRldHJpcyAh+igfbL-gbL-gcL-gdL-_iadd-Zcw_icxVmVyeSBtdWNoIG11Y2ggIQ%3D%3D+
+				 * <-----Frame 1---->|<----------------Frame 2---------------->|<-----------------------Frame 3--------------------------->|
+				 * idrot¦id<--cases coord->|id<- cases coord->¦id<- comment string ->|id<-pieces info-->¦id<actv>¦id<----- comment string------->|
+				 * idrot¦id<->¦<->¦<->¦<->¦|id<->¦<->¦<->¦<-> ¦                      |                  ¦        ¦                               |  
+                 *        |                                                                          |
+                 *        ---> ecT: e = 5 ; c = 3 ; so at 5x3 there's a T case                       _--> dd-Zcw : d = 4, so at 4x4 there's a Z in clockwise orientation
+                 *
+				 */		
+				var TetrionState=""; // our final string
+				var tmp=""; // an utility string, may be flushed at will
 				var coord_x;
 				var coord_y;
+				
+				// We're encoding for one frame only, the rest is handled by the higher class
+
+				
+				
+				// "r": since a pf has *always" a rotation system, we're beginning with it
+				if(this.system)
+					{
+					TetrionState += ")r"+this.system+"_";
+					}
+
+				// "b": the same thing could be said about the border color :)	
+					
+				if(this.border_color)
+					{
+					TetrionState += ")b"+this.border_color+"_";
+					}
+
+				// "h", "n","m","o": hold and nexts pieces; the system is modular enough to don't care if they aren't present					
+				if(this.hold)
+					{
+					TetrionState += ")h"+this.system+"_";
+					}
+
+				if(this.next1)
+					{
+					TetrionState += ")n"+this.system+"_";
+					}
+
+				if(this.next2)
+					{
+					TetrionState += ")m"+this.system+"_";
+					}
+				if(this.next3)
+					{
+					TetrionState += ")o"+this.system+"_";
+					}
+					
+					
+					
+				// "g": Let's check if the Tetrion is empty. While we're at it, encode its content
+				
 				for(var j=0; j<this.pf_height;j++) //inactive
 				{
 					for(var i=0; i<this.pf_width;i++)
@@ -971,11 +1036,21 @@ $(document).ready(function(){
 						{
 							coord_x = alphanumconvert(i);
 							coord_y = alphanumconvert(j);
-							TetrionState += coord_x+coord_y+this.Tetrion[i][j]["content"]+"-";	 	 						
+							tmp += coord_x+coord_y+this.Tetrion[i][j]["content"]+"-";	 	 						
 						}
 					}
-					
 				}
+				
+				// if it's not empty, congratulation, you got a garbage string !
+				if(tmp)					
+					{
+					TetrionState+=")g";
+					TetrionState+=tmp+"_";
+					tmp=""; // let's reset tmp for further use
+					}
+				
+				// "a" now for the Active piece. Same strategy	
+										
 				for(var j=0; j<this.pf_height;j++) //Active
 				{	
 					for(var i=0; i<this.pf_width;i++)
@@ -984,16 +1059,24 @@ $(document).ready(function(){
 						{
 							coord_x = alphanumconvert(i);
 							coord_y = alphanumconvert(j);
-							TetrionState+="|"+coord_x+coord_y+"-"+this.Tetrion[i][j]['center_active'];	
+							tmp+=coord_x+coord_y+"-"+this.Tetrion[i][j]['center_active'];	
 						}
 					}
 				}
+
+				// if it's not empty means we got an active center
+				if(tmp)					
+					{
+					TetrionState+=")a";
+					TetrionState+=tmp+"_";
+					tmp=""; // let's reset tmp for further use
+					}
+
 				
 				if(this.comment) //comment
 				{
-					TetrionState+="|x"+encodeURIComponent(Base64.encode(this.comment));	
+					TetrionState+=")c"+encodeURIComponent(Base64.encode(this.comment));	
 				}
-				
 				return TetrionState;
 			}						
 			
@@ -1009,88 +1092,111 @@ $(document).ready(function(){
 			this.load_pf = function(str){
 				/**
 				 * Reboot the playfield, parses the string in parameter and
-				 * fills it accordingly.
+				 * fills it accordingly. See print for more info about decoding
 				 */		
 				this.rebootPlayfield();
 				this.rebootActive();
 				if(!str){return;}
-				var Split = str.split("|");
-				var inactiveSplit = Split[0].split("-");
-				var coord_x;
-				var coord_y;
-				for(var i=0 ; i<inactiveSplit.length-1 ; i++)
-				{        
-					coord_x = alphanumconvert(inactiveSplit[i].charAt(0));
-					coord_y = alphanumconvert(inactiveSplit[i].charAt(1));
-					this.modify(coord_x,coord_y,inactiveSplit[i].charAt(2));
-				}
-				if(Split[1]) // if there's something on the second part
+				
+
+				this.rebootPlayfield();
+				this.rebootActive();
+				if(!str){return;}
+				var Split = str.split("_"); // let's decompose our string into individual element...
+				
+				for(var i=0;i<Split.length;i++) // for each of its constituent, analyse what it is
 				{
-					if(Split[1].charAt(0) == "x") // if it's beginning with a x, it's a comment string
+					if(Split[i].charAt(0) == ")") // the first character must be the identifier z
 					{
-						this.comment = Base64.decode(decodeURIComponent(Split[1].slice(1)));
-						$('#com').val(this.comment);	
-						
-					}
-					else
-					{ 
-						var activeSplit = Split[1].split("-");
-						var center = new Array;
-						
-						center['x'] = alphanumconvert(activeSplit[0].charAt(0));
-						center['y'] = alphanumconvert(activeSplit[0].charAt(1));
-						
-						
-						
-						var piece_nature = activeSplit[1].slice(0,1); 
-						var piece_orientation = activeSplit[1];
-						var orientation = get_orientation(piece_orientation,center);			            	                                     
-						
-						var t2 = new Array();
-						var t3 = new Array();                                                
-						var t4 = new Array();	 		
-						
-						t2.x = orientation[0].x;                // put the orientation we got in the new arrays
-						t2.y = orientation[0].y;                    
-						t3.x = orientation[1].x;
-						t3.y = orientation[1].y;
-						t4.x = orientation[2].x;
-						t4.y = orientation[2].y;  
-						
-						if(piece_orientation == "T"
-							|| piece_orientation == "L"
-						|| piece_orientation == "J"
-						|| piece_orientation == "S"
-						|| piece_orientation == "Z"   
-						|| piece_orientation == "I"
-						|| piece_orientation == "G"	 		
-						|| piece_orientation == "single")
+					
+						switch(Split[i].charAt(1)) // let's see what is second character...
 						{
-							t2.x = center.x;
-							t2.y = center.y;
-							t3.x = center.x;
-							t3.y = center.y;
-							t4.x = center.x;
-							t4.y = center.y;
-						}	 			
-                    	
-						this.rebootActive();    
-						this.modify_active(center.x,center.y,piece_nature);
-						this.modify_active_center(center.x,center.y,piece_orientation);
-						this.modify_active(t2.x,t2.y,piece_nature);
-						this.modify_active(t3.x,t3.y,piece_nature);
-						this.modify_active(t4.x,t4.y,piece_nature);							
-					}
-					if(Split[2]) // the comment string may not be in the second part... what about the third ?
-					{
-						if(Split[2].charAt(0) == "x")
-						{
-							this.comment = Base64.decode(decodeURIComponent(Split[2].slice(1)));
-							$('#com').val(this.comment);	
-							
+							case "r" :
+								 this.system = Split[i].slice(2); // slicing out the id characters
+								break;
+							case "b" :
+								 this.border_color = Split[i].slice(2);
+								break;
+							case "h" :
+								 this.hold = Split[i].slice(2); // slicing out the id characters
+								break;
+							case "n" :
+								 this.next1 = Split[i].slice(2); // slicing out the id characters
+								break;
+							case "m" :
+								 this.next2 = Split[i].slice(2); // slicing out the id characters
+								break;
+							case "o" :
+								 this.next3 = Split[i].slice(2); // slicing out the id characters
+								break;
+							case "g" :
+								 var inactiveSplit = Split[i].slice(2).split("-")
+								 var coord_x;
+								 var coord_y;
+								 for(var i=0 ; i<inactiveSplit.length-1 ; i++)
+								 {
+								 	 coord_x = alphanumconvert(inactiveSplit[i].charAt(0));
+								 	 coord_y = alphanumconvert(inactiveSplit[i].charAt(1));
+								 	 this.modify(coord_x,coord_y,inactiveSplit[i].charAt(2));
+								 }
+								break;								
+							case "a" :
+								var placeholderrr = "yeysys";
+								var activeSplit = Split[i].slice(2).split("-");
+								var center = new Array;
+								
+								center['x'] = alphanumconvert(activeSplit[0].charAt(0));
+								center['y'] = alphanumconvert(activeSplit[0].charAt(1));
+								
+								
+								
+								var piece_nature = activeSplit[1].slice(0,1); 
+								var piece_orientation = activeSplit[1];
+								var orientation = get_orientation(piece_orientation,center);			            	                                     
+								
+								var t2 = new Array();
+								var t3 = new Array();                                                
+								var t4 = new Array();	 		
+								
+								t2.x = orientation[0].x;                // put the orientation we got in the new arrays
+								t2.y = orientation[0].y;                    
+								t3.x = orientation[1].x;
+								t3.y = orientation[1].y;
+								t4.x = orientation[2].x;
+								t4.y = orientation[2].y;  
+								
+								if(piece_orientation == "T"
+									|| piece_orientation == "L"
+								|| piece_orientation == "J"
+								|| piece_orientation == "S"
+								|| piece_orientation == "Z"   
+								|| piece_orientation == "I"
+								|| piece_orientation == "G"	 		
+								|| piece_orientation == "single")
+								{
+									t2.x = center.x;
+									t2.y = center.y;
+									t3.x = center.x;
+									t3.y = center.y;
+									t4.x = center.x;
+									t4.y = center.y;
+								}	 			
+		                    	
+								this.rebootActive();    
+								this.modify_active(center.x,center.y,piece_nature);
+								this.modify_active_center(center.x,center.y,piece_orientation);
+								this.modify_active(t2.x,t2.y,piece_nature);
+								this.modify_active(t3.x,t3.y,piece_nature);
+								this.modify_active(t4.x,t4.y,piece_nature);								
+								break;
+							case "c":
+								this.comment = Base64.decode(decodeURIComponent(Split[i].slice(2)));
+								$('#com').val(this.comment);	
+								break;
 						}
 					}
-				}
+					                                                                   
+				}				
 				
 			}
 			
