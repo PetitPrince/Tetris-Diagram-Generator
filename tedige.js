@@ -333,6 +333,18 @@ $(document).ready(function(){
 				$('#export').html(code);
 				$('#console-description').html("copy and paste into tetriswiki");
 			}		
+			
+			this.export_all_to_url = function(){
+				/**
+				 * Generates an URL with the current
+				 */		
+
+				$("#export").html(window.location.href+"#"+this.print());
+
+			
+			}
+			
+			
 		}
 		
 		/* ------------------------------------------------------------- */		
@@ -1344,6 +1356,7 @@ $(document).ready(function(){
 				$('#console-description').html("copy and paste into tetriswiki");
 			}						
 			
+			
 		}
 		
 	 	
@@ -1881,6 +1894,8 @@ $(document).ready(function(){
 			if ($('input[name=export]:checked').val() == 'All') {
 				if ($('#wiki:checked').val() != null)
 					D.export_all_to_tw();
+				else if ($('#url:checked').val() != null)
+					D.export_all_to_url();
 				else
 					D.save();
 			}
