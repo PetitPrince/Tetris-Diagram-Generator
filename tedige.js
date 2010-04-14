@@ -1133,22 +1133,19 @@ $(document).ready(function(){
 								 var inactiveSplit = Split[i].slice(2).split("-")
 								 var coord_x;
 								 var coord_y;
-								 for(var i=0 ; i<inactiveSplit.length-1 ; i++)
+								 for(var j=0 ; j<inactiveSplit.length-1 ; j++)
 								 {
-								 	 coord_x = alphanumconvert(inactiveSplit[i].charAt(0));
-								 	 coord_y = alphanumconvert(inactiveSplit[i].charAt(1));
-								 	 this.modify(coord_x,coord_y,inactiveSplit[i].charAt(2));
+								 	 coord_x = alphanumconvert(inactiveSplit[j].charAt(0));
+								 	 coord_y = alphanumconvert(inactiveSplit[j].charAt(1));
+								 	 this.modify(coord_x,coord_y,inactiveSplit[j].charAt(2));
 								 }
 								break;								
 							case "a" :
-								var placeholderrr = "yeysys";
 								var activeSplit = Split[i].slice(2).split("-");
 								var center = new Array;
 								
 								center['x'] = alphanumconvert(activeSplit[0].charAt(0));
 								center['y'] = alphanumconvert(activeSplit[0].charAt(1));
-								
-								
 								
 								var piece_nature = activeSplit[1].slice(0,1); 
 								var piece_orientation = activeSplit[1];
