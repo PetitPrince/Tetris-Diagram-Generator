@@ -336,12 +336,9 @@ $(document).ready(function(){
 			
 			this.export_all_to_url = function(){
 				/**
-				 * Generates an URL with the current
+				 * Generates an URL with the current playfields
 				 */		
-
 				$("#export").html(window.location.href+"#"+this.print());
-
-			
 			}
 			
 			
@@ -373,32 +370,18 @@ $(document).ready(function(){
 			this.next3 = "";
 			
 			
-			this.Tetrion_History = new Array(); // an array that stores a new Array
-			this.Tetrion_History_Index = 0; // where in the history are we ?
+			this.Tetrion_History;
 			this.Tetrion_History_Save = function (){
 				/**
-				 * Truncate the history up to the index point,
-				 * save the current inactive array into the Tetrion_History array and then
-				 * increment the index
-				 *
-				 * This method should be called within the interface, not within the playfield class,
-				 * so we are sure that the action is a result of the user will.
-				 * There's one exception though - add_piece - the interface doesn't
-				 * provide a way to know if the current piece is active or not.
+				 * Stores the last frame in memory
 				 */
-				 this.Tetrion_History.slice(this.Tetrion_History_Index-1);
-				 this.Tetrion_History.push(this.Tetrion.clone());
-				 this.Tetrion_History_Index++;
+				 Tetrion_History = this.print();
 			}
 			this.Tetrion_History_Recall = function (){
 				/**
-				 * Load the indexed inactive array, then
-				 * decrement the index
+				 * Load the last frame in memory
 				 */
-				
-				this.Tetrion = this.Tetrion_History[this.Tetrion_History_Index-1].clone();
-				this.draw();
-				this.Tetrion_History_Index--;
+				 this.load_pf(Tetrion_History);
 			}			
 			
 			this.init=function(){
@@ -1355,6 +1338,13 @@ $(document).ready(function(){
 				$('#export').html(code);
 				$('#console-description').html("copy and paste into tetriswiki");
 			}						
+
+			this.export_to_url = function(){
+				/**
+				 * Generates an URL with the current playfield
+				 */		
+				$("#export").html(window.location.href+"#"+this.print());
+			}
 			
 			
 		}
@@ -1903,6 +1893,8 @@ $(document).ready(function(){
 			if ($('input[name=export]:checked').val() == 'Current') {
 				if ($('#wiki:checked').val() != null)
 					D.Playfields[D.current_playfield].export_to_tw();
+				if ($('#url:checked').val() != null)
+					D.Playfields[D.current_playfield].export_to_url();
 				else
 					D.Playfields[D.current_playfield].export_pf();
 			}
@@ -2034,23 +2026,29 @@ $(document).ready(function(){
 				D.remove_all_playfields();
 			}
 		})		
-		$("#cmd_up").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('up');
+		$("#cmd_up").click(function(){   
+				D.Playfields[D.current_playfield].Tetrion_History_Save();					
+				D.Playfields[D.current_playfield].move_piece('up');
 		})
 		$("#cmd_down").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('down');
+				D.Playfields[D.current_playfield].Tetrion_History_Save();					
+				D.Playfields[D.current_playfield].move_piece('down');
 		})
 		$("#cmd_left").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('left');
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].move_piece('left');
 		})
-		$("#cmd_right").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('right');
+		$("#cmd_right").click(function(){
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].move_piece('right');
 		})
-		$("#cmd_cw").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('cw');
+		$("#cmd_cw").click(function(){                                                         
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].move_piece('cw');
 		})
-		$("#cmd_ccw").click(function(){                                                                
-			D.Playfields[D.current_playfield].move_piece('ccw');
+		$("#cmd_ccw").click(function(){                                  
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].move_piece('ccw');
 		})		
 
 		$("#cmd_recall").click(function(){                                                                
