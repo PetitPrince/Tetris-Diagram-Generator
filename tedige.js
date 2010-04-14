@@ -347,14 +347,14 @@ $(document).ready(function(){
 				 *						- one for the mouseover preview
 				 */
                   
-			this.pf_width = parseInt($('#width').val());
-			this.pf_height = parseInt($('#height').val());
+			this.pf_width = 10; //default values
+			this.pf_height = 20; //default values
 			this.comment ="";
 			this.Tetrion = new Array(); 
 			this.Tetrion_Preview = new Array();
-			this.system = $('#system').val();
+			this.system;
 
-			this.border_color = $('#border_color').val();
+			this.border_color;
 			this.hold = "";
 			this.next1 = "";
 			this.next2 = "";
@@ -392,7 +392,13 @@ $(document).ready(function(){
 			this.init=function(){
 				/**
 				 * Initializes the playfield and fills it with "_" (empty space).
+				 * Also initializes others variable
 				 */
+				 // this.pf_width = parseInt($('#width').val());
+				 // this.pf_height = parseInt($('#height').val());
+				  this.system = $('#system').val(); // to change
+				 this.border_color = $('#border_color').val(); // to change
+				 
 				for(var i=0;i<this.pf_width;i++)
 				{
 					this.Tetrion.push(new Array(this.pf_height))
@@ -408,6 +414,8 @@ $(document).ready(function(){
 						this.Tetrion[i][j]['center_active']="";
 					}  
 				}
+
+
 			}                                                                                           
 
 			this.modify=function(x,y,value){
@@ -1861,6 +1869,12 @@ $(document).ready(function(){
 
 	 	var D = new Diagram();
 	 	D.init();
+	 	var URLHash = window.location.hash;
+	 	if(URLHash) // load if there's something in the url
+	 	{
+	 		D.load(URLHash.slice(1));
+	 		D.first_playfield();
+	 	}
 		  
 		
 	 	$("#save-button").click(function(){

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>TeDiGe viewer</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		
+<link rel="stylesheet" type="text/css" href="img/tedige.css" />
+                             
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="tedige.js"></script>
+
+<style type="text/css">
+.wrapper{
+	position:absolute;
+	top:0;
+	left:0;
+	margin-left:0;	
+	margin-right:0;	
+	width: 300px;
+}
+#diagram{float:left;}
+#control{text-align:center}
+#current-frame{font-weight: bold}
+</style>
+
+</head>
+
+<body>
+<div class="wrapper">
+
+<!-- ------------------------- Playfield ------------------------- -->
+<div id="seed">
+</div>
+<div id="control">
+<br />
+	<p id="comment-area"><textarea id="com" rows="3" style="color:white; width:40%; border:1px solid #202020; background: #070707;"></textarea></p>
+<br />
+	<p id="frame-counter"><span id="current-frame">1</span> / <span id="total-frame">1</span></p>
+	
+	<input id="cmd_prev" value="◄" type="button">
+	<input id="cmd_next" value="►" type="button">
+
+<br />
+
+	<input id="cmd_first" value="|◄" type="button">
+	<input id="cmd_last" value="►|" type="button">
+
+</div>
+</div>
+
+
+</body>
+</html>
