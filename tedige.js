@@ -1,7 +1,7 @@
 /*
-TeDiGe uses a multiple array to store information about a playfield state in an 
-conveniently sized array containing symbols that represents the current type
-of bloc.
+TeDiGe uses an array to store information about playfield state (each case would
+be a independant state of the game) in an conveniently sized multidimensional 
+array containing symbols that represents the current type of bloc.
 
 The symbol encoding is nearly compatible with tetriswiki's 
 <playfield> notation (see http://www.tetrisconcept.net/wiki/Help:Playfield):
@@ -373,34 +373,6 @@ $(document).ready(function(){
 			this.next3 = "";
 			
 			
-			this.Tetrion_History = new Array(); // an array that stores a new Array
-			this.Tetrion_History_Index = 0; // where in the history are we ?
-			this.Tetrion_History_Save = function (){
-				/**
-				 * Truncate the history up to the index point,
-				 * save the current inactive array into the Tetrion_History array and then
-				 * increment the index
-				 *
-				 * This method should be called within the interface, not within the playfield class,
-				 * so we are sure that the action is a result of the user will.
-				 * There's one exception though - add_piece - the interface doesn't
-				 * provide a way to know if the current piece is active or not.
-				 */
-				 this.Tetrion_History.slice(this.Tetrion_History_Index-1);
-				 this.Tetrion_History.push(this.Tetrion.clone());
-				 this.Tetrion_History_Index++;
-			}
-			this.Tetrion_History_Recall = function (){
-				/**
-				 * Load the indexed inactive array, then
-				 * decrement the index
-				 */
-				
-				this.Tetrion = this.Tetrion_History[this.Tetrion_History_Index-1].clone();
-				this.draw();
-				this.Tetrion_History_Index--;
-			}			
-			
 			this.init=function(){
 				/**
 				 * Initializes the playfield and fills it with "_" (empty space).
@@ -664,7 +636,6 @@ $(document).ready(function(){
 						}
 						else // if_inactive
 						{   
-							this.Tetrion_History_Save(); //history
 							this.modify(center.x,center.y,piece_nature);
 							this.modify(t2.x,t2.y,piece_nature);
 							this.modify(t3.x,t3.y,piece_nature);
@@ -2053,36 +2024,26 @@ $(document).ready(function(){
 			D.Playfields[D.current_playfield].move_piece('ccw');
 		})		
 
-		$("#cmd_recall").click(function(){                                                                
-			D.Playfields[D.current_playfield].Tetrion_History_Recall();
-		})		
-
 	 	
 	 	$('#border_color').change(function(){
 	 		D.Playfields[D.current_playfield].modify_border();	
 	 	})
 		$("#cmd_line_clear").click(function(){
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].line_clear();
 		})
 		$("#cmd_shift_field_up").click(function(){
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].shift_field('up');
 		})	
 		$("#cmd_shift_field_down").click(function(){               
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].shift_field('down');
 		})
 		$("#cmd_shift_field_left").click(function(){               
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].shift_field('left');
 		})	
 		$("#cmd_shift_field_right").click(function(){
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].shift_field('right');
 		})	
 		$("#cmd_clear_field").click(function(){            	
-			D.Playfields[D.current_playfield].Tetrion_History_Save();	
 			D.Playfields[D.current_playfield].rebootPlayfield();
 			D.Playfields[D.current_playfield].draw();
 
