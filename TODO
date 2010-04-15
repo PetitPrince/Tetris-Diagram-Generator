@@ -2,18 +2,21 @@
 *TO DO*
 *******
 MAJOR FEATURES
-- undo/redo
 - interface cleanup
 - tetromino palette change (ARS <-> SRS <-> GB <-> others)
 - lock active piece (and transform it into a inactive piece)
-- "view" mode
+- (customizable) keyboard shortcut
 - gif generation (use imagemagick)
+- frame browser like Tage
 
 MINOR FEATURES
 - save/load borders/preview/hold
 - a button to switch the hold piece with the first next piece
 - a button to shift the next pieces forward by one
 - a mirror button that would mirror the field with the option to also mirror the colors of JL/SZ
+
+TO EXPAND
+- undo/redo: there's could be a *much* more powerful system than just saving the last frame. See photoshop for instance...
 
 ********
 * BUGS *

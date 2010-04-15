@@ -337,8 +337,16 @@ $(document).ready(function(){
 			this.export_all_to_url = function(){
 				/**
 				 * Generates an URL with the current playfields
-				 */		
-				$("#export").html(window.location.href+"#"+this.print());
+				 */	
+				 var output = window.location.protocol+window.location.hostname;
+				 var tmp = window.location.pathname.split("/");
+				 
+				 for(var i = 0; i<tmp.length-1;i++)
+				 {
+				 	 output += tmp[i]+"/";
+				 }
+				 output+="view.html";
+				$("#export").html(output+"#"+this.print());
 			}
 			
 			
@@ -670,6 +678,15 @@ $(document).ready(function(){
 				}
 				
 			}	 	 	
+			
+			this.spawn_piece = function(piece_nature){
+				/**               
+				 *	Spawn an active piece to the top of a playfield, juste like a normal game would do
+				 *  TODO: implement IRS. Problem: the playfield need to be 2 case heigher ine the Y direction
+				 *		  (4 in SRS)
+				 */		
+				 	add_piece(spawn_position,class,piece_nature,piece_nature+"i",true);
+			}
 			
 			this.line_clear = function () {
 				/**               
@@ -1343,7 +1360,15 @@ $(document).ready(function(){
 				/**
 				 * Generates an URL with the current playfield
 				 */		
-				$("#export").html(window.location.href+"#"+this.print());
+				 var output = window.location.protocol+window.location.hostname;
+				 var tmp = window.location.pathname.split("/");
+				 
+				 for(var i = 0; i<tmp.length-1;i++)
+				 {
+				 	 output += tmp[i]+"/";
+				 }
+				 output+="view.html";
+				$("#export").html(output+"#"+this.print());
 			}
 			
 			
