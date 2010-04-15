@@ -51,10 +51,12 @@ $(document).ready(function(){
 				var drawnTetrion = "";
 				
 				// these are the hold and next pieces
+				drawnTetrion += '<div id="top-box">';
 				drawnTetrion += '<img id="holdbox" src="img/blocks/' + this.Playfields[0].system + '/hold/' + this.Playfields[0].system + 'hold' + this.Playfields[0].hold + '.png" />';
 				drawnTetrion += '<img id="next1box" src="img/blocks/' + this.Playfields[0].system + '/bignext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
 				drawnTetrion += '<img id="next2box" src="img/blocks/' + this.Playfields[0].system + '/smallnext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
 				drawnTetrion += '<img id="next3box" src="img/blocks/' + this.Playfields[0].system + '/smallnext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
+				drawnTetrion += '</div>';
 				drawnTetrion += '<table id="diagram"> \n';
 
 				for(var j=0; j<this.Playfields[0].pf_height;j++)
