@@ -143,3 +143,6 @@ float:left;
 	background: #070707;
 	color: #EEEEEE;
 }
+.inactive{
+	opacity:0.8;
+}

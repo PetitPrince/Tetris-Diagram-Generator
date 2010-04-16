@@ -437,15 +437,15 @@ $(document).ready(function(){
 				}
 				else
 				{
+					$('#p'+x+'x'+y).addClass('inactive');
 					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
 				}
 			}
 			
 			this.modify_class=function(){
 				/**               
-				 *	Modifies the type of a single inactive cell in the array at the selected point.
-				 *	Also calls an update of the display.
-				 */
+				* Update the display
+				*/
 				
 				for (j = 0; j < this.pf_height; j++) {
 					for (i = 0; i < this.pf_width; i++) {
