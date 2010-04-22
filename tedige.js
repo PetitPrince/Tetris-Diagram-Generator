@@ -681,13 +681,34 @@ $(document).ready(function(){
 				
 			}	 	 	
 			
+			this.switchhold = function(){
+/*
+			var tmp;
+			
+			for(var j=0; j<this.pf_height;j++) //Active
+				{	
+					for(var i=0; i<this.pf_width;i++)
+					{
+						if(this.Tetrion[i][j]['center_active'])
+						{
+							tmp =this.Tetrion[i][j]['center_active'].splice(1);
+						}
+					}
+				}	
+			
+			this.spawn_piece(this.hold);
+			this.hold=tmp;
+*/			
+			}
+			
 			this.spawn_piece = function(piece_nature){
 				/**               
 				 *	Spawn an active piece to the top of a playfield, juste like a normal game would do
 				 *  TODO: implement IRS. Problem: the playfield need to be 2 case heigher ine the Y direction
 				 *		  (4 in SRS)
 				 */		
-				 	add_piece(spawn_position,class,piece_nature,piece_nature+"i",true);
+				 var spawn_position = "p4x0"
+				 	this.add_piece(spawn_position,"class",piece_nature,piece_nature+"i",true);
 			}
 			
 			this.line_clear = function () {
@@ -1215,8 +1236,7 @@ $(document).ready(function(){
 						}
 					}
 					                                                                   
-				}				
-				
+				}			
 			}
 			
 			this.save_comment = function(){
@@ -1270,7 +1290,8 @@ $(document).ready(function(){
 						{
 							//$('#p'+i+'x'+j).addClass(this.system+this.Tetrion[i][j]['content_active']);   
 							//$('#p'+i+'x'+j).addClass("active");
-							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');
+							$('#p'+x+'x'+y).addClass("active");   
 						}					 	 		
 						else
 						{
@@ -2077,6 +2098,11 @@ $(document).ready(function(){
 				D.Playfields[D.current_playfield].Tetrion_History_Save();
 				D.Playfields[D.current_playfield].move_piece('ccw');
 		})		
+
+		$("#cmd_clearactive").click(function(){                                                                
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].rebootActive();
+		})
 
 		$("#cmd_recall").click(function(){                                                                
 			D.Playfields[D.current_playfield].Tetrion_History_Recall();
