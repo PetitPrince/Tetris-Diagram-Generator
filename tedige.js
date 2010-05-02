@@ -68,11 +68,11 @@ $(document).ready(function(){
 					{
 						if(this.Playfields[0].Tetrion[i][j]['content_active']) // if there something on the active matrix, draw it
 						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=' + this.Playfields[0].system + '"' + this.Playfields[0].Tetrion[i][j]['content_active'] + '" "></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=' + this.Playfields[0].system + '"' + this.Playfields[0].Tetrion[i][j]['content_active'] + '" "><img src="" alt=" " /></td>';
 						}
 						else //else, draw what's under
 						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="' + this.Playfields[0].system + this.Playfields[0].Tetrion[i][j]["content"] + '"></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="' + this.Playfields[0].system + this.Playfields[0].Tetrion[i][j]["content"] + '"><img src="" alt=" " /></td>';
 						}
 						// classes are c<value> and not just <value> because CSS doesn't support
 						// classes that begins with a number (theorically yes, but then you'll
@@ -544,11 +544,11 @@ $(document).ready(function(){
 				 *	Calls for an update of the display at the selected point
 				 */
 				 $('#p'+x+'x'+y).removeClass("preview");
-				 $('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]["content"] + 'Tet.png\')');
+				 $('#p'+x+'x'+y+' img').attr('src', '');
 				 if(value)
 					{
 						$('#p'+x+'x'+y).addClass("preview");
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/previewblock.png\')');
+						$('#p'+x+'x'+y+' img').attr('src', 'img/previewblock.png');
 
 					}  
 			}
