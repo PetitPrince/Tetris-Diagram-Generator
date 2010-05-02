@@ -2184,20 +2184,16 @@ $(document).ready(function(){
 						D.Playfields[D.current_playfield].draw();
 	 	})
 		$('#hold').change(function(){
-			D.Playfields[D.current_playfield].hold = $('#hold').val();
-			D.Playfields[D.current_playfield].modify_hold();
+			D.Playfields[D.current_playfield].modify_hold($('#hold').val());
 	 	})
 		$('#next1').change(function(){
-			D.Playfields[D.current_playfield].next1 = $('#next1').val();
-			D.Playfields[D.current_playfield].modify_next1();
+			D.Playfields[D.current_playfield].modify_next1($('#next1').val());
 	 	})
 		$('#next2').change(function(){
-			D.Playfields[D.current_playfield].next2 = $('#next2').val();
-			D.Playfields[D.current_playfield].modify_next2();
+			D.Playfields[D.current_playfield].modify_next2($('#next2').val());
 	 	})
 		$('#next3').change(function(){
-			D.Playfields[D.current_playfield].next3 = $('#next3').val();
-			D.Playfields[D.current_playfield].modify_next3();
+			D.Playfields[D.current_playfield].modify_next3($('#next3').val());
 	 	})
 
 });
