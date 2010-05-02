@@ -31,7 +31,6 @@ $(document).ready(function(){
 		var is_clicking = 0;    
         var right_clicking = 0;
 		var left_remove = 0;
-		var system = 'ARS';
 		
 		function Diagram(){
 				/**
@@ -421,36 +420,33 @@ $(document).ready(function(){
 
 			this.modify=function(x,y,value){
 				/**               
-				 *	Modifies the type of a single inactive cell in the array at the selected point.
-				 *	Also calls an update of the display.
-				 */
+				*	Modifies the type of a single inactive cell in the array at the selected point.
+				*	Also calls an update of the display.
+				*/
 				
 				this.Tetrion[x][y]["content"]=value;
 				$('#p'+x+'x'+y).removeClass();
 				if(value == "_")
 				{
-					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+					if(this.Tetrion[x][y]['content_active'])
+						{}
+					else
+					{
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+					}
 				}
 				else
 				{
-					$('#p'+x+'x'+y).addClass('inactive');
-					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
-				}
-			}
-			
-			this.modify_class=function(){
-				/**               
-				* Update the display
-				* TODO: use .draw instead
-				*/
-				
-				for (j = 0; j < this.pf_height; j++) {
-					for (i = 0; i < this.pf_width; i++) {
-						$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]["content"] + 'Tet.png\')');
+					if(this.Tetrion[x][y]['content_active'])
+						{}
+					else
+					{
+						$('#p'+x+'x'+y).addClass('inactive');
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
 					}
 				}
 			}
-			
+						
 			this.modify_active=function(x,y,value){
 				/**               
 				 *	Modifies the type of a single active cell in the array at the selected point.
@@ -492,20 +488,29 @@ $(document).ready(function(){
 				 this.system = new_system;
 			}
 
-			this.modify_holdnext = function() {
-				var newhold = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';
-				$('#holdbox').attr("src", newhold);
-				
-				var newnext1 = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';
-				$('#next1box').attr("src", newnext1);
-
-
-				var newnext2 = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next2 + '.png';
-				$('#next2box').attr("src", newnext2);
-
-				var newnext3 = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next3 + '.png';
-				$('#next3box').attr("src", newnext3);
+			this.modify_hold = function(newhold) {
+				this.hold = newhold ;
+				var holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';
+				$('#holdbox').attr("src", holddisplay);
 			}
+
+			this.modify_next1 = function(newnext1) {
+				this.next1 = newnext1
+				var next1display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';
+				$('#next1box').attr("src", next1display);
+			}			
+			
+			this.modify_next2 = function(newnext2) {
+				this.next2 = newnext2
+				var next2display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next2 + '.png';
+				$('#next2box').attr("src", next2display);
+			}			
+
+			this.modify_next3 = function(newnext3) {
+				this.next3 = newnext3
+				var next3display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next3 + '.png';
+				$('#next3box').attr("src", next3display);
+			}			
 			
 			this.modify_border = function(){
 				/**
@@ -1280,20 +1285,26 @@ $(document).ready(function(){
 				}
 				
 				// sets hold_and next
-				D.Playfields[D.current_playfield].modify_holdnext();
+				$('#holdbox').attr("src", 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png');
+				
+				$('#next1box').attr("src", 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png');
+
+				$('#next2box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next2 + '.png');
+
+				$('#next3box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next3 + '.png');
 				
 				// sets every cell
 				for(var i=0;i<this.pf_width;i++)
 				{
 					for(var j=0;j<this.pf_height;j++)  
 					{             
-						$('#p'+x+'x'+y).removeClass();
+						$('#p'+i+'x'+j).removeClass();
 						if(this.Tetrion[i][j]['content_active'])
 						{
 							//$('#p'+i+'x'+j).addClass(this.system+this.Tetrion[i][j]['content_active']);   
 							//$('#p'+i+'x'+j).addClass("active");
-							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');
-							$('#p'+x+'x'+y).addClass("active");   
+							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');
+							$('#p'+i+'x'+j).addClass("active");   
 						}					 	 		
 						else
 						{
@@ -1304,7 +1315,7 @@ $(document).ready(function(){
 							else
 							{
 								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
-								$('#p'+x+'x'+y).addClass("inactive");
+								$('#p'+i+'x'+j).addClass("inactive");
 							}
 						}
 					}  
@@ -2169,23 +2180,24 @@ $(document).ready(function(){
 		$('#system').change(function(){
 			var new_system = $('#system').val();
 			D.Playfields[D.current_playfield].modify_system(new_system);
-			D.Playfields[D.current_playfield].modify_class();
+			//D.Playfields[D.current_playfield].update_class();
+						D.Playfields[D.current_playfield].draw();
 	 	})
 		$('#hold').change(function(){
 			D.Playfields[D.current_playfield].hold = $('#hold').val();
-			D.Playfields[D.current_playfield].modify_holdnext();
+			D.Playfields[D.current_playfield].modify_hold();
 	 	})
 		$('#next1').change(function(){
 			D.Playfields[D.current_playfield].next1 = $('#next1').val();
-			D.Playfields[D.current_playfield].modify_holdnext();
+			D.Playfields[D.current_playfield].modify_next1();
 	 	})
 		$('#next2').change(function(){
 			D.Playfields[D.current_playfield].next2 = $('#next2').val();
-			D.Playfields[D.current_playfield].modify_holdnext();
+			D.Playfields[D.current_playfield].modify_next2();
 	 	})
 		$('#next3').change(function(){
 			D.Playfields[D.current_playfield].next3 = $('#next3').val();
-			D.Playfields[D.current_playfield].modify_holdnext();
+			D.Playfields[D.current_playfield].modify_next3();
 	 	})
 
 });
