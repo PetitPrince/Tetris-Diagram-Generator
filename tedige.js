@@ -50,6 +50,8 @@ $(document).ready(function(){
 				
 				var drawnTetrion = "";
 				
+				// technicly speaking, we shouldn't refer to this.Playfields[0] and directly use a blank state
+				// because the "viewer" mode
 				// these are the hold and next pieces
 				drawnTetrion += '<div id="top-box">';
 				drawnTetrion += '<img id="holdbox" src="img/blocks/' + this.Playfields[0].system + '/hold/' + this.Playfields[0].system + 'hold' + this.Playfields[0].hold + '.png" />';
@@ -66,11 +68,11 @@ $(document).ready(function(){
 					{
 						if(this.Playfields[0].Tetrion[i][j]['content_active']) // if there something on the active matrix, draw it
 						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=' + system + '"' + this.Playfields[0].Tetrion[i][j]['content_active'] + '" "></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=' + this.Playfields[0].system + '"' + this.Playfields[0].Tetrion[i][j]['content_active'] + '" "></td>';
 						}
 						else //else, draw what's under
 						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="' + system + this.Playfields[0].Tetrion[i][j]["content"] + '"></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="' + this.Playfields[0].system + this.Playfields[0].Tetrion[i][j]["content"] + '"></td>';
 						}
 						// classes are c<value> and not just <value> because CSS doesn't support
 						// classes that begins with a number (theorically yes, but then you'll
@@ -147,12 +149,6 @@ $(document).ready(function(){
 				this.Playfields[this.current_playfield].draw();
 				
 				this.update_framecount(); 	
-			}
-			this.modify_system = function(){
-				/**
-				 *  Changes the system of the playfield border to the current selected option.
-				 */		
-				 system = $('#system').val();
 			}
 			
 			this.next_playfield = function(){
@@ -445,6 +441,7 @@ $(document).ready(function(){
 			this.modify_class=function(){
 				/**               
 				* Update the display
+				* TODO: use .draw instead
 				*/
 				
 				for (j = 0; j < this.pf_height; j++) {
@@ -476,6 +473,7 @@ $(document).ready(function(){
 					else
 					{
 						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');	  	 			
+						$('#p'+x+'x'+y).addClass("inactive")
 					}
 					$('#p'+x+'x'+y).removeClass("active");   
 				}
@@ -487,11 +485,11 @@ $(document).ready(function(){
 				this.Tetrion[x][y]["center_active"]=value;		 	 			
 			}
 
-			this.modify_system = function(){
+			this.modify_system = function(new_system){
 				/**
 				 *  Changes the system to the current selected option.
 				 */		
-				 this.system = $('#system').val();
+				 this.system = new_system;
 			}
 
 			this.modify_holdnext = function() {
@@ -545,10 +543,13 @@ $(document).ready(function(){
 				/**               
 				 *	Calls for an update of the display at the selected point
 				 */
-				$('#p'+x+'x'+y).removeClass("preview");
-				if(value)
+				 $('#p'+x+'x'+y).removeClass("preview");
+				 $('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]["content"] + 'Tet.png\')');
+				 if(value)
 					{
 						$('#p'+x+'x'+y).addClass("preview");
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/previewblock.png\')');
+
 					}  
 			}
 			
@@ -682,7 +683,7 @@ $(document).ready(function(){
 			}	 	 	
 			
 			this.switchhold = function(){
-/*
+				/*
 			var tmp;
 			
 			for(var j=0; j<this.pf_height;j++) //Active
@@ -698,7 +699,7 @@ $(document).ready(function(){
 			
 			this.spawn_piece(this.hold);
 			this.hold=tmp;
-*/			
+			*/			
 			}
 			
 			this.spawn_piece = function(piece_nature){
@@ -1286,6 +1287,7 @@ $(document).ready(function(){
 				{
 					for(var j=0;j<this.pf_height;j++)  
 					{             
+						$('#p'+x+'x'+y).removeClass();
 						if(this.Tetrion[i][j]['content_active'])
 						{
 							//$('#p'+i+'x'+j).addClass(this.system+this.Tetrion[i][j]['content_active']);   
@@ -1302,6 +1304,7 @@ $(document).ready(function(){
 							else
 							{
 								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+								$('#p'+x+'x'+y).addClass("inactive");
 							}
 						}
 					}  
@@ -1392,6 +1395,13 @@ $(document).ready(function(){
 				 }
 				 output+="view.html";
 				$("#export").html(output+"#"+this.print());
+			}
+
+			this.export_to_forum = function(){
+				/**
+				 * Generates an usable forum string
+				 */		
+				 $("#export").html("[tedige]"+this.print()+"[/tedige]");
 			}
 			
 			
@@ -1931,21 +1941,39 @@ $(document).ready(function(){
 	 	$("#save-button").click(function(){
 			if ($('input[name=export]:checked').val() == 'All') {
 				if ($('#wiki:checked').val() != null)
+				{
 					D.export_all_to_tw();
+					$('#export').select();
+				}
 				else if ($('#url:checked').val() != null)
+				{
 					D.export_all_to_url();
+					$('#export').select();
+				}
 				else
+				{
 					D.save();
+					$('#export').select();
+				}
 			}
 		
 			if ($('input[name=export]:checked').val() == 'Current') {
 				if ($('#wiki:checked').val() != null)
+				{
 					D.Playfields[D.current_playfield].export_to_tw();
-				if ($('#url:checked').val() != null)
-					D.Playfields[D.current_playfield].export_to_url();
-				else
-					D.Playfields[D.current_playfield].export_pf();
-			}
+					$('#export').select();
+				}
+				else if ($('#url:checked').val() != null)
+					{
+						D.Playfields[D.current_playfield].export_to_url();
+					$('#export').select();
+					}
+					else
+					{
+						D.Playfields[D.current_playfield].export_pf();
+					$('#export').select();
+					}
+						}
 	 	})                                              
 	 	
 		$("#load-button").click(function(){
@@ -2025,7 +2053,7 @@ $(document).ready(function(){
 			var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)	 	
 			var is_active = $('#active').attr('checked');
 			
-	 		D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,inactive);
+	 		D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
 			right_clicking = 1;
 	 	} );
 	 	
@@ -2139,7 +2167,8 @@ $(document).ready(function(){
 
 		})	
 		$('#system').change(function(){
-			D.Playfields[D.current_playfield].modify_system();
+			var new_system = $('#system').val();
+			D.Playfields[D.current_playfield].modify_system(new_system);
 			D.Playfields[D.current_playfield].modify_class();
 	 	})
 		$('#hold').change(function(){

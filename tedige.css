@@ -39,7 +39,7 @@ table#diagram{
 
 .active{}
 .cover{background-color:red;}
-.preview{background-image: url("preview.png");}
+.preview{ }
 .bordered{border: 1px solid black;}  
 
 #palette{

@@ -4,16 +4,22 @@
 MAJOR FEATURES
 - interface cleanup
 - tetromino palette change (ARS <-> SRS <-> GB <-> others)
+	Set system on a per-playfield basis. Interface: default ARS.
+	Dropdown menu with three buttons: set, set all & set default	
 - lock active piece (and transform it into a inactive piece)
 - (customizable) keyboard shortcut
 - gif generation (use imagemagick)
 - frame browser like Tage
+- better width/height support. Redraw seed if there's a change in those parameters. Also make a "change" button for this property
+- don't draw over active pieces
 
 MINOR FEATURES
 - save/load borders/preview/hold
 - a button to switch the hold piece with the first next piece
 - a button to shift the next pieces forward by one
 - a mirror button that would mirror the field with the option to also mirror the colors of JL/SZ
+- usability: set url checkbox as already checked
+
 
 TO EXPAND
 - undo/redo: there's could be a *much* more powerful system than just saving the last frame. See photoshop for instance...
@@ -30,4 +36,4 @@ TO EXPAND
 [03:01] Digital_: might be browser related
 [03:01] Digital_: happens with firefox and chrome for me
 [03:01] Digital_: but I can't reproduce it on opera
-- Recall feature works unreliably. Try moving the playfield 4x right, 4x down, recall, 2 times left, recall.
+- wtf happens: paint an area with inactive pice, paint an active piece of the same type
