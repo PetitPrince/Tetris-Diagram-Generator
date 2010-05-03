@@ -491,33 +491,36 @@ $(document).ready(function(){
 			this.modify_hold = function(newhold) {
 				this.hold = newhold ;
 				var holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';
+				$('#hold').val(newhold); // this is for loading purpose
 				$('#holdbox').attr("src", holddisplay);
 			}
 
 			this.modify_next1 = function(newnext1) {
 				this.next1 = newnext1
 				var next1display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';
+				$('#next1').val(newnext1);
 				$('#next1box').attr("src", next1display);
 			}			
 			
 			this.modify_next2 = function(newnext2) {
 				this.next2 = newnext2
-				var next2display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next2 + '.png';
+				var next2display = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'NEXT' + this.next2 + '.png';
+				$('#next2').val(newnext2);
 				$('#next2box').attr("src", next2display);
 			}			
 
 			this.modify_next3 = function(newnext3) {
 				this.next3 = newnext3
-				var next3display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next3 + '.png';
+				var next3display = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'NEXT' + this.next3 + '.png';
+				$('#next3').val(newnext3);
 				$('#next3box').attr("src", next3display);
 			}			
 			
-			this.modify_border = function(){
+			this.modify_border = function(newborder){
 				/**
 				 *  Changes the color of the playfield border to the current selected option.
 				 */		
-				this.border_color = $('#border_color').val();
-				 
+				 this.border_color = newborder;
 				switch(this.border_color)
 				{
 				case "gray" :
@@ -542,6 +545,8 @@ $(document).ready(function(){
 					$('table#diagram').css('border', '5px solid transparent');
 					break;   
 				}
+				$('#border_color').val(newborder);
+
 			}
 			
 			this.modify_preview=function(x,y,value){ 
@@ -1001,9 +1006,9 @@ $(document).ready(function(){
 			this.print = function (){							
 				/**
 				 * Generates an encoded string that describes the playfield.
-				 ******************
-				 * Encoding format*
-				 ******************
+				 *******************
+				 * Encoding format *
+				 *******************
 				 * - Each frame are separated by a "+"
 				 * - within each frame, a "_" separates different data
 				 * - those data are identified with a two letters identifier, starting with ")" and the following
@@ -1056,21 +1061,21 @@ $(document).ready(function(){
 				// "h", "n","m","o": hold and nexts pieces; the system is modular enough to don't care if they aren't present					
 				if(this.hold)
 					{
-					TetrionState += ")h"+this.system+"_";
+					TetrionState += ")h"+this.hold+"_";
 					}
 
 				if(this.next1)
 					{
-					TetrionState += ")n"+this.system+"_";
+					TetrionState += ")n"+this.next1+"_";
 					}
 
 				if(this.next2)
 					{
-					TetrionState += ")m"+this.system+"_";
+					TetrionState += ")m"+this.next2+"_";
 					}
 				if(this.next3)
 					{
-					TetrionState += ")o"+this.system+"_";
+					TetrionState += ")o"+this.next3+"_";
 					}
 					
 					
@@ -1164,19 +1169,19 @@ $(document).ready(function(){
 								 this.system = Split[i].slice(2); // slicing out the id characters
 								break;
 							case "b" :
-								 this.border_color = Split[i].slice(2);
+								 this.modify_border(Split[i].slice(2));
 								break;
 							case "h" :
-								 this.hold = Split[i].slice(2); // slicing out the id characters
-								break;
+								 this.modify_hold(Split[i].slice(2));				 
+								 break;
 							case "n" :
-								 this.next1 = Split[i].slice(2); // slicing out the id characters
+								 this.modify_next1(Split[i].slice(2)); // slicing out the id characters
 								break;
 							case "m" :
-								 this.next2 = Split[i].slice(2); // slicing out the id characters
+								 this.modify_next2(Split[i].slice(2)); // slicing out the id characters
 								break;
 							case "o" :
-								 this.next3 = Split[i].slice(2); // slicing out the id characters
+								 this.modify_next3(Split[i].slice(2)); // slicing out the id characters
 								break;
 							case "g" :
 								 var inactiveSplit = Split[i].slice(2).split("-")
@@ -2149,7 +2154,7 @@ $(document).ready(function(){
 
 	 	
 	 	$('#border_color').change(function(){
-	 		D.Playfields[D.current_playfield].modify_border();	
+	 		D.Playfields[D.current_playfield].modify_border($('#border_color').val());	
 	 	})
 		$("#cmd_line_clear").click(function(){
 			D.Playfields[D.current_playfield].Tetrion_History_Save();	
