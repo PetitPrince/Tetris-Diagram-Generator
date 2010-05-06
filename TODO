@@ -3,7 +3,6 @@
 *******
 MAJOR FEATURES
 - interface cleanup
-- lock active piece (and transform it into a inactive piece)
 - gif generation (use imagemagick)
 - frame browser like Tage
 - better width/height support. Redraw seed if there's a change in those parameters. Also make a "change" button for this property
