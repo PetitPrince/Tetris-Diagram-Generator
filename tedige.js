@@ -743,8 +743,7 @@ $(document).ready(function(){
 
 			}
 			
-			this.rectangular_fill = function(x_start,y_start,x_end,y_end,nature)
-			{
+			this.rectangular_fill = function(x_start,y_start,x_end,y_end,nature){
 				/**
 				* Fills the playfield with the selected blocks at the selected coordinates
 				*/				
@@ -767,32 +766,47 @@ $(document).ready(function(){
 
 
 			this.switchhold = function(){
-				/*
+				
 				var tmp;
-
+				
 				for(var j=0; j<this.pf_height;j++) //Active
 				{
-				for(var i=0; i<this.pf_width;i++)
+					for(var i=0; i<this.pf_width;i++)
+					{
+						if(this.Tetrion[i][j]['center_active'])
+						{
+							tmp = this.Tetrion[i][j]['center_active'];
+							tmp = tmp.slice(0,1);
+						}
+					}
+				}
+				this.rebootActive();
+				if(this.hold)
 				{
-				if(this.Tetrion[i][j]['center_active'])
-				{
-				tmp =this.Tetrion[i][j]['center_active'].splice(1);
-				}
-				}
-				}
-
 				this.spawn_piece(this.hold);
-				this.hold=tmp;
-				*/
+				this.modify_hold('');				
+				}
+				this.modify_hold(tmp);
+				
 			}
 
+			this.advance_next = function(){
+				
+			this.modify_next1(this.next2);	
+			this.modify_next2(this.next3);	
+			this.modify_next3('');				
+			}
+			
 			this.spawn_piece = function(piece_nature){
 				/**
 				*	Spawn an active piece to the top of a playfield, juste like a normal game would do
 				*  TODO: implement IRS. Problem: the playfield need to be 2 case heigher ine the Y direction
-				*		  (4 in SRS)
+				*		  (4 in SRS)                   
 				*/
-				var spawn_position = "p4x0"
+				var position_x = parseInt(this.pf_width) / 2;
+				var position_y = 3;
+				var spawn_position = "p"+position_x+"x0"
+				
 				this.add_piece(spawn_position,"class",piece_nature,piece_nature+"i",true);
 			}
 
@@ -1650,7 +1664,7 @@ $(document).ready(function(){
 				cw: CW-rotation
 				u: reverse or rotated orientation
 				*/
-				/* T tetramino */
+			/* T tetramino */
 
 			case "Ti" :
 				t2['x'] = parseFloat(center['x'])+1;
@@ -1684,7 +1698,7 @@ $(document).ready(function(){
 				t4['x'] = parseFloat(center['x'])+0;
 				t4['y'] = parseFloat(center['y'])-1;
 				break;
-				/* I tetramino */
+			/* I tetramino */
 			case "Ii" :
 				t2['x'] = parseFloat(center['x'])+1;
 				t2['y'] = parseFloat(center['y'])+0;
@@ -1701,14 +1715,14 @@ $(document).ready(function(){
 				t4['x'] = parseFloat(center['x'])+0;
 				t4['y'] = parseFloat(center['y'])-2;
 				break;
-				/* O tetramino */
+			/* O tetramino */
 			case "Oi" :
 				t2['x'] = parseFloat(center['x'])+1;
 				t2['y'] = parseFloat(center['y'])+0;
 				t3['x'] = parseFloat(center['x'])+0;
 				t3['y'] = parseFloat(center['y'])-1;
 				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
+				t4['y'] = parseFloat(center['y'])-1;       
 				break;
 			case "Ocw" :
 				t2['x'] = parseFloat(center['x'])+1;
@@ -1734,72 +1748,73 @@ $(document).ready(function(){
 				t4['x'] = parseFloat(center['x'])+1;
 				t4['y'] = parseFloat(center['y'])-1;
 				break;
-				/* S tetramino */
+			/* Z tetramino */
 			case "Zi" :
-				t2['x'] = parseFloat(center['x'])+1;
+				t2['x'] = parseFloat(center['x'])-1;
 				t2['y'] = parseFloat(center['y'])+0;
 				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])-1;
+				t3['y'] = parseFloat(center['y'])+1;
+				t4['x'] = parseFloat(center['x'])+1;
+				t4['y'] = parseFloat(center['y'])+1;
 				break;
 			case "Zcw" :
-				t2['x'] = parseFloat(center['x'])-1;
+				t2['x'] = parseFloat(center['x'])+1;
 				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
+				t3['x'] = parseFloat(center['x'])+1;
+				t3['y'] = parseFloat(center['y'])-1;
+				t4['x'] = parseFloat(center['x'])+0;      
+				t4['y'] = parseFloat(center['y'])+1;
 				break;
 			case "Zu" :
+				t2['x'] = parseFloat(center['x'])-1;
+				t2['y'] = parseFloat(center['y'])+0;
+				t3['x'] = parseFloat(center['x'])+0;
+				t3['y'] = parseFloat(center['y'])+1;
+				t4['x'] = parseFloat(center['x'])+1;
+				t4['y'] = parseFloat(center['y'])+1;
+				break;
+			case "Zccw" :
+				t2['x'] = parseFloat(center['x'])+1;
+				t2['y'] = parseFloat(center['y'])+0;
+				t3['x'] = parseFloat(center['x'])+1;
+				t3['y'] = parseFloat(center['y'])-1;
+				t4['x'] = parseFloat(center['x'])+0;
+				t4['y'] = parseFloat(center['y'])+1;
+				break;
+			/* S tetramino */
+			case "Si" :                              
 				t2['x'] = parseFloat(center['x'])+1;
 				t2['y'] = parseFloat(center['y'])+0;
 				t3['x'] = parseFloat(center['x'])+0;
+				t3['y'] = parseFloat(center['y'])+1;      
+				t4['x'] = parseFloat(center['x'])-1;        
+				t4['y'] = parseFloat(center['y'])+1;
+				break;                                      
+			case "Scw" :
+				t2['x'] = parseFloat(center['x'])-1;
+				t2['y'] = parseFloat(center['y'])+0;
+				t3['x'] = parseFloat(center['x'])-1;      
 				t3['y'] = parseFloat(center['y'])-1;
+				t4['x'] = parseFloat(center['x'])+0;
+				t4['y'] = parseFloat(center['y'])+1;          
+				break;                                       
+			case "Su" :
+				t2['x'] = parseFloat(center['x'])+1;
+				t2['y'] = parseFloat(center['y'])+0;
+				t3['x'] = parseFloat(center['x'])+0;
+				t3['y'] = parseFloat(center['y'])+1;
 				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])-1;
+				t4['y'] = parseFloat(center['y'])+1;
 				break;
-			case "Zccw" :
+			case "Sccw" :
 				t2['x'] = parseFloat(center['x'])-1;
 				t2['y'] = parseFloat(center['y'])+0;
 				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-				/* Z tetramino */
-			case "Si" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
 				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Scw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1
-				t3['y'] = parseFloat(center['y'])+1;
 				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Su" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Sccw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;       			 			/* L tetramino */
+				t4['y'] = parseFloat(center['y'])+1;
+				break;       			 			
+			/* L tetramino */
 			case "Li" :
 				t2['x'] = parseFloat(center['x'])-1;
 				t2['y'] = parseFloat(center['y'])+1;
@@ -1832,7 +1847,7 @@ $(document).ready(function(){
 				t4['x'] = parseFloat(center['x'])+1;
 				t4['y'] = parseFloat(center['y'])-1;
 				break;
-				/* J tetramino */
+			/* J tetramino */
 			case "Ji" :
 				t2['x'] = parseFloat(center['x'])+1;
 				t2['y'] = parseFloat(center['y'])+0;
@@ -2152,8 +2167,17 @@ $(document).ready(function(){
 				{
 					
 					if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) {
+						
+						if(is_active)
+						{
+							D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+						left_remove = 1;
+						}
+						else
+						{
 						D.Playfields[D.current_playfield].add_piece(clicked,"class","_",piece_orientation,is_active);
 						left_remove = 1;
+						}
 					}
 					else {
 						D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
@@ -2176,6 +2200,21 @@ $(document).ready(function(){
 				D.Playfields[D.current_playfield].save_comment();
 		})
 
+		$("#cmd_spawn").click(function(){
+				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class')
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].spawn_piece(piece_nature);
+		
+		})		
+		$("#cmd_hold").click(function(){
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].switchhold();
+		})	
+
+		$("#cmd_advance_next").click(function(){
+				D.Playfields[D.current_playfield].advance_next();
+		})
+		
 		$("#cmd_new").click(function(){
 				D.new_playfield();
 		})

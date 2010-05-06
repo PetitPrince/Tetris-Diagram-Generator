@@ -9,7 +9,8 @@ MAJOR FEATURES
 
 MINOR FEATURES
 - a button to switch the hold piece with the first next piece
-- a button to shift the next pieces forward by one
+- a button to shift the next pieces forward by one (done)
+	-> currently now practical
 - a mirror button that would mirror the field with the option to also mirror the colors of JL/SZ
 
 TO EXPAND
@@ -27,4 +28,4 @@ TO EXPAND
 [03:01] Digital_: might be browser related
 [03:01] Digital_: happens with firefox and chrome for me
 [03:01] Digital_: but I can't reproduce it on opera
-- wtf happens: paint an area with inactive pice, paint an active piece of the same type
+

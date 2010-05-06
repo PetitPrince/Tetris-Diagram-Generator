@@ -110,7 +110,8 @@ $(document).ready(function(){
 	</table>
 
 	<input id="active" type="checkbox"> Active ? <br />
-	<input id="rectangular-fill" type="checkbox"> Rectangular fill mode ?
+	<input id="rectangular-fill" type="checkbox"> Rectangular fill mode ?<br />
+	<input id="cmd_spawn" value="Spawn (active)" type="button"> <input id="cmd_hold" value="Hold current active" type="button">
 
 </div>
 
@@ -205,7 +206,7 @@ $(document).ready(function(){
 		<option value="Z">Z</option>
 		<option value="T">T</option>
 	</select>        
-	
+	<br /> <input id="cmd_advance_next" value="Advance next" type="button">
 	<div id="active-control">
 	<h2>Active Piece</h2>
 	<table id="movement" style="margin:0 auto 0 auto">
