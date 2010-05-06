@@ -31,7 +31,12 @@ $(document).ready(function(){
 		var is_clicking = 0;
 		var right_clicking = 0;
 		var left_remove = 0;
+		var defaultsystem = "ARS";
+		var defaultborder = "Gray";
+		
 
+		
+		
 		function Diagram(){
 			/**
 			* Diagram: an object that stores a collection of Playfields (= state of the game)
@@ -206,6 +211,32 @@ $(document).ready(function(){
 				$('#total-frame').html(this.Playfields.length);
 			}
 
+			this.set_system_to_all = function(newsystem){
+			
+				for(var i=0;i<this.Playfields.length;i++)
+				{
+					this.Playfields[i].system = newsystem;				
+				}
+			}
+
+			this.set_default_system = function(newsystem){
+			
+				defaultsystem = newsystem;
+			}
+
+			this.set_border_to_all = function(newborder){
+			
+				for(var i=0;i<this.Playfields.length;i++)
+				{
+					this.Playfields[i].border = newborder;				
+				}
+			}
+
+			this.set_default_border = function(newborder){
+			
+				defaultborder = newborder;
+			}
+			
 			this.print = function(){
 				/**
 				* Generates an encoded string that describes the playfield.
@@ -396,7 +427,8 @@ $(document).ready(function(){
 				*/
 				// this.pf_width = parseInt($('#width').val());
 				// this.pf_height = parseInt($('#height').val());
-				this.system = $('#system').val(); // to change
+				this.system = defaultsystem; 
+				$('#system').val(defaultsystem); // this is for loading purpose
 
 				for(var i=0;i<this.pf_width;i++)
 				{
@@ -583,7 +615,7 @@ $(document).ready(function(){
 				*		- current: array of the coordinate of the current case.
 				*		- modifier: a flag that tells whether the method should add a piece in the playfield, or should add or remove a preview
 				*		- piece_nature: the nature of the piece, e.g. L, S, T, garbage, item...
-				*		- piece_orientatione: the orientation of the piece: flat, upside down, ...
+				*		- piece_orientation: the orientation of the piece: flat, upside down, ...
 				*		- is_active: if the piece we add is an active one.
 				*/
 
@@ -692,6 +724,29 @@ $(document).ready(function(){
 				}
 
 			}
+			
+			this.rectangular_fill = function(x_start,y_start,x_end,y_end,nature)
+			{
+				/**
+				* Fills the playfield with the selected blocks at the selected coordinates
+				*/				
+								
+				var a = Math.min(x_start,x_end);
+				var b = Math.max(x_start,x_end);
+				 
+				var c = Math.min(y_start,y_end);
+				var d = Math.max(y_start,y_end);
+		
+				for(var i=a;i<=b;i++)
+				{
+					for(var j=c;j<=d;j++)
+					{
+					this.modify(i,j,nature);
+					}
+				}
+		
+			}
+
 
 			this.switchhold = function(){
 				/*
@@ -2036,7 +2091,7 @@ $(document).ready(function(){
 					D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"addpreview",piece_nature,piece_orientation,is_active); // add preview
 				}
 
-			},
+			},                       
 			function(){
 				{
 					var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
@@ -2047,19 +2102,44 @@ $(document).ready(function(){
 			}
 			);
 
+		var rect_x_start, rect_x_end, rect_y_start,rect_y_end;
+		var have_coord;
 
 		$('#diagram td').mousedown(function(){
 				clicked = $(this).attr("id");
 				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
 				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 				var is_active = $('#active').attr('checked');
-
-				if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) {
-					D.Playfields[D.current_playfield].add_piece(clicked,"class","_",piece_orientation,is_active);
-					left_remove = 1;
+				var is_rectangle_mode = $('#rectangular-fill').attr('checked');
+				if(is_rectangle_mode)
+				{
+					if(have_coord)
+					{
+					$('#p'+rect_x_start+'x'+rect_y_start).css('background-color','');
+					rect_x_end = clicked.slice(1,clicked.indexOf("x"));	
+					rect_y_end = clicked.slice(clicked.indexOf("x")+1);
+					D.Playfields[D.current_playfield].rectangular_fill(rect_x_start,rect_y_start,rect_x_end, rect_y_end,piece_nature);	
+					have_coord = false;
+					$('#rectangular-fill').removeAttr('checked');					
+					}
+					else
+					{
+					rect_x_start = clicked.slice(1,clicked.indexOf("x"));	
+					rect_y_start = clicked.slice(clicked.indexOf("x")+1);    					
+					have_coord = true;
+					$('#'+clicked).css('background-color','green');
+					}
 				}
-				else {
-					D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+				else
+				{
+					
+					if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) {
+						D.Playfields[D.current_playfield].add_piece(clicked,"class","_",piece_orientation,is_active);
+						left_remove = 1;
+					}
+					else {
+						D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+					}
 				}
 				// TODO: pf_modifly(clicked, "highlight");
 		} );
@@ -2189,6 +2269,18 @@ $(document).ready(function(){
 				//D.Playfields[D.current_playfield].update_class();
 
 		})
+
+		$('#system-change-all').click(function(){
+				var new_system = $('#system').val();
+				D.set_system_to_all(new_system);
+		})
+
+		$('#system-change-default').click(function(){
+				var new_system = $('#system').val();
+				D.set_default_system(new_system);
+		})
+		
+		
 		$('#hold').change(function(){
 				D.Playfields[D.current_playfield].modify_hold($('#hold').val());
 		})
@@ -2211,8 +2303,291 @@ $(document).ready(function(){
 		$('.preview').mouseup(function(){
 				return false;
 		})
+                    
+		var kb_modifier = 16; //shift
+		if(readCookie('kb_modifier'))
+		{
+			kb_modifier = readCookie('kb_modifier');		
+		}
+		$('#kb_modifier').val(kb_modifier); 
+
+		var kb_up = 87; // w
+		if(readCookie('kb_up'))
+		{
+			kb_up = readCookie('kb_up');
+		}
+		$('#kb_up').val(kb_up); 
+
+		var kb_left = 65; // a
+		if(readCookie('kb_left'))
+		{
+		kb_left = readCookie('kb_left');		
+		}
+		$('#kb_left').val(kb_left); 
+		
+		var kb_right = 68; // d
+		if(readCookie('kb_right'))
+		{
+			kb_right = readCookie('kb_right');
+		}
+		$('#kb_right').val(kb_right);
+		
+		var kb_down = 83; // s
+		if(readCookie('kb_down'))
+		{
+		kb_down = readCookie('kb_down');
+		}
+		$('#kb_down').val(kb_down);
+		
+		var kb_ccw = 72; // h
+		if(readCookie('kb_ccw'))
+		{
+		kb_ccw = readCookie('kb_ccw');
+		}
+		$('#kb_ccw').val(kb_ccw);
+		
+		var kb_cw = 71; // g
+		if(readCookie('kb_cw'))
+		{
+		kb_cw = readCookie('kb_cw');		
+		}
+		$('#kb_cw').val(kb_cw);
+		
+		var kb_del = 80; // p
+		if(readCookie('kb_del'))
+		{
+		kb_del = readCookie('kb_del')
+		}
+		$('#kb_del').val(kb_del);
+		
+		var kb_new = 82; // r
+		if(readCookie('kb_new'))
+		{
+		kb_new = readCookie('kb_new');
+		}
+		$('#kb_new').val(kb_new);
+		
+		var kb_previous = 81; // q
+		if(readCookie('kb_previous'))
+		{
+		kb_previous = readCookie('kb_previous');
+		}
+		$('#kb_previous').val(kb_previous);
+		
+		var kb_next =  69; // e
+		if(readCookie('kb_next'))
+		{
+		kb_next = readCookie('kb_next');
+		}
+		$('#kb_next').val(kb_next);
+		
+		$('#kb_modifier').change(function(){ kb_up = $('#kb_modifier').val();});		
+		$('#kb_up').change(function(){ kb_up = $('#kb_up').val();});
+		$('#kb_down').change(function(){ kb_down = $('#kb_down').val();});
+		$('#kb_left').change(function(){ kb_left = $('#kb_left').val();});
+		$('#kb_right').change(function(){ kb_right = $('#kb_right').val();});
+		$('#kb_cw').change(function(){ kb_cw = $('#kb_cw').val();});
+		$('#kb_ccw').change(function(){ kb_ccw = $('#kb_ccw').val();});
+		$('#kb_del').change(function(){ kb_ccw = $('#kb_del').val();});
+		$('#kb_new').change(function(){ kb_ccw = $('#kb_new').val();});	
+		$('#kb_previous').change(function(){ kb_ccw = $('#kb_previous').val();});	
+		$('#kb_next').change(function(){ kb_ccw = $('#kb_next').val();});		
+		
+		$(window).keydown(function(event){
+				var ismodifier;
+				if(kb_modifier == 16 || kb_modifier == 17 ||kb_modifier == 18)
+				{
+					if(event.shiftKey)
+					{
+					ismodifier = true;	
+					}
+					
+				}
+				if ($('#kb-control-status:checked').val() != null)
+				{
+					if(ismodifier)
+					{
+						
+						if(event.keyCode == kb_up)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('up');					
+						}
+						if(event.keyCode == kb_left)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('left');					
+						}
+						if(event.keyCode == kb_right)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('right');					
+						}
+						if(event.keyCode == kb_down)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('down');					
+						}
+						if(event.keyCode == kb_new)
+						{
+							D.Playfields[D.current_playfield].new_copy_playfield();
+						}		
+						if(event.keyCode == kb_del)
+						{
+							D.Playfields[D.current_playfield].remove_following_playfields();
+						}		
+						if(event.keyCode == kb_previous)
+						{
+							D.first_playfield();
+						}
+						if(event.keyCode == kb_next)
+						{
+							D.last_playfield();
+						}
+						                      
+					}						
+					else
+					{
+                                                                                                                                                                                  
+						// I'd like to use a switch but I don't know how to make a dynamic switch (and everybody says eval is evil)
+						if(event.keyCode == kb_up)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('up');					
+						}
+						if(event.keyCode == kb_left)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('left');					
+						}
+						if(event.keyCode == kb_right)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('right');					
+						}
+						if(event.keyCode == kb_down)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('down');					
+						}
+						if(event.keyCode == kb_ccw)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('ccw');					
+						}
+						if(event.keyCode == kb_cw)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('cw');					
+						}
+						if(event.keyCode == kb_new)
+						{                                                                                                                              
+							D.Playfields[D.current_playfield].new_playfield();
+						}
+						if(event.keyCode == kb_del)
+						{
+							D.Playfields[D.current_playfield].remove_current_playfield();
+						}			
+						if(event.keyCode == kb_previous)
+						{
+							D.previous_playfield();
+						}
+						if(event.keyCode == kb_next)
+						{
+							D.next_playfield();
+						}
+					}   
+				}
+		}); 
+		$('#kb-control-save').click(function(){
+		console.log('inkb1 = '+kb_up);
+				eraseCookie('kb_modifier'	 );  		                                                                                                                 
+				eraseCookie('kb_up'      );
+				eraseCookie('kb_up'      );
+				eraseCookie('kb_down'    );
+				eraseCookie('kb_left'    );
+				eraseCookie('kb_right'   );
+				eraseCookie('kb_cw'      );
+				eraseCookie('kb_ccw'     );
+				eraseCookie('kb_del'     );
+				eraseCookie('kb_new'     );
+				eraseCookie('kb_previous');
+				eraseCookie('kb_next'	 );  		                                                                                                         
+
+				createCookie('kb_modifier'       , kb_modifier       );				
+				createCookie('kb_up'       , kb_up       );
+				createCookie('kb_down'     , kb_down     );
+				createCookie('kb_left'     , kb_left     );
+				createCookie('kb_right'    , kb_right    );
+				createCookie('kb_cw'       , kb_cw       );
+				createCookie('kb_ccw'      , kb_ccw      );
+				createCookie('kb_del'      , kb_del      );
+				createCookie('kb_new'      , kb_new      );
+				createCookie('kb_previous' , kb_previous );
+				createCookie('kb_next'	   , kb_next	 );
+		});
+		
+		$('#kb-control-default').click(function(){
+		
+		kb_modifier = 16; //shift
+		kb_up = 87; // w
+		kb_left = 65; // a
+		kb_right = 68; // d
+		kb_down = 83; // s
+		kb_ccw = 72; // h
+		kb_cw = 71; // g
+		kb_del = 80; // p                                                                                                                                        
+		kb_new = 82; // r
+		kb_previous = 81; // q
+		kb_next =  69; // e
+		var kb_modifier = 16; //shift
+
+		$('#kb_modifier').val(kb_modifier); 
+		$('#kb_up').val(kb_up); 
+		$('#kb_left').val(kb_left); 
+		$('#kb_right').val(kb_right);
+		$('#kb_down').val(kb_down);
+		$('#kb_ccw').val(kb_ccw);
+		$('#kb_cw').val(kb_cw);
+		$('#kb_del').val(kb_del);
+		$('#kb_new').val(kb_new);
+		$('#kb_previous').val(kb_previous);
+		$('#kb_next').val(kb_next);		
+		});
+		
 });
 
 // deep copy clone function found in snipplr
 
 Array.prototype.clone = function () {var a = new Array(); for (var property in this) {a[property] = typeof (this[property]) == 'object' ? this[property].clone() : this[property]} return a}
+
+
+
+
+// cookies function from http://www.quirksmode.org/js/cookies.html
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+                   
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+

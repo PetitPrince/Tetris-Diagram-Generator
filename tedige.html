@@ -109,7 +109,8 @@ $(document).ready(function(){
 	</tbody>
 	</table>
 
-	<input id="active" type="checkbox"> Active ?
+	<input id="active" type="checkbox"> Active ? <br />
+	<input id="rectangular-fill" type="checkbox"> Rectangular fill mode ?
 
 </div>
 
@@ -136,24 +137,24 @@ $(document).ready(function(){
 	<br />
 
 	Border: <select id="border_color" >
-		<option value=""></option>
-		<option value="gray" style="background-color: gray; color: #EEEEEE;">Gray</option>
+		<option value="gray" style="background-color: gray; color: #EEEEEE;" selected="selected">Gray</option>
 		<option value="yellow" style="background-color: yellow">Yellow</option>
 		<option value="blue" style="background-color: blue; color: #EEEEEE;">Blue</option>
 		<option value="red" style="background-color: red; color: #EEEEEE;">Red</option>
 		<option value="green" style="background-color: green; color: #EEEEEE;">Green</option>
 		<option value="clear">Clear</option>
 		<option value="none">None</option>
-		</optgroup>
 	</select>
+	<input id="border-change-all" value="Set to all" type="button"> <input id="border-change-default" value="Set as default" type="button">
+	<br />
 	
 	System: <select id="system" >
-		<option value="ARS" selected>ARS</option>
+		<option value="ARS" selected="selected">ARS</option>
 		<option value="SRS">SRS</option>
 		<option value="GB">GB</option>
 		<option value="TNT">TNT</option>
-		</optgroup>
 	</select>
+	<input id="system-change-all" value="Set to all" type="button"> <input id="system-change-default" value="Set as default" type="button">
 	
 	<br />
 	
@@ -167,7 +168,6 @@ $(document).ready(function(){
 		<option value="S">S</option>
 		<option value="Z">Z</option>
 		<option value="T">T</option>
-		</optgroup>
 	</select>
 	<br />
 	Next 1:	
@@ -180,7 +180,6 @@ $(document).ready(function(){
 		<option value="S">S</option>
 		<option value="Z">Z</option>
 		<option value="T">T</option>
-		</optgroup>
 	</select>
 
 	Next 2:
@@ -193,7 +192,6 @@ $(document).ready(function(){
 		<option value="S">S</option>
 		<option value="Z">Z</option>
 		<option value="T">T</option>
-		</optgroup>
 	</select>
 	
 	Next 3:	
@@ -206,8 +204,7 @@ $(document).ready(function(){
 		<option value="S">S</option>
 		<option value="Z">Z</option>
 		<option value="T">T</option>
-		</optgroup>
-	</select>
+	</select>        
 	
 	<div id="active-control">
 	<h2>Active Piece</h2>
@@ -278,15 +275,15 @@ $(document).ready(function(){
 
 	<div class="console">
 		Export Console
-		<br>
+		<br />
 		<textarea id="export" class="console-textarea" readonly="readonly"></textarea>
-		<br>
+		<br/>
 		<span id="console-description"></span>
 	</div>
 
 	<div class="console">
 		Import Console
-		<br>
+		<br />
 		<textarea id="import" class="console-textarea"></textarea>
 	</div>
 
@@ -297,7 +294,7 @@ $(document).ready(function(){
 		<input name="export" value="All" type="radio" checked="checked"> All
 		<input name="export" value="Current" type="radio"> Current
 		<input id="url" type="checkbox"> URL
-		<input id="wiki" type="checkbox"> Wiki
+		<input id="wiki" type="checkbox"> Wiki                                 
 		<input id="slidagram" type="checkbox"> Slidagram
 
 		</div> <!-- close import-export-wrapper-->
@@ -307,8 +304,477 @@ $(document).ready(function(){
 <div id="help">
 
 </div>
+<hr />
+<div class="kb-control">
+<input id="kb-control-status" type="checkbox" />	Activate keyboard control <br />
+
+	[Modifier] set to <select id="kb_modifier" >
+		<option value="16">Shift</option>
+		<option value="17">Control</option>
+		<option value="18">Alt</option>
+	</select>
+	<br />
+
+	↑ set to <select id="kb_up" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	← set to <select id="kb_left" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	→ set to <select id="kb_right" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	↓ set to <select id="kb_down" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	↪ set to <select id="kb_ccw" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71" selected="selected">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	↩ set to <select id="kb_cw" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to shift playfield)
+	<br />
+	
+	[New frame] set to <select id="kb_new" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78" >n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to copy into new frame)
+	<br />
+	[Delete frame] set to <select id="kb_del" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80" selected="selected">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to Delete all after)
+	<br />
+
+	[Previous frame] set to <select id="kb_previous" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to get to the first)
+	<br />
+	[Next frame] set to <select id="kb_next" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to go to the last)
+	<br />	
+	
+	<input id="kb-control-save" value="Save config" type="button" /> <input id="kb-control-default" value="Default" type="button" />
+	
+</div>
+
 
 </div> <!-- close wrapper-->
+                                                                                                   
 
 </body>
 </html>
