@@ -227,7 +227,9 @@ $(document).ready(function(){
 		</tr>
 	</tbody>
 	</table>
-	<input id="cmd_clearactive" value="Clear active" type="button">
+	<input id="cmd_clearactive" value="Clear active" type="button"> 
+	<input id="cmd_paintactive" value="Paint active" type="button">
+	<input id="cmd_lockactive" value="Lock active" type="button">
 	</div>
 
 	<div id="field-control">
@@ -616,7 +618,7 @@ $(document).ready(function(){
 		<option value="75">k</option>
 		<option value="76">l</option>
 		<option value="77">m</option>
-		<option value="78" >n</option>
+		<option value="78">n</option>
 		<option value="79">o</option>
 		<option value="80">p</option>
 		<option value="81">q</option>
@@ -766,7 +768,53 @@ $(document).ready(function(){
 		<option value="89">y</option>
 		<option value="90">z</option>
 	</select> (+[Modifier] to go to the last)
-	<br />	
+	<br />	 
+
+	[Paint Piece] set to <select id="kb_paint" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to lock)
+	<br />	 
 	
 	<input id="kb-control-save" value="Save config" type="button" /> <input id="kb-control-default" value="Default" type="button" />
 	

@@ -596,6 +596,24 @@ $(document).ready(function(){
 				}
 			}
 
+			this.paint_active = function(){
+				// looks for something in the active layer, paint it on the inactive layer
+				for(var i=0;i<this.pf_width;i++)
+				{
+					for(var j=0;j<this.pf_height;j++)
+					{
+						if(this.Tetrion[i][j]['content_active'])
+						{
+							this.modify(i,j,this.Tetrion[i][j]['content_active']);
+						}
+					}			
+				}
+			}
+			this.lock_active = function(){
+				this.paint_active();
+				this.rebootActive();
+			}
+			
 			this.lookup_block = function(id) {
 				var x_begin = id.indexOf('p');
 				var y_begin = id.indexOf('x');
@@ -2229,6 +2247,16 @@ $(document).ready(function(){
 				D.Playfields[D.current_playfield].rebootActive();
 		})
 
+		$("#cmd_paintactive").click(function(){
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].paint_active();
+		})		
+
+		$("#cmd_lockactive").click(function(){
+				D.Playfields[D.current_playfield].Tetrion_History_Save();
+				D.Playfields[D.current_playfield].lock_active();
+		})		
+		
 		$("#cmd_recall").click(function(){
 				D.Playfields[D.current_playfield].Tetrion_History_Recall();
 		})
@@ -2303,83 +2331,130 @@ $(document).ready(function(){
 		$('.preview').mouseup(function(){
 				return false;
 		})
-                    
-		var kb_modifier = 16; //shift
+		/*------------------------ Keyboard control ------------------ */
+		
+		var kb_modifier;
+		var kb_up; 
+		var kb_left; 
+		var kb_righ;
+		var kb_down;
+		var kb_ccw;
+		var kb_cw; 
+		var kb_del; 
+		var kb_new;
+		var kb_previous;
+		var kb_next;
+		var kb_modifier;
+		var kb_paint;
+		var kb_lock;		
+		
+		
+		
+		function kb_default(){
+			kb_modifier = 16; //shift
+			kb_up = 87; // w
+			kb_left = 65; // a
+			kb_right = 68; // d
+			kb_down = 83; // s
+			kb_ccw = 72; // h
+			kb_cw = 71; // g
+			kb_del = 79; // o                                                                                                                                        
+			kb_new = 38; // ↑
+			kb_previous = 37; // ←
+			kb_next =  39; // →
+			kb_modifier = 16; //shift
+			kb_paint = 75 ;// k			
+
+
+
+			
+			$('#kb_modifier').val(kb_modifier); 
+			$('#kb_up').val(kb_up); 
+			$('#kb_left').val(kb_left); 
+			$('#kb_right').val(kb_right);
+			$('#kb_down').val(kb_down);
+			$('#kb_ccw').val(kb_ccw);                                                                                                                           
+			$('#kb_cw').val(kb_cw);                                                                                                                              
+			$('#kb_del').val(kb_del);
+			$('#kb_new').val(kb_new);
+			$('#kb_previous').val(kb_previous);
+			$('#kb_next').val(kb_next);		
+			$('#kb_paint').val(kb_paint);
+		}	          
+	
+		kb_default();
+		
 		if(readCookie('kb_modifier'))
 		{
 			kb_modifier = readCookie('kb_modifier');		
 		}
 		$('#kb_modifier').val(kb_modifier); 
-
-		var kb_up = 87; // w
+		
 		if(readCookie('kb_up'))
 		{
 			kb_up = readCookie('kb_up');
 		}
 		$('#kb_up').val(kb_up); 
-
-		var kb_left = 65; // a
+		
 		if(readCookie('kb_left'))
 		{
-		kb_left = readCookie('kb_left');		
+			kb_left = readCookie('kb_left');		
 		}
 		$('#kb_left').val(kb_left); 
 		
-		var kb_right = 68; // d
 		if(readCookie('kb_right'))
 		{
 			kb_right = readCookie('kb_right');
 		}
 		$('#kb_right').val(kb_right);
 		
-		var kb_down = 83; // s
 		if(readCookie('kb_down'))
 		{
-		kb_down = readCookie('kb_down');
+			kb_down = readCookie('kb_down');
 		}
 		$('#kb_down').val(kb_down);
 		
-		var kb_ccw = 72; // h
 		if(readCookie('kb_ccw'))
 		{
-		kb_ccw = readCookie('kb_ccw');
+			kb_ccw = readCookie('kb_ccw');                                                                                                                                   
 		}
 		$('#kb_ccw').val(kb_ccw);
 		
-		var kb_cw = 71; // g
 		if(readCookie('kb_cw'))
 		{
-		kb_cw = readCookie('kb_cw');		
+			kb_cw = readCookie('kb_cw');		
 		}
 		$('#kb_cw').val(kb_cw);
 		
-		var kb_del = 80; // p
 		if(readCookie('kb_del'))
 		{
-		kb_del = readCookie('kb_del')
+			kb_del = readCookie('kb_del')
 		}
 		$('#kb_del').val(kb_del);
 		
-		var kb_new = 82; // r
 		if(readCookie('kb_new'))
 		{
-		kb_new = readCookie('kb_new');
+			kb_new = readCookie('kb_new');
 		}
 		$('#kb_new').val(kb_new);
 		
-		var kb_previous = 81; // q
 		if(readCookie('kb_previous'))
 		{
-		kb_previous = readCookie('kb_previous');
+			kb_previous = readCookie('kb_previous');
 		}
 		$('#kb_previous').val(kb_previous);
 		
-		var kb_next =  69; // e
 		if(readCookie('kb_next'))
 		{
-		kb_next = readCookie('kb_next');
+			kb_next = readCookie('kb_next');
 		}
-		$('#kb_next').val(kb_next);
+		$('#kb_next').val(kb_next);   
+
+		if(readCookie('kb_paint'))
+		{
+			kb_paint = readCookie('kb_paint');
+		}
+		$('#kb_paint').val(kb_paint);   
 		
 		$('#kb_modifier').change(function(){ kb_up = $('#kb_modifier').val();});		
 		$('#kb_up').change(function(){ kb_up = $('#kb_up').val();});
@@ -2392,7 +2467,8 @@ $(document).ready(function(){
 		$('#kb_new').change(function(){ kb_ccw = $('#kb_new').val();});	
 		$('#kb_previous').change(function(){ kb_ccw = $('#kb_previous').val();});	
 		$('#kb_next').change(function(){ kb_ccw = $('#kb_next').val();});		
-		
+		                                     
+		// major keyboard handler. If you want to bind key to function, do it here !
 		$(window).keydown(function(event){
 				var ismodifier;
 				if(kb_modifier == 16 || kb_modifier == 17 ||kb_modifier == 18)
@@ -2401,13 +2477,23 @@ $(document).ready(function(){
 					{
 					ismodifier = true;	
 					}
+
+					if(event.ctrlKey)
+					{
+					ismodifier = true;	
+					}
+
+					if(event.alttKey)
+					{
+					ismodifier = true;	
+					}
 					
 				}
 				if ($('#kb-control-status:checked').val() != null)
 				{
-					if(ismodifier)
+					if(ismodifier) // if ismodifier is true, user has inputted modifier+key (e.g. shift+w)
 					{
-						
+						// I'd like to use a switch but I don't know how to make a dynamic switch (and everybody says eval is evil)						     
 						if(event.keyCode == kb_up)
 						{
 							D.Playfields[D.current_playfield].Tetrion_History_Save();
@@ -2430,11 +2516,11 @@ $(document).ready(function(){
 						}
 						if(event.keyCode == kb_new)
 						{
-							D.Playfields[D.current_playfield].new_copy_playfield();
+							D.new_copy_playfield();
 						}		
 						if(event.keyCode == kb_del)
 						{
-							D.Playfields[D.current_playfield].remove_following_playfields();
+							D.remove_following_playfields();
 						}		
 						if(event.keyCode == kb_previous)
 						{
@@ -2444,12 +2530,14 @@ $(document).ready(function(){
 						{
 							D.last_playfield();
 						}
-						                      
+						if(event.keyCode == kb_paint)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].lock_active();					
+						}						                      
 					}						
 					else
 					{
-                                                                                                                                                                                  
-						// I'd like to use a switch but I don't know how to make a dynamic switch (and everybody says eval is evil)
 						if(event.keyCode == kb_up)
 						{
 							D.Playfields[D.current_playfield].Tetrion_History_Save();
@@ -2482,11 +2570,11 @@ $(document).ready(function(){
 						}
 						if(event.keyCode == kb_new)
 						{                                                                                                                              
-							D.Playfields[D.current_playfield].new_playfield();
+							D.new_playfield();
 						}
 						if(event.keyCode == kb_del)
 						{
-							D.Playfields[D.current_playfield].remove_current_playfield();
+							D.remove_current_playfield();
 						}			
 						if(event.keyCode == kb_previous)
 						{
@@ -2496,6 +2584,11 @@ $(document).ready(function(){
 						{
 							D.next_playfield();
 						}
+						if(event.keyCode == kb_paint)
+						{
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].paint_active();					
+						}							
 					}   
 				}
 		}); 
@@ -2528,42 +2621,18 @@ $(document).ready(function(){
 		});
 		
 		$('#kb-control-default').click(function(){
-		
-		kb_modifier = 16; //shift
-		kb_up = 87; // w
-		kb_left = 65; // a
-		kb_right = 68; // d
-		kb_down = 83; // s
-		kb_ccw = 72; // h
-		kb_cw = 71; // g
-		kb_del = 80; // p                                                                                                                                        
-		kb_new = 82; // r
-		kb_previous = 81; // q
-		kb_next =  69; // e
-		var kb_modifier = 16; //shift
-
-		$('#kb_modifier').val(kb_modifier); 
-		$('#kb_up').val(kb_up); 
-		$('#kb_left').val(kb_left); 
-		$('#kb_right').val(kb_right);
-		$('#kb_down').val(kb_down);
-		$('#kb_ccw').val(kb_ccw);
-		$('#kb_cw').val(kb_cw);
-		$('#kb_del').val(kb_del);
-		$('#kb_new').val(kb_new);
-		$('#kb_previous').val(kb_previous);
-		$('#kb_next').val(kb_next);		
+		kb_default();
 		});
 		
 });
 
 // deep copy clone function found in snipplr
-
+                                                                                                                                                                                     
 Array.prototype.clone = function () {var a = new Array(); for (var property in this) {a[property] = typeof (this[property]) == 'object' ? this[property].clone() : this[property]} return a}
 
 
 
-
+                                                                                                                                                                            
 // cookies function from http://www.quirksmode.org/js/cookies.html
 
 function createCookie(name,value,days) {
