@@ -53,32 +53,29 @@ $(document).ready(function(){
 				this.Playfields[0].init();
 
 				var drawnTetrion = "";
+				
 
 				// technicly speaking, we shouldn't refer to this.Playfields[0] and directly use a blank state
 				// because the "viewer" mode
 				// these are the hold and next pieces
 				drawnTetrion += '<div id="top-box">';
-				drawnTetrion += '<img id="holdbox" src="img/blocks/' + this.Playfields[0].system + '/hold/' + this.Playfields[0].system + 'hold' + this.Playfields[0].hold + '.png" />';
-				drawnTetrion += '<img id="next1box" src="img/blocks/' + this.Playfields[0].system + '/bignext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
-				drawnTetrion += '<img id="next2box" src="img/blocks/' + this.Playfields[0].system + '/smallnext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
-				drawnTetrion += '<img id="next3box" src="img/blocks/' + this.Playfields[0].system + '/smallnext/' + this.Playfields[0].system + 'next' + this.Playfields[0].next1 + '.png" />';
+				drawnTetrion += '<img id="holdbox"  src="" />';
+				drawnTetrion += '<img id="next1box" src="" />';
+				drawnTetrion += '<img id="next2box" src="" />';
+				drawnTetrion += '<img id="next3box" src="" />';
 				drawnTetrion += '</div>';
 				drawnTetrion += '<table id="diagram"> \n';
-
+				
+				
 				for(var j=0; j<this.Playfields[0].pf_height;j++)
 				{
 					drawnTetrion += '<tr>';
 					for(var i=0; i<this.Playfields[0].pf_width;i++)
 					{
-						if(this.Playfields[0].Tetrion[i][j]['content_active']) // if there something on the active matrix, draw it
-						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=' + this.Playfields[0].system + '"' + this.Playfields[0].Tetrion[i][j]['content_active'] + '" "><div class="prev"></div></td>';
-						}
-						else //else, draw what's under
-						{
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="' + this.Playfields[0].system + this.Playfields[0].Tetrion[i][j]["content"] + '"><div class="prev"></div></td>';
-						}
-						// classes are c<value> and not just <value> because CSS doesn't support
+						
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=""><div class="prev"></div></td>';
+						
+						// classes are p<value> and not just <value> because CSS doesn't support
 						// classes that begins with a number (theorically yes, but then you'll
 						// have to convert the first number into a utf-8 number)...
 					}
@@ -406,6 +403,15 @@ $(document).ready(function(){
 			this.next3 = "";
 
 
+			this.change_size = function(newwidth,newheight){
+
+				/* $('diagram').html(newShinyPlayfield) won't work because 
+				Jquery doesn't bind to newly created elements.
+				I *don't* want to rewrite 90% of my code to implement
+				livequery */
+
+			}
+			
 			this.Tetrion_History;
 			this.Tetrion_History_Save = function (){
 				/**
@@ -792,9 +798,9 @@ $(document).ready(function(){
 
 			this.advance_next = function(){
 				
-			this.modify_next1(this.next2);	
-			this.modify_next2(this.next3);	
-			this.modify_next3('');				
+				this.modify_next1(this.next2);	
+				this.modify_next2(this.next3);	
+				this.modify_next3('');				
 			}
 			
 			this.spawn_piece = function(piece_nature){
@@ -1041,7 +1047,7 @@ $(document).ready(function(){
 				}
 
 
-				if(D.Playfields[D.current_playfield].is_in(t2.x,t2.y) && D.Playfields[D.current_playfield].is_in(t3.x,t3.y) && D.Playfields[D.current_playfield].is_in(t4.x,t4.y))
+				if(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y))
 				{
 					this.rebootActive();
 					this.modify_active(center_position.x,center_position.y,piece_nature);
@@ -1056,7 +1062,7 @@ $(document).ready(function(){
 				/**
 				* Checks if a point is outside of the playfield
 				*/
-				if(x < 0 ||y < 0 || x>=D.Playfields[D.current_playfield].pf_width || y>=D.Playfields[D.current_playfield].pf_height)
+				if(x < 0 ||y < 0 || x>=this.pf_width || y>=this.pf_height)
 					{return false;}
 				return true;
 			}
@@ -2200,6 +2206,10 @@ $(document).ready(function(){
 				D.Playfields[D.current_playfield].save_comment();
 		})
 
+		$('#size-change').click(function(){
+				D.Playfields[D.current_playfield].change_size(20,20);
+		})		
+		
 		$("#cmd_spawn").click(function(){
 				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class')
 				D.Playfields[D.current_playfield].Tetrion_History_Save();

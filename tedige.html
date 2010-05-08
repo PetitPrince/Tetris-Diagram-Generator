@@ -131,8 +131,66 @@ $(document).ready(function(){
 
 <!-- ------------------------- Controls ------------------------- -->
 <div id="controls-wrapper">
-	W: <input id="width" tabindex="1" type="text" value="10" size="2"/>
-	H: <input id="height" tabindex="1" type="text" value="20" size="2"/>
+	W: 	<select id="width" >
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10" selected="selected">10</option>		
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>	
+		</select>
+	H: <select id="height" >
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>		
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20" selected="selected">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>	
+			
+		</select>
+		<input id="size-change" value="Set" type="button" /> <input id="size-change-all" value="Set all" type="button" />	<input id="size-change-default" value="Set as default" type="button" />
+		<input id="reset-size" value="Default" type="button" />
+		<br />
 
 	<br />
 	<br />
@@ -307,6 +365,10 @@ $(document).ready(function(){
 <div id="help">
 
 </div>
+
+
+<!-- ------------------------- Keyboard control  ------------------------- -->
+
 <hr />
 <div class="kb-control">
 <input id="kb-control-status" type="checkbox" />	Activate keyboard control <br />

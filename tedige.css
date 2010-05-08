@@ -130,6 +130,7 @@ float:left;
 	clear:left;
 	text-align: center;
 }
+
 .console{
 	float:left;
 	width: 46%;
@@ -150,4 +151,7 @@ float:left;
 	width: 12px;
 	height: 12px; 
 	background-image:url("img/previewblock.png");
+}
+.hidden{
+display:none;
 }
