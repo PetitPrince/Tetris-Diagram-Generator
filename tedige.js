@@ -395,6 +395,7 @@ $(document).ready(function(){
 			this.Tetrion = new Array();
 			this.Tetrion_Preview = new Array();
 			this.system;
+			this.whiteborder;
 
 			this.border_color;
 			this.hold = "";
@@ -482,6 +483,7 @@ $(document).ready(function(){
 						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
 					}
 				}
+				
 			}
 
 			this.modify_active=function(x,y,value){
@@ -746,6 +748,7 @@ $(document).ready(function(){
 						break;
 					}
 				}
+				
 
 			}
 			
@@ -1225,6 +1228,11 @@ $(document).ready(function(){
 				{
 					TetrionState+=")c"+encodeURIComponent(Base64.encode(this.comment));
 				}
+				
+				if(this.whiteborder)
+				{
+				TetrionState+=")w1"
+				}
 				return TetrionState;
 			}
 
@@ -1338,6 +1346,10 @@ $(document).ready(function(){
 							this.comment = Base64.decode(decodeURIComponent(Split[i].slice(2)));
 							$('#com').val(this.comment);
 							break;
+						case "w" :
+							this.draw_whiteborder(Split[i].slice(2));
+							break;
+
 						}
 					}
 
@@ -1514,7 +1526,51 @@ $(document).ready(function(){
 				$("#export").html("[tedige]"+this.print()+"[/tedige]");
 			}
 
-
+			this.draw_whiteborder = function(status){
+			
+			var outbkg ="";	
+				
+			for(var i=0;i<this.pf_width;i++)
+			{
+			
+				for(var j=0;j<this.pf_height;j++)
+				{
+					if( this.Tetrion[i][j]['content'] == "_")
+					{
+						
+						if(status)
+						{
+							if(j-1>=0 && this.Tetrion[i][j-1]['content'] != "_")
+							{
+								outbkg += "top";
+							}					
+							
+							if(i+1<this.pf_width && this.Tetrion[i+1][j]['content'] != "_")
+							{
+								outbkg += "right";
+							}					
+							
+							if(j+1<this.pf_height && this.Tetrion[i][j+1]['content'] != "_")
+							{
+								outbkg += "bottom";
+							}										
+							
+							if(i-1>=0 && this.Tetrion[i-1][j]['content'] != "_")
+							{
+								outbkg += "left";
+							}
+						}
+						$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');
+						outbkg ="";
+					}
+					
+				}
+				
+			}
+				
+			}
+			
+			
 		}
 
 
@@ -2199,9 +2255,19 @@ $(document).ready(function(){
 				var is_active = $('#active').attr('checked');
 
 				D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
-				right_clicking = 1;
+				right_clicking = 1;                 
 		} );
 
+		$('#draw-whiteborder').click(function(){
+				D.Playfields[D.current_playfield].whiteborder = 1;
+				D.Playfields[D.current_playfield].draw_whiteborder(1);
+		})
+
+		$('#remove-whiteborder').click(function(){
+				D.Playfields[D.current_playfield].whiteborder = 0;
+				D.Playfields[D.current_playfield].draw_whiteborder(0);
+		})		
+		
 		$('#com').change(function(){
 				D.Playfields[D.current_playfield].save_comment();
 		})
@@ -2230,7 +2296,14 @@ $(document).ready(function(){
 		})
 
 		$("#cmd_next").click(function(){
+				if(D.currentplayfield == this.Playfields.lengeth-1)
+				{
+				D.new_copy_playfield();
+				}
+				else
+				{
 				D.next_playfield();
+				}
 		})
 
 		$("#cmd_prev").click(function(){
