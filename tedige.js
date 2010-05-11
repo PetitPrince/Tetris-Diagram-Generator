@@ -20,7 +20,7 @@ C 		Rotation center of a piece, a bomb in Bombliss, or any other specially marke
 P 		Purple block for the T Tetromino, designed for use in documenting T-Spin setups
 B 		Mark a cell that has to be occupied for something (like a wallkick) to happen
 X 		Mark a cell that cannot be occupied for something (like a wallkick) to happen
-1–9 		Mark the cells that reject a given kick position
+1â€“9 		Mark the cells that reject a given kick position
 
 Note that for obvious CSS reasons, . (dot) was remplaced by _ (underscore).
 */
@@ -485,8 +485,13 @@ $(document).ready(function(){
 				}
 				
 				
-				if(true) // checks if checkbox is true
+				if($('#stack-border:checked').val()) // checks if checkbox is true
 				{
+					if(y>=0 && this.Tetrion[x][y]['content'] == "_")
+					{
+						this.whiteborder(x,y);
+					}	
+					
 					if(y-1>=0 && this.Tetrion[x][y-1]['content'] == "_")
 					{
 						this.whiteborder(x,y-1);
@@ -681,8 +686,8 @@ $(document).ready(function(){
 
 
 				var center = new Array();
-				center.x=current.slice(1,current.indexOf("x")); // X position
-				center.y=current.slice(current.indexOf("x")+1); // Y position
+				center.x = parseFloat(current.slice(1,current.indexOf("x"))); // X position
+				center.y = parseFloat(current.slice(current.indexOf("x")+1)); // Y position
 
 				var orientation = get_orientation(piece_orientation,center); // the orientation is set via an exterior function
 
@@ -690,12 +695,12 @@ $(document).ready(function(){
 				var t3 = new Array();
 				var t4 = new Array();
 
-				t2.x = orientation[0].x; // put the orientation we got in the new arrays
-				t2.y = orientation[0].y;
-				t3.x = orientation[1].x;
-				t3.y = orientation[1].y;
-				t4.x = orientation[2].x;
-				t4.y = orientation[2].y;
+				t2.x = parseFloat(orientation[0].x); // put the orientation we got in the new arrays
+				t2.y = parseFloat(orientation[0].y);
+				t3.x = parseFloat(orientation[1].x);
+				t3.y = parseFloat(orientation[1].y);
+				t4.x = parseFloat(orientation[2].x);
+				t4.y = parseFloat(orientation[2].y);
 
 				if(piece_orientation == "T"	// exception if the piece is a locked single case
 					|| piece_orientation == "L"
@@ -731,12 +736,12 @@ $(document).ready(function(){
 				|| piece_orientation == "@"
 				)
 				{
-					t2.x = center.x;
-					t2.y = center.y;
-					t3.x = center.x;
-					t3.y = center.y;
-					t4.x = center.x;
-					t4.y = center.y;
+					t2.x = parseFloat(center.x);
+					t2.y = parseFloat(center.y);
+					t3.x = parseFloat(center.x);
+					t3.y = parseFloat(center.y);
+					t4.x = parseFloat(center.x);
+					t4.y = parseFloat(center.y);
 				}
 
 				if(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y)) // we don't want any out of bounds pieces
@@ -1155,8 +1160,8 @@ $(document).ready(function(){
 				* Old string, disregard that
 				* irARS_igdcT-ecT-fcT-edT-+igfbL-gbL-gcL-gdL-_icSSBsb3ZlIFRldHJpcyAh+igfbL-gbL-gcL-gdL-_iadd-Zcw_icxVmVyeSBtdWNoIG11Y2ggIQ%3D%3D+
 				* <-----Frame 1---->|<----------------Frame 2---------------->|<-----------------------Frame 3--------------------------->|
-				* idrot¦id<--cases coord->|id<- cases coord->¦id<- comment string ->|id<-pieces info-->¦id<actv>¦id<----- comment string------->|
-				* idrot¦id<->¦<->¦<->¦<->¦|id<->¦<->¦<->¦<-> ¦                      |                  ¦        ¦                               |
+				* idrotÂ¦id<--cases coord->|id<- cases coord->Â¦id<- comment string ->|id<-pieces info-->Â¦id<actv>Â¦id<----- comment string------->|
+				* idrotÂ¦id<->Â¦<->Â¦<->Â¦<->Â¦|id<->Â¦<->Â¦<->Â¦<-> Â¦                      |                  Â¦        Â¦                               |
 				*        |                                                                          |
 				*        ---> ecT: e = 5 ; c = 3 ; so at 5x3 there's a T case                       _--> dd-Zcw : d = 4, so at 4x4 there's a Z in clockwise orientation
 				*
@@ -1581,6 +1586,7 @@ $(document).ready(function(){
 							outbkg += "left";
 						}
 					}
+
 					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
 					
 			}
@@ -2541,9 +2547,9 @@ $(document).ready(function(){
 			kb_ccw = 72; // h
 			kb_cw = 71; // g
 			kb_del = 79; // o                                                                                                                                        
-			kb_new = 38; // ↑
-			kb_previous = 37; // ←
-			kb_next =  39; // →
+			kb_new = 38; // â†‘
+			kb_previous = 37; // â†
+			kb_next =  39; // â†’
 			kb_modifier = 16; //shift
 			kb_paint = 75 ;// k			
 			kb_browse_next = 73 ;// i			
@@ -2930,4 +2936,5 @@ function readCookie(name) {
 function eraseCookie(name) {
 	createCookie(name,"",-1);
 }
+
 
