@@ -484,6 +484,34 @@ $(document).ready(function(){
 					}
 				}
 				
+				
+				if(true) // checks if checkbox is true
+				{
+					if(y-1>=0 && this.Tetrion[x][y-1]['content'] == "_")
+					{
+						this.whiteborder(x,y-1);
+					}					
+					
+					if(x+1<this.pf_width && this.Tetrion[x+1][y]['content'] == "_")
+					{
+						this.whiteborder(x+1,y);
+					}					
+					
+					if(y+1<this.pf_height && this.Tetrion[x][y+1]['content'] == "_")
+					{
+						this.whiteborder(x,y+1);
+					}										
+					
+					if(x-1>=0 && this.Tetrion[x-1][y]['content'] == "_")
+					{
+						this.whiteborder(x-1,y);
+					}				
+				}
+				
+				
+				
+				
+				
 			}
 
 			this.modify_active=function(x,y,value){
@@ -1526,6 +1554,38 @@ $(document).ready(function(){
 				$("#export").html("[tedige]"+this.print()+"[/tedige]");
 			}
 
+			this.whiteborder = function(x,y){
+				/* Apply to an empty cell a whiteborder*/
+				var outbkg ="";	
+
+				if(this.Tetrion[x][y]['content'] == "_")
+					{
+						
+						if(y-1>=0 && this.Tetrion[x][y-1]['content'] != "_")
+						{
+							outbkg += "top";
+						}					
+						
+						if(x+1<this.pf_width && this.Tetrion[x+1][y]['content'] != "_")
+						{
+							outbkg += "right";
+						}					
+						
+						if(y+1<this.pf_height && this.Tetrion[x][y+1]['content'] != "_")
+						{
+							outbkg += "bottom";
+						}										
+						
+						if(x-1>=0 && this.Tetrion[x-1][y]['content'] != "_")
+						{
+							outbkg += "left";
+						}
+					}
+					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
+					
+			}
+						
+			
 			this.draw_whiteborder = function(status){
 			
 			var outbkg ="";	
