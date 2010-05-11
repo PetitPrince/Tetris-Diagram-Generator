@@ -2702,37 +2702,37 @@ $(document).ready(function(){
 		{
 			kb_browse_previous = readCookie('kb_2');
 		}
-		$('#kb_1').val(kb_2); 
+		$('#kb_2').val(kb_2); 
 		if(readCookie('kb_3'))
 		{
 			kb_browse_previous = readCookie('kb_3');
 		}
-		$('#kb_1').val(kb_3); 
+		$('#kb_3').val(kb_3); 
 		if(readCookie('kb_4'))
 		{
 			kb_browse_previous = readCookie('kb_4');
 		}
-		$('#kb_1').val(kb_4); 
+		$('#kb_4').val(kb_4); 
 		if(readCookie('kb_5'))
 		{
 			kb_browse_previous = readCookie('kb_5');
 		}
-		$('#kb_1').val(kb_5); 
+		$('#kb_5').val(kb_5); 
 		if(readCookie('kb_6'))
 		{
 			kb_browse_previous = readCookie('kb_6');
 		}
-		$('#kb_1').val(kb_6); 
+		$('#kb_6').val(kb_6); 
 		if(readCookie('kb_7'))
 		{
 			kb_browse_previous = readCookie('kb_7');
 		}
-		$('#kb_1').val(kb_7); 
+		$('#kb_7').val(kb_7); 
 		if(readCookie('kb_8'))
 		{
 			kb_browse_previous = readCookie('kb_8');
 		}
-		$('#kb_1').val(kb_8); 
+		$('#kb_8').val(kb_8); 
 
 		$('#kb_modifier').change(function(){ kb_up = $('#kb_modifier').val();});		
 		$('#kb_up').change(function(){ kb_up = $('#kb_up').val();});
