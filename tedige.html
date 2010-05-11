@@ -9,22 +9,6 @@
                              
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="tedige.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){   
-	
-		$('#palette input[type=radio]').click(function(){
-		   if($(this).is(':checked')) 
-		   {
-		   	   //$(this).parent() select the td, to which we add a class
-		   	   $('#palette input[type=radio]').parent().removeClass("boxcheck");
-		   	   $(this).parent().addClass("boxcheck");
-
-		   }
-		});	
-
-		
-})
-</script>
 </head>
 
 <body>
@@ -35,36 +19,48 @@ $(document).ready(function(){
 
 <!-- ------------------------- Palette ------------------------- -->
 <div id="palette">  
-<label for="select-i"> <img src="img/blocks/ARS/lowercase/ARSiTet.png" alt="i"></label><input id="select-i" class="i" name="tetramino" value="i" type="radio">
-<label for="select-t"> <img src="img/blocks/ARS/lowercase/ARStTet.png" alt="t"></label><input id="select-t" class="t" name="tetramino" value="t" type="radio">
-<label for="select-j"> <img src="img/blocks/ARS/lowercase/ARSjTet.png" alt="j"></label><input id="select-j" class="j" name="tetramino" value="j" type="radio">
-<label for="select-o"> <img src="img/blocks/ARS/lowercase/ARSoTet.png" alt="o"></label><input id="select-o" class="o" name="tetramino" value="o" type="radio">
-<label for="select-l"> <img src="img/blocks/ARS/lowercase/ARSlTet.png" alt="l"></label><input id="select-l" class="l" name="tetramino" value="l" type="radio">
-<label for="select-s"> <img src="img/blocks/ARS/lowercase/ARSsTet.png" alt="s"></label><input id="select-s" class="s" name="tetramino" value="s" type="radio">
-<label for="select-z"> <img src="img/blocks/ARS/lowercase/ARSzTet.png" alt="z"></label><input id="select-z" class="z" name="tetramino" value="z" type="radio">
-<label for="select-g"> <img src="img/blocks/ARS/lowercase/ARSgTet.png" alt="g"></label><input id="select-g" class="g" name="tetramino" value="g" type="radio">
-<br />
-<label for="select-0"> <img src="img/blocks/ARS/ARS0Tet.png" alt="0"></label><input id="select-0" class="0" name="tetramino" value="0" type="radio">
-<label for="select-1"> <img src="img/blocks/ARS/ARS1Tet.png" alt="1"></label><input id="select-1" class="1" name="tetramino" value="1" type="radio">
-<label for="select-2"> <img src="img/blocks/ARS/ARS2Tet.png" alt="2"></label><input id="select-2" class="2" name="tetramino" value="2" type="radio">
-<label for="select-3"> <img src="img/blocks/ARS/ARS3Tet.png" alt="3"></label><input id="select-3" class="3" name="tetramino" value="3" type="radio">
-<label for="select-4"> <img src="img/blocks/ARS/ARS4Tet.png" alt="4"></label><input id="select-4" class="4" name="tetramino" value="4" type="radio">
-<label for="select-5"> <img src="img/blocks/ARS/ARS5Tet.png" alt="5"></label><input id="select-5" class="5" name="tetramino" value="5" type="radio">
-<label for="select-6"> <img src="img/blocks/ARS/ARS6Tet.png" alt="6"></label><input id="select-6" class="6" name="tetramino" value="6" type="radio">
-<label for="select-7"> <img src="img/blocks/ARS/ARS7Tet.png" alt="7"></label><input id="select-7" class="7" name="tetramino" value="7" type="radio">
-<label for="select-8"> <img src="img/blocks/ARS/ARS8Tet.png" alt="8"></label><input id="select-8" class="8" name="tetramino" value="8" type="radio">
-<label for="select-9"> <img src="img/blocks/ARS/ARS9Tet.png" alt="9"></label><input id="select-9" class="9" name="tetramino" value="9" type="radio">
-<br>
-<label for="select-C"> <img src="img/blocks/ARS/ARSCTet.png" alt="C"></label><input id="select-C" class="C" name="tetramino" value="C" type="radio">
-<label for="select-c"> <img src="img/blocks/ARS/lowercase/ARScTet.png" alt="c"></label><input id="select-c" class="c" name="tetramino" value="c" type="radio">
-<label for="select--"> <img src="img/blocks/ARS/ARS-Tet.png" alt="-"></label><input id="select--" class="-" name="tetramino" value="-" type="radio">
-<label for="select-."> <img src="img/blocks/ARS/ARS.Tet.png" alt="."></label><input id="select-." class="." name="tetramino" value="." type="radio">
-<label for="select-X"> <img src="img/blocks/ARS/ARSXTet.png" alt="X"></label><input id="select-X" class="X" name="tetramino" value="X" type="radio">
-<label for="select-x"> <img src="img/blocks/ARS/lowercase/ARSxTet.png" alt="x"></label><input id="select-x" class="x" name="tetramino" value="x" type="radio">
-<label for="select-B"> <img src="img/blocks/ARS/ARSBTet.png" alt="B"></label><input id="select-B" class="B" name="tetramino" value="B" type="radio">
-<label for="select-@"> <img src="img/blocks/ARS/ARS@Tet.png" alt="@"></label><input id="select-@" class="@" name="tetramino" value="@" type="radio">
 	<table>							                                                                                   
-	<tbody>
+	<tbody>   
+<tr>
+	
+	<td><label for="select-i"> <img src="img/blocks/ARS/lowercase/ARSiTet.png" alt="i"></label><input id="select-i" class="i" name="tetramino" value="i" type="radio"></td>
+	<td><label for="select-t"> <img src="img/blocks/ARS/lowercase/ARStTet.png" alt="t"></label><input id="select-t" class="t" name="tetramino" value="t" type="radio"></td>
+	<td><label for="select-j"> <img src="img/blocks/ARS/lowercase/ARSjTet.png" alt="j"></label><input id="select-j" class="j" name="tetramino" value="j" type="radio"></td>
+	<td><label for="select-o"> <img src="img/blocks/ARS/lowercase/ARSoTet.png" alt="o"></label><input id="select-o" class="o" name="tetramino" value="o" type="radio"></td>
+	<td><label for="select-l"> <img src="img/blocks/ARS/lowercase/ARSlTet.png" alt="l"></label><input id="select-l" class="l" name="tetramino" value="l" type="radio"></td>
+	<td><label for="select-s"> <img src="img/blocks/ARS/lowercase/ARSsTet.png" alt="s"></label><input id="select-s" class="s" name="tetramino" value="s" type="radio"></td>
+	<td><label for="select-z"> <img src="img/blocks/ARS/lowercase/ARSzTet.png" alt="z"></label><input id="select-z" class="z" name="tetramino" value="z" type="radio"></td>
+	<td><label for="select-g"> <img src="img/blocks/ARS/lowercase/ARSgTet.png" alt="g"></label><input id="select-g" class="g" name="tetramino" value="g" type="radio"></td>
+	<td></td>
+	<td></td>
+</tr>                 
+<tr>
+<td><label for="select-0"> <img src="img/blocks/ARS/ARS0Tet.png" alt="0"></label><input id="select-0" class="0" name="tetramino" value="0" type="radio"></td>
+<td><label for="select-1"> <img src="img/blocks/ARS/ARS1Tet.png" alt="1"></label><input id="select-1" class="1" name="tetramino" value="1" type="radio"></td>
+<td><label for="select-2"> <img src="img/blocks/ARS/ARS2Tet.png" alt="2"></label><input id="select-2" class="2" name="tetramino" value="2" type="radio"></td>
+<td><label for="select-3"> <img src="img/blocks/ARS/ARS3Tet.png" alt="3"></label><input id="select-3" class="3" name="tetramino" value="3" type="radio"></td>
+<td><label for="select-4"> <img src="img/blocks/ARS/ARS4Tet.png" alt="4"></label><input id="select-4" class="4" name="tetramino" value="4" type="radio"></td>
+<td><label for="select-5"> <img src="img/blocks/ARS/ARS5Tet.png" alt="5"></label><input id="select-5" class="5" name="tetramino" value="5" type="radio"></td>
+<td><label for="select-6"> <img src="img/blocks/ARS/ARS6Tet.png" alt="6"></label><input id="select-6" class="6" name="tetramino" value="6" type="radio"></td>
+<td><label for="select-7"> <img src="img/blocks/ARS/ARS7Tet.png" alt="7"></label><input id="select-7" class="7" name="tetramino" value="7" type="radio"></td>
+<td><label for="select-8"> <img src="img/blocks/ARS/ARS8Tet.png" alt="8"></label><input id="select-8" class="8" name="tetramino" value="8" type="radio"></td>
+<td><label for="select-9"> <img src="img/blocks/ARS/ARS9Tet.png" alt="9"></label><input id="select-9" class="9" name="tetramino" value="9" type="radio"></td>
+</tr>
+<tr>
+<td><label for="select-C"> <img src="img/blocks/ARS/ARSCTet.png" alt="C"></label><input id="select-C" class="C" name="tetramino" value="C" type="radio"></td>
+<td><label for="select-c"> <img src="img/blocks/ARS/lowercase/ARScTet.png" alt="c"></label><input id="select-c" class="c" name="tetramino" value="c" type="radio"></td>
+<td><label for="select--"> <img src="img/blocks/ARS/ARS-Tet.png" alt="-"></label><input id="select--" class="-" name="tetramino" value="-" type="radio"></td>
+<td><label for="select-."> <img src="img/blocks/ARS/ARS.Tet.png" alt="."></label><input id="select-." class="." name="tetramino" value="." type="radio"></td>
+<td><label for="select-X"> <img src="img/blocks/ARS/ARSXTet.png" alt="X"></label><input id="select-X" class="X" name="tetramino" value="X" type="radio"></td>
+<td><label for="select-x"> <img src="img/blocks/ARS/lowercase/ARSxTet.png" alt="x"></label><input id="select-x" class="x" name="tetramino" value="x" type="radio"></td>
+<td><label for="select-B"> <img src="img/blocks/ARS/ARSBTet.png" alt="B"></label><input id="select-B" class="B" name="tetramino" value="B" type="radio"></td>
+<td><label for="select-@"> <img src="img/blocks/ARS/ARS@Tet.png" alt="@"></label><input id="select-@" class="@" name="tetramino" value="@" type="radio"></td>
+</td>           
+	</tbody>   
+</table>		
+	
+	<table>		
+	<tbody>   
 		<tr>
 			<td> <label for="select-T"> <img src="img/t.png" alt="T"> </label> <input checked="checked" id="select-T" class="T" name="tetramino" value="T" type="radio"> </td> 
 			<td> <label for="select-Ti"> <img src="img/ti.png" alt="Ti"> </label> <input id="select-Ti" class="T" name="tetramino" value="Ti" type="radio"> </td> 
@@ -589,7 +585,7 @@ $(document).ready(function(){
 		<option value="68">d</option>
 		<option value="69">e</option>
 		<option value="70">f</option>
-		<option value="71" selected="selected">g</option>
+		<option value="71">g</option>
 		<option value="72">h</option>
 		<option value="73">i</option>
 		<option value="74">j</option>
@@ -734,7 +730,7 @@ $(document).ready(function(){
 		<option value="77">m</option>
 		<option value="78">n</option>
 		<option value="79">o</option>
-		<option value="80" selected="selected">p</option>
+		<option value="80">p</option>
 		<option value="81">q</option>
 		<option value="82">r</option>
 		<option value="83">s</option>
@@ -884,6 +880,99 @@ $(document).ready(function(){
 		<option value="90">z</option>
 	</select> (+[Modifier] to lock)
 	<br />	 
+
+	[Next Piece] set to <select id="kb_browse_next" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to lock)
+	<br />	 
+
+	[Previous Piece] set to <select id="kb_browse_previous" >
+		<option value=""></option>
+		<option value="37">←</option>
+		<option value="38">↑</option>
+		<option value="39">→</option>
+		<option value="40">↓</option>
+		<option value="48">0</option>
+		<option value="49">1</option>
+		<option value="50">2</option>
+		<option value="51">3</option>
+		<option value="52">4</option>
+		<option value="53">5</option>
+		<option value="54">6</option>
+		<option value="55">7</option>
+		<option value="56">8</option>
+		<option value="57">9</option>
+		<option value="58">9</option>
+		<option value="65">a</option>
+		<option value="66">b</option>
+		<option value="67">c</option>
+		<option value="68">d</option>
+		<option value="69">e</option>
+		<option value="70">f</option>
+		<option value="71">g</option>
+		<option value="72">h</option>
+		<option value="73">i</option>
+		<option value="74">j</option>
+		<option value="75">k</option>
+		<option value="76">l</option>
+		<option value="77">m</option>
+		<option value="78">n</option>
+		<option value="79">o</option>
+		<option value="80">p</option>
+		<option value="81">q</option>
+		<option value="82">r</option>
+		<option value="83">s</option>
+		<option value="84">t</option>
+		<option value="85">u</option>
+		<option value="86">v</option>
+		<option value="87">w</option>
+		<option value="88">x</option>
+		<option value="89">y</option>
+		<option value="90">z</option>
+	</select> (+[Modifier] to lock)
+	<br />	 
+	
 	
 	<input id="kb-control-save" value="Save config" type="button" /> <input id="kb-control-default" value="Default" type="button" />
 	

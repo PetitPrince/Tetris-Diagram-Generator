@@ -939,7 +939,7 @@ $(document).ready(function(){
 				/**
 				*	Moves the active piece in active layer of the array
 				*/
-				for(var i=0;i<this.pf_width;i++) // we need a center ? where is it ?
+				for(var i=0;i<this.pf_width;i++) // we need a center ! where is it ?
 				{
 					for(var j=0;j<this.pf_height;j++)
 					{
@@ -951,7 +951,7 @@ $(document).ready(function(){
 							center_position.y = j;
 						}
 					}
-				}
+				}     
 				var piece_nature = the_center.slice(0,1); // extract the piece nature and orientation from the center_active string
 				var piece_orientation = the_center.slice(1);
 
@@ -2296,7 +2296,7 @@ $(document).ready(function(){
 		})
 
 		$("#cmd_next").click(function(){
-				if(D.currentplayfield == this.Playfields.lengeth-1)
+				if(D.current_playfield == D.Playfields.length-1)
 				{
 				D.new_copy_playfield();
 				}
@@ -2486,6 +2486,8 @@ $(document).ready(function(){
 			kb_next =  39; // →
 			kb_modifier = 16; //shift
 			kb_paint = 75 ;// k			
+			kb_browse_next = 73 ;// i			
+			kb_browse_previous = 85 ;// u			
 
 
 
@@ -2501,8 +2503,10 @@ $(document).ready(function(){
 			$('#kb_new').val(kb_new);
 			$('#kb_previous').val(kb_previous);
 			$('#kb_next').val(kb_next);		
-			$('#kb_paint').val(kb_paint);
-		}	          
+			$('#kb_paint').val(kb_paint);   
+			$('#kb_browse_next').val(kb_browse_next);	
+			$('#kb_browse_previous').val(kb_browse_previous);
+   		}	          
 	
 		kb_default();
 		
@@ -2577,6 +2581,18 @@ $(document).ready(function(){
 			kb_paint = readCookie('kb_paint');
 		}
 		$('#kb_paint').val(kb_paint);   
+
+		if(readCookie('kb_browse_next'))
+		{
+			kb_browse_next = readCookie('kb_browse_next');
+		}
+		$('#kb_browse_next').val(kb_browse_next); 
+
+		if(readCookie('kb_browse_previous'))
+		{
+			kb_browse_previous = readCookie('kb_browse_previous');
+		}
+		$('#kb_browse_previous').val(kb_browse_previous); 
 		
 		$('#kb_modifier').change(function(){ kb_up = $('#kb_modifier').val();});		
 		$('#kb_up').change(function(){ kb_up = $('#kb_up').val();});
@@ -2585,10 +2601,13 @@ $(document).ready(function(){
 		$('#kb_right').change(function(){ kb_right = $('#kb_right').val();});
 		$('#kb_cw').change(function(){ kb_cw = $('#kb_cw').val();});
 		$('#kb_ccw').change(function(){ kb_ccw = $('#kb_ccw').val();});
-		$('#kb_del').change(function(){ kb_ccw = $('#kb_del').val();});
-		$('#kb_new').change(function(){ kb_ccw = $('#kb_new').val();});	
-		$('#kb_previous').change(function(){ kb_ccw = $('#kb_previous').val();});	
-		$('#kb_next').change(function(){ kb_ccw = $('#kb_next').val();});		
+		$('#kb_del').change(function(){ kb_del = $('#kb_del').val();});
+		$('#kb_new').change(function(){ kb_new = $('#kb_new').val();});	
+		$('#kb_previous').change(function(){ kb_previous = $('#kb_previous').val();});	
+		$('#kb_next').change(function(){ kb_next = $('#kb_next').val();});		
+		$('#kb_paint').change(function(){ kb_paint = $('#kb_paint').val();});		
+		$('#kb_browse_previous').change(function(){ kb_browse_previous = $('#kb_browse_previous').val();});	
+		$('#kb_browse_next').change(function(){ kb_browse_next = $('#kb_browse_next').val();});		
 		                                     
 		// major keyboard handler. If you want to bind key to function, do it here !
 		$(window).keydown(function(event){
@@ -2710,12 +2729,19 @@ $(document).ready(function(){
 						{
 							D.Playfields[D.current_playfield].Tetrion_History_Save();
 							D.Playfields[D.current_playfield].paint_active();					
-						}							
+						}	
+						if(event.keyCode == kb_browse_previous)
+						{
+							browse_previous_piece();					
+						}						
+						if(event.keyCode == kb_browse_next)
+						{
+							browse_next_piece();												
+						}
 					}   
 				}
 		}); 
 		$('#kb-control-save').click(function(){
-		console.log('inkb1 = '+kb_up);
 				eraseCookie('kb_modifier'	 );  		                                                                                                                 
 				eraseCookie('kb_up'      );
 				eraseCookie('kb_up'      );
@@ -2728,6 +2754,8 @@ $(document).ready(function(){
 				eraseCookie('kb_new'     );
 				eraseCookie('kb_previous');
 				eraseCookie('kb_next'	 );  		                                                                                                         
+				eraseCookie('kb_browse_previous');
+				eraseCookie('kb_browse_next'	 );  
 
 				createCookie('kb_modifier'       , kb_modifier       );				
 				createCookie('kb_up'       , kb_up       );
@@ -2740,11 +2768,72 @@ $(document).ready(function(){
 				createCookie('kb_new'      , kb_new      );
 				createCookie('kb_previous' , kb_previous );
 				createCookie('kb_next'	   , kb_next	 );
+				createCookie('kb_browse_previous' , kb_browse_previous );
+				createCookie('kb_browse_next'	   , kb_browse_next	 );
 		});
 		
 		$('#kb-control-default').click(function(){
 		kb_default();
 		});
+		
+		
+		$('#palette input[name="tetramino"]').click(function(){
+		   if($(this).is(':checked')) 
+		   {
+		   	   //$(this).parent() select the td, to which we add a class
+		   	   $('#palette input[name="tetramino"]').parent().removeClass("boxcheck");
+		   	   $(this).parent().addClass("boxcheck");
+
+		   }
+		});	
+		
+		var pieceIndex = 0;
+		var pieceMax = $('input[name="tetramino"]').length;                        
+
+		function browse_next_piece(){
+		
+			if(pieceIndex < pieceMax)
+			{
+				pieceIndex++;                                     
+				$('input[name="tetramino"]')[pieceIndex].checked = true;
+				$('input[name="tetramino"]').parent().removeClass("boxcheck");
+				$($('input[name="tetramino"]')[pieceIndex]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+			else
+			{
+			pieceIndex = 0;
+			}
+		
+		}
+
+		function browse_previous_piece(){
+
+		
+			if(pieceIndex > 0)
+			{
+				pieceIndex--;
+				$('input[name="tetramino"]')[pieceIndex].checked = true;
+				$('input[name="tetramino"]').parent().removeClass("boxcheck");
+				$($('input[name="tetramino"]')[pieceIndex]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				
+			}
+			else
+			{
+			pieceIndex = pieceMax;
+			}
+		
+		}
+
+		
+		
 		
 });
 
