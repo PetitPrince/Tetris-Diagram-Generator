@@ -2543,7 +2543,15 @@ $(document).ready(function(){
 		var kb_next;
 		var kb_modifier;
 		var kb_paint;
-		var kb_lock;		
+		var kb_lock;
+		var kb_1;		
+		var kb_2;		
+		var kb_3;		
+		var kb_4;		
+		var kb_5;		
+		var kb_6;		
+		var kb_7;		
+		var kb_8;		
 		
 		
 		
@@ -2564,7 +2572,14 @@ $(document).ready(function(){
 			kb_browse_next = 73 ;// i			
 			kb_browse_previous = 85 ;// u			
 
-
+			kb_1 = 49; //1
+			kb_2 = 50; //2
+			kb_3 = 51; //3
+			kb_4 = 52; //4
+			kb_5 = 53; //5
+			kb_6 = 54; //6
+			kb_7 = 55; //7
+			kb_8 = 56; //8
 
 			
 			$('#kb_modifier').val(kb_modifier); 
@@ -2580,7 +2595,15 @@ $(document).ready(function(){
 			$('#kb_next').val(kb_next);		
 			$('#kb_paint').val(kb_paint);   
 			$('#kb_browse_next').val(kb_browse_next);	
-			$('#kb_browse_previous').val(kb_browse_previous);
+			$('#kb_browse_previous').val(kb_browse_previous); 
+			$('kb_1').val(kb_1);
+			$('kb_2').val(kb_2);
+			$('kb_3').val(kb_3);
+			$('kb_4').val(kb_4);
+			$('kb_5').val(kb_5);
+			$('kb_6').val(kb_6);
+			$('kb_7').val(kb_7);
+			$('kb_8').val(kb_8);
    		}	          
 	
 		kb_default();
@@ -2668,7 +2691,49 @@ $(document).ready(function(){
 			kb_browse_previous = readCookie('kb_browse_previous');
 		}
 		$('#kb_browse_previous').val(kb_browse_previous); 
+
+		if(readCookie('kb_1'))
+		{
+			kb_browse_previous = readCookie('kb_1');
+		}
+		$('#kb_1').val(kb_1); 
 		
+		if(readCookie('kb_2'))
+		{
+			kb_browse_previous = readCookie('kb_2');
+		}
+		$('#kb_1').val(kb_2); 
+		if(readCookie('kb_3'))
+		{
+			kb_browse_previous = readCookie('kb_3');
+		}
+		$('#kb_1').val(kb_3); 
+		if(readCookie('kb_4'))
+		{
+			kb_browse_previous = readCookie('kb_4');
+		}
+		$('#kb_1').val(kb_4); 
+		if(readCookie('kb_5'))
+		{
+			kb_browse_previous = readCookie('kb_5');
+		}
+		$('#kb_1').val(kb_5); 
+		if(readCookie('kb_6'))
+		{
+			kb_browse_previous = readCookie('kb_6');
+		}
+		$('#kb_1').val(kb_6); 
+		if(readCookie('kb_7'))
+		{
+			kb_browse_previous = readCookie('kb_7');
+		}
+		$('#kb_1').val(kb_7); 
+		if(readCookie('kb_8'))
+		{
+			kb_browse_previous = readCookie('kb_8');
+		}
+		$('#kb_1').val(kb_8); 
+
 		$('#kb_modifier').change(function(){ kb_up = $('#kb_modifier').val();});		
 		$('#kb_up').change(function(){ kb_up = $('#kb_up').val();});
 		$('#kb_down').change(function(){ kb_down = $('#kb_down').val();});
@@ -2683,7 +2748,17 @@ $(document).ready(function(){
 		$('#kb_paint').change(function(){ kb_paint = $('#kb_paint').val();});		
 		$('#kb_browse_previous').change(function(){ kb_browse_previous = $('#kb_browse_previous').val();});	
 		$('#kb_browse_next').change(function(){ kb_browse_next = $('#kb_browse_next').val();});		
+		$('#kb_1').change(function(){ kb_new = $('#kb_1').val();});	
+		$('#kb_2').change(function(){ kb_new = $('#kb_2').val();});	
+		$('#kb_3').change(function(){ kb_new = $('#kb_3').val();});	
+		$('#kb_4').change(function(){ kb_new = $('#kb_4').val();});	
+		$('#kb_5').change(function(){ kb_new = $('#kb_5').val();});	
+		$('#kb_6').change(function(){ kb_new = $('#kb_6').val();});	
+		$('#kb_7').change(function(){ kb_new = $('#kb_7').val();});	
+		$('#kb_8').change(function(){ kb_new = $('#kb_8').val();});	
 		                                     
+		
+		
 		// major keyboard handler. If you want to bind key to function, do it here !
 		$(window).keydown(function(event){
 				var ismodifier;
@@ -2813,6 +2888,40 @@ $(document).ready(function(){
 						{
 							browse_next_piece();												
 						}
+						if(event.keyCode == kb_1)
+						{
+							browse_row1_cycle();												
+						}				
+						if(event.keyCode == kb_2)
+						{
+							browse_row2_cycle();												
+						}				
+						if(event.keyCode == kb_3)
+						{
+							browse_row3_cycle();												
+						}				
+						if(event.keyCode == kb_4)
+						{
+							browse_row4_cycle();												
+						}				
+						if(event.keyCode == kb_5)
+						{
+							browse_row5_cycle();												
+						}				
+						if(event.keyCode == kb_6)
+						{
+							browse_row6_cycle();												
+						}				
+						if(event.keyCode == kb_7)
+						{
+							browse_row7_cycle();												
+						}				
+						if(event.keyCode == kb_8)
+						{
+							browse_row8_cycle();												
+						}				
+
+
 					}   
 				}
 		}); 
@@ -2831,7 +2940,15 @@ $(document).ready(function(){
 				eraseCookie('kb_next'	 );  		                                                                                                         
 				eraseCookie('kb_browse_previous');
 				eraseCookie('kb_browse_next'	 );  
-
+				eraseCookie('kb_1'); 
+				eraseCookie('kb_2'); 
+				eraseCookie('kb_3'); 
+				eraseCookie('kb_4'); 
+				eraseCookie('kb_5'); 
+				eraseCookie('kb_6'); 
+				eraseCookie('kb_7'); 
+				eraseCookie('kb_8'); 
+				
 				createCookie('kb_modifier'       , kb_modifier       );				
 				createCookie('kb_up'       , kb_up       );
 				createCookie('kb_down'     , kb_down     );
@@ -2845,6 +2962,16 @@ $(document).ready(function(){
 				createCookie('kb_next'	   , kb_next	 );
 				createCookie('kb_browse_previous' , kb_browse_previous );
 				createCookie('kb_browse_next'	   , kb_browse_next	 );
+				createCookie('kb_1', kb_1);
+				createCookie('kb_2', kb_2);
+				createCookie('kb_3', kb_3);
+				createCookie('kb_4', kb_4);
+				createCookie('kb_5', kb_5);
+				createCookie('kb_6', kb_6);
+				createCookie('kb_7', kb_7);
+				createCookie('kb_8', kb_8);
+				createCookie('kb_1', kb_1);
+				createCookie('kb_1', kb_1);
 		});
 		
 		$('#kb-control-default').click(function(){
@@ -2864,7 +2991,259 @@ $(document).ready(function(){
 		
 		var pieceIndex = 0;
 		var pieceMax = $('input[name="tetramino"]').length;                        
+		var currentrow = 9;
+		var pieceIndexR = 0; // T 5
+					// L 5
+					// J 5
+					// S 3
+					// Z 3
+					// I 3
+					// O 2
+					// G 1
 
+
+		function browse_row1_cycle(){
+			if(currentrow != 1)
+			{
+			currentrow = 1;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr1 input[name="tetramino"]').length)
+			{
+				$('#pr1 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr1 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr1 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr1 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr1 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr1 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+
+		function browse_row2_cycle(){
+			if(currentrow != 2)
+			{
+			currentrow = 2;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr2 input[name="tetramino"]').length)
+			{
+				$('#pr2 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr2 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr2 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr2 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr2 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr2 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row3_cycle(){
+			if(currentrow != 3)
+			{
+			currentrow = 3;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr3 input[name="tetramino"]').length)
+			{
+				$('#pr3 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr3 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr3 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr3 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr3 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr3 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row4_cycle(){
+			if(currentrow != 4)
+			{
+			currentrow = 4;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr4 input[name="tetramino"]').length)
+			{
+				$('#pr4 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr4 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr4 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr4 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr4 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr4 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row5_cycle(){
+			if(currentrow != 5)
+			{
+			currentrow = 5;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr5 input[name="tetramino"]').length)
+			{
+				$('#pr5 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr5 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr5 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr5 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr5 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr5 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row6_cycle(){
+			if(currentrow != 6)
+			{
+			currentrow = 6;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr6 input[name="tetramino"]').length)
+			{
+				$('#pr6 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr6 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr6 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr6 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr6 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr6 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row7_cycle(){
+			if(currentrow != 7)
+			{
+			currentrow = 7;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr7 input[name="tetramino"]').length)
+			{
+				$('#pr7 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr7 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr7 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr7 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr7 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr7 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		function browse_row8_cycle(){
+			if(currentrow != 8)
+			{
+			currentrow = 8;
+			pieceIndexR = 0;
+			}
+
+			if(pieceIndexR < $('#pr8 input[name="tetramino"]').length)
+			{
+				$('#pr8 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr8 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr8 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+				pieceIndexR++;                                     
+			}
+			else
+			{
+			pieceIndexR = 0;
+				$('#pr8 input[name="tetramino"]')[pieceIndexR].checked = true;
+				$($('input[name="tetramino"]')).parent().removeClass("boxcheck");
+				$($('#pr8 input[name="tetramino"]')[pieceIndexR]).parent().addClass("boxcheck");
+				if($('#active').attr('checked'))
+				{
+				D.Playfields[D.current_playfield].spawn_piece($($('#pr8 input[name="tetramino"]')[pieceIndex]).attr('class'));
+				}
+			}
+		}		
+		
 		function browse_next_piece(){
 		
 			if(pieceIndex < pieceMax)
