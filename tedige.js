@@ -395,7 +395,7 @@ $(document).ready(function(){
 			this.Tetrion = new Array();
 			this.Tetrion_Preview = new Array();
 			this.system;
-			this.whiteborder;
+			this.stackborder_status;
 
 			this.border_color;
 			this.hold = "";
@@ -485,31 +485,31 @@ $(document).ready(function(){
 				}
 				
 				
-				if($('#stack-border:checked').val()) // checks if checkbox is true
+				if(this.stackborder_status)
 				{
 					if(y>=0 && this.Tetrion[x][y]['content'] == "_")
 					{
-						this.whiteborder(x,y);
+						this.stackborder(x,y);
 					}	
 					
 					if(y-1>=0 && this.Tetrion[x][y-1]['content'] == "_")
 					{
-						this.whiteborder(x,y-1);
+						this.stackborder(x,y-1);
 					}					
 					
 					if(x+1<this.pf_width && this.Tetrion[x+1][y]['content'] == "_")
 					{
-						this.whiteborder(x+1,y);
+						this.stackborder(x+1,y);
 					}					
 					
 					if(y+1<this.pf_height && this.Tetrion[x][y+1]['content'] == "_")
 					{
-						this.whiteborder(x,y+1);
+						this.stackborder(x,y+1);
 					}										
 					
 					if(x-1>=0 && this.Tetrion[x-1][y]['content'] == "_")
 					{
-						this.whiteborder(x-1,y);
+						this.stackborder(x-1,y);
 					}				
 				}
 				
@@ -1262,7 +1262,7 @@ $(document).ready(function(){
 					TetrionState+=")c"+encodeURIComponent(Base64.encode(this.comment));
 				}
 				
-				if(this.whiteborder)
+				if(this.stackborder_status) //stackborder
 				{
 				TetrionState+=")w1"
 				}
@@ -1380,7 +1380,8 @@ $(document).ready(function(){
 							$('#com').val(this.comment);
 							break;
 						case "w" :
-							this.draw_whiteborder(Split[i].slice(2));
+							this.stackborder_status = Split[i].slice(2);
+							this.draw_stackborder(Split[i].slice(2));
 							break;
 
 						}
@@ -1465,6 +1466,12 @@ $(document).ready(function(){
 					}
 				}
 				$('#com').val(this.comment);
+				
+				if(this.stackborder_status)
+				{
+				this.draw_stackborder(this.stackborder_status);				
+				}
+
 
 			}
 
@@ -1559,8 +1566,8 @@ $(document).ready(function(){
 				$("#export").html("[tedige]"+this.print()+"[/tedige]");
 			}
 
-			this.whiteborder = function(x,y){
-				/* Apply to an empty cell a whiteborder*/
+			this.stackborder = function(x,y){
+				/* Apply to an empty cell a stackborder*/
 				var outbkg ="";	
 
 				if(this.Tetrion[x][y]['content'] == "_")
@@ -1592,7 +1599,7 @@ $(document).ready(function(){
 			}
 						
 			
-			this.draw_whiteborder = function(status){
+			this.draw_stackborder = function(status){
 			
 			var outbkg ="";	
 				
@@ -2322,16 +2329,18 @@ $(document).ready(function(){
 
 				D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
 				right_clicking = 1;                 
-		} );
+		} );		
+		
+		$('#stackborder').change(function(){
 
-		$('#draw-whiteborder').click(function(){
-				D.Playfields[D.current_playfield].whiteborder = 1;
-				D.Playfields[D.current_playfield].draw_whiteborder(1);
-		})
-
-		$('#remove-whiteborder').click(function(){
-				D.Playfields[D.current_playfield].whiteborder = 0;
-				D.Playfields[D.current_playfield].draw_whiteborder(0);
+				if($('#stackborder:checked').val())
+				{
+				D.Playfields[D.current_playfield].stackborder_status = 1;				
+				}
+				else{
+				D.Playfields[D.current_playfield].stackborder_status = 0;									
+				}
+				D.Playfields[D.current_playfield].draw_stackborder(D.Playfields[D.current_playfield].stackborder_status);
 		})		
 		
 		$('#com').change(function(){

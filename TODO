@@ -2,7 +2,6 @@
 *TO DO*
 *******
 MAJOR FEATURES
-- white pixel border
 - interface cleanup
 - gif generation (use imagemagick)
 - frame browser like Tage
@@ -65,6 +64,10 @@ is the shift next, the double arrow?
 oh
 [16:13] PetitPrince:
 i though you meant the arrows on keyboard
+-what I had in mind was something like ctrl+s selects the s tetromino or something like that
+-i don't know if it's a crypto memory but i also remember thinking about pressing [1-9] to get the good tetramino
+[02:10] PetitPrince:
+pressing the number several time would iterate each row
 
 TO EXPAND
 - undo/redo: there's could be a *much* more powerful system than just saving the last frame. See photoshop for instance...
