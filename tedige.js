@@ -31,6 +31,7 @@ $(document).ready(function(){
 		var is_clicking = 0;
 		var right_clicking = 0;
 		var left_remove = 0;
+		
 		var defaultsystem = "ARS";
 		var defaultborder = "Gray";
 		
@@ -392,8 +393,7 @@ $(document).ready(function(){
 			this.pf_width = 10; //default values
 			this.pf_height = 20; //default values
 			this.comment ="";
-			this.Tetrion = new Array();
-			this.Tetrion_Preview = new Array();
+			this.Tetrion = new Array();		// 
 			this.system;
 			this.stackborder_status;
 
@@ -484,8 +484,7 @@ $(document).ready(function(){
 					}
 				}
 				
-				
-				if(this.stackborder_status)
+				if(this.stackborder_status) // draw the surrounding white pixel border; this is a fake border: we paint the surrounding blocks with border images
 				{
 					if(y>=0 && this.Tetrion[x][y]['content'] == "_")
 					{
@@ -563,6 +562,9 @@ $(document).ready(function(){
 			}
 
 			this.modify_hold = function(newhold) {
+				/**
+				* Changes the hold piece
+				*/
 				this.hold = newhold ;
 				var holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';
 				$('#hold').val(newhold); // this is for loading purpose
@@ -638,7 +640,9 @@ $(document).ready(function(){
 			}
 
 			this.paint_active = function(){
-				// looks for something in the active layer, paint it on the inactive layer
+				/**
+				* Looks for something in the active layer, paint it on the inactive layer
+				*/
 				for(var i=0;i<this.pf_width;i++)
 				{
 					for(var j=0;j<this.pf_height;j++)
@@ -651,11 +655,18 @@ $(document).ready(function(){
 				}
 			}
 			this.lock_active = function(){
+				/**
+				* Locking is simply paint + remove active  
+				*/				
 				this.paint_active();
 				this.rebootActive();
 			}
 			
 			this.lookup_block = function(id) {
+				/**
+				* Looks for the block type at the coordinate in parameter (e.g. p3x2)
+				*/				
+
 				var x_begin = id.indexOf('p');
 				var y_begin = id.indexOf('x');
 
@@ -833,6 +844,10 @@ $(document).ready(function(){
 			}
 
 			this.advance_next = function(){
+				/**
+				* Advance the next piece, as if next1 was distributed
+				* possible expansion: take next3 piece as parameter
+				*/				
 				
 				this.modify_next1(this.next2);	
 				this.modify_next2(this.next3);	
@@ -842,7 +857,7 @@ $(document).ready(function(){
 			this.spawn_piece = function(piece_nature){
 				/**
 				*	Spawn an active piece to the top of a playfield, juste like a normal game would do
-				*  TODO: implement IRS. Problem: the playfield need to be 2 case heigher ine the Y direction
+				*  TODO: implement IRS. Problem: the playfield need to be 2 case heigher in the Y direction
 				*		  (4 in SRS)                   
 				*/
 				var position_x = parseInt(this.pf_width) / 2;
@@ -1567,7 +1582,10 @@ $(document).ready(function(){
 			}
 
 			this.stackborder = function(x,y){
-				/* Apply to an empty cell a stackborder*/
+				/**
+				* Add appropriate white border to an empty cell
+				*/				
+				
 				var outbkg ="";	
 
 				if(this.Tetrion[x][y]['content'] == "_")
@@ -1600,7 +1618,10 @@ $(document).ready(function(){
 						
 			
 			this.draw_stackborder = function(status){
-			
+				/**
+				* Apply stackborder to everycell
+				*/				
+				
 			var outbkg ="";	
 				
 			for(var i=0;i<this.pf_width;i++)
@@ -1650,9 +1671,11 @@ $(document).ready(function(){
 		/* -------------------------------------------------------------
 		More general function here
 		------------------------------------------------------------- */
+	
 		function alphanumconvert(input){
 			/**
-			* convert a letter to his corresponding number and vice-versa.
+			* Convert a letter to his corresponding number and vice-versa.
+			* Possible expansion: add [A-Z] to avec 46 more possibilites
 			*/
 			var output;
 			switch(input)
@@ -2873,7 +2896,14 @@ $(document).ready(function(){
 						}
 						if(event.keyCode == kb_next)
 						{
-							D.next_playfield();
+							if(D.current_playfield == D.Playfields.length-1)
+							{
+								D.new_copy_playfield();
+							}
+							else
+							{
+								D.next_playfield();
+							}
 						}
 						if(event.keyCode == kb_paint)
 						{
@@ -3291,13 +3321,6 @@ $(document).ready(function(){
 		
 });
 
-// deep copy clone function found in snipplr
-                                                                                                                                                                                     
-Array.prototype.clone = function () {var a = new Array(); for (var property in this) {a[property] = typeof (this[property]) == 'object' ? this[property].clone() : this[property]} return a}
-
-
-
-                                                                                                                                                                            
 // cookies function from http://www.quirksmode.org/js/cookies.html
 
 function createCookie(name,value,days) {
