@@ -1171,15 +1171,14 @@ $(document).ready(function(){
 				* Example:
 				* )rARS_)geeT-feT-dfT-efT-ffT-cgT-dgT-fgT-fhT-fiT-fjT-fkT-flT-fmT-fnT-_)cT25lIGJsdWU%3D+)rARS_)gdcL-ecL-fcL-ddL-fdL-gdL-ceL-geL-heL-cfL-hfL-cgL-hgL-chL-hhL-hiL-gjL-fkL-gkL-flL-emL-dnL-enL-doL-dpL-epL-fpL-gpL-hpL-_)cVHdvIG9yYW5nZQ%3D%3D+)rARS_)gbfZ-cfZ-dfZ-efZ-fgZ-fhZ-fiZ-cjZ-djZ-ejZ-fjZ-ekZ-flZ-glZ-fmZ-gmZ-enZ-fnZ-boZ-coZ-doZ-eoZ-_)ahc-Oi_)cVGhyZWUgZ3JlZW4gYW5kIGFjdGl2ZSB5ZWxsb3c%3D+
 				* <- that should be One blue, Two Orange, Three green and yellow active.
-
-				* Old string, disregard that
-				* irARS_igdcT-ecT-fcT-edT-+igfbL-gbL-gcL-gdL-_icSSBsb3ZlIFRldHJpcyAh+igfbL-gbL-gcL-gdL-_iadd-Zcw_icxVmVyeSBtdWNoIG11Y2ggIQ%3D%3D+
-				* <-----Frame 1---->|<----------------Frame 2---------------->|<-----------------------Frame 3--------------------------->|
-				* idrotÂ¦id<--cases coord->|id<- cases coord->Â¦id<- comment string ->|id<-pieces info-->Â¦id<actv>Â¦id<----- comment string------->|
-				* idrotÂ¦id<->Â¦<->Â¦<->Â¦<->Â¦|id<->Â¦<->Â¦<->Â¦<-> Â¦                      |                  Â¦        Â¦                               |
-				*        |                                                                          |
-				*        ---> ecT: e = 5 ; c = 3 ; so at 5x3 there's a T case                       _--> dd-Zcw : d = 4, so at 4x4 there's a Z in clockwise orientation
+                                *
+				* Alt encoding: list every piece type and then they positions, e.g.
 				*
+				* )gTO(ee-fe-df-df-ef-ff-cg(fj-fk-fl-fm
+				* | |        |-> 1st coord      |-> 2nd
+				* | |-> piece types
+				* |-> c
+				ontrol character
 				*/
 				var TetrionState=""; // our final string
 				var tmp=""; // an utility string, may be flushed at will
@@ -1663,6 +1662,30 @@ $(document).ready(function(){
 			}
 				
 			}
+			
+
+			this.recursive_fill = function(x,y, replaced, replacer) {
+				x = parseFloat(x);
+				y = parseFloat(y);
+				
+				if (this.Tetrion[x][y]['content'] != replaced)
+					return;
+
+				this.modify(x, y, replacer);
+
+				if (y-1 >= 0)
+					this.recursive_fill(x, y-1, replaced, replacer);
+
+				if (y+1 < this.pf_height)
+					this.recursive_fill(x, y+1, replaced, replacer);
+
+				if (x+1 < this.pf_width)
+					this.recursive_fill(x+1, y, replaced, replacer);
+
+				if (x-1 >= 0)
+					this.recursive_fill(x-1, y, replaced, replacer);
+			}			
+			
 			
 			
 		}
@@ -2302,6 +2325,7 @@ $(document).ready(function(){
 				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 				var is_active = $('#active').attr('checked');
 				var is_rectangle_mode = $('#rectangular-fill').attr('checked');
+				var is_recursive_fill_mode = $('#recursive-fill').attr('checked');
 				if(is_rectangle_mode)
 				{
 					if(have_coord)
@@ -2320,6 +2344,12 @@ $(document).ready(function(){
 					have_coord = true;
 					$('#'+clicked).css('background-color','green');
 					}
+				}
+				else if(is_recursive_fill_mode)
+				{
+					var x_location = clicked.slice(1,clicked.indexOf("x"));	
+					var y_location = clicked.slice(clicked.indexOf("x")+1);
+					D.Playfields[D.current_playfield].recursive_fill(x_location, y_location, D.Playfields[D.current_playfield].lookup_block(clicked), piece_nature);
 				}
 				else
 				{
