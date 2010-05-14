@@ -413,18 +413,20 @@ $(document).ready(function(){
 
 			}
 			
-			this.Tetrion_History;
+			this.Tetrion_History = new Array();
+			
 			this.Tetrion_History_Save = function (){
 				/**
 				* Stores the last frame in memory
 				*/
-				Tetrion_History = this.print();
+				this.Tetrion_History.push(this.print());
 			}
 			this.Tetrion_History_Recall = function (){
 				/**
 				* Load the last frame in memory
 				*/
-				this.load_pf(Tetrion_History);
+				this.load_pf(this.Tetrion_History[this.Tetrion_History.length-1]);
+				this.Tetrion_History.pop();
 			}
 
 			this.init=function(){
