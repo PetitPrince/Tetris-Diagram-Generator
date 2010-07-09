@@ -74,7 +74,7 @@ $(document).ready(function(){
 					for(var i=0; i<this.Playfields[0].pf_width;i++)
 					{
 						
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=""><div class="prev"></div></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class=""><div class="active"><div class="decoration"><div class="preview"></div></div></div></td>';
 						
 						// classes are p<value> and not just <value> because CSS doesn't support
 						// classes that begins with a number (theorically yes, but then you'll
@@ -383,11 +383,11 @@ $(document).ready(function(){
 		function Playfield(){
 			/**
 			* Playfield: an object that stores a single state of the game
-			* It two arrays      : - one for the pieces, that has three layers:
-			*							- the inactive layer (unmoveable blocks). Data is stored as a simple character
-			*							- the active layer (blocks that players can move). Data is stored as a simple character
-			*							- the active center (so one can rotate). Data is stored as 1 character for the piece nature and 1-3 character for the orientation
-			*						- one for the mouseover preview
+			* Tetrion is the main multid-dimensionnal array that contains all the necessary informations
+			* Tetrion[i][j]['content']		: inactive layer (unmovable blocks). Data is stored as a simple character. Displayed as the main cell background
+			* Tetrion[i][j]['content_active']	: active layer (blocks that players can move). Data is stored as a simple character. Displayed as a background of a .active div inside the main cell.
+			* Tetrion[i][j]['center_active']	: active center layer  (used to rotate the piece). Data is stored as 1 character for the piece nature and 1-3 character for the orientation
+			* Tetrion[i][j]['decoration']		: decoration layer (i.e. arrows, highlight etc.) Displayed as a background of a .decoration div inside the main cell.
 			*/
 
 			this.pf_width = 10; //default values
@@ -403,6 +403,7 @@ $(document).ready(function(){
 			this.next2 = "";
 			this.next3 = "";
 
+			this.Tetrion_History = new Array();			
 
 			this.change_size = function(newwidth,newheight){
 
@@ -413,21 +414,6 @@ $(document).ready(function(){
 
 			}
 			
-			this.Tetrion_History = new Array();
-			
-			this.Tetrion_History_Save = function (){
-				/**
-				* Stores the last frame in memory
-				*/
-				this.Tetrion_History.push(this.print());
-			}
-			this.Tetrion_History_Recall = function (){
-				/**
-				* Load the last frame in memory
-				*/
-				this.load_pf(this.Tetrion_History[this.Tetrion_History.length-1]);
-				this.Tetrion_History.pop();
-			}
 
 			this.init=function(){
 				/**
@@ -452,6 +438,7 @@ $(document).ready(function(){
 						this.Tetrion[i][j]['content']="_";
 						this.Tetrion[i][j]['content_active']="";
 						this.Tetrion[i][j]['center_active']="";
+						this.Tetrion[i][j]['decoration']="";
 					}
 				}
 
@@ -469,7 +456,8 @@ $(document).ready(function(){
 				if(value == "_")
 				{
 					if(this.Tetrion[x][y]['content_active'])
-						{}
+						{
+						}
 					else
 					{
 						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
@@ -478,7 +466,8 @@ $(document).ready(function(){
 				else
 				{
 					if(this.Tetrion[x][y]['content_active'])
-						{}
+						{
+						}
 					else
 					{
 						$('#p'+x+'x'+y).addClass('inactive');
@@ -486,7 +475,7 @@ $(document).ready(function(){
 					}
 				}
 				
-				if(this.stackborder_status) // draw the surrounding white pixel border; this is a fake border: we paint the surrounding blocks with border images
+				if(this.stackborder_status) // draw the surrounding white pixel border; fake border method: checks if the surrounding cell is empty, then paint it with the apropriate the surrounding blocks with border images
 				{
 					if(y>=0 && this.Tetrion[x][y]['content'] == "_")
 					{
@@ -514,10 +503,6 @@ $(document).ready(function(){
 					}				
 				}
 				
-				
-				
-				
-				
 			}
 
 			this.modify_active=function(x,y,value){
@@ -530,21 +515,22 @@ $(document).ready(function(){
 				$('#p'+x+'x'+y).removeClass();
 				if(value)
 				{
-					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
-					$('#p'+x+'x'+y).addClass("active");
+					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+					$('#p'+x+'x'+y).addClass("hasactive");
 				}
 				else // if we set the active layer to something empty, add the class of the non-active case
 				{
 					if(this.Tetrion[x][y]['content'] == "_") // <- "_" is an empty cell. The class doesn't have any g in it.
 					{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');
+						$('#p'+x+'x'+y+' .active').css('background-image', '');
 					}
 					else
 					{
 						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');
 						$('#p'+x+'x'+y).addClass("inactive")
+		
 					}
-					$('#p'+x+'x'+y).removeClass("active");
+					$('#p'+x+'x'+y).removeClass("hasactive");
 				}
 			}
 			this.modify_active_center = function(x,y,value){
@@ -632,15 +618,32 @@ $(document).ready(function(){
 				*	Calls for an update of the display at the selected point
 				*/
 				$('#p'+x+'x'+y).removeClass("preview");
-				$('#p'+x+'x'+y+' .prev').removeClass("transparent-preview");
+				$('#p'+x+'x'+y+' .preview').removeClass("transparent-preview");
 				if(value)
 				{
 					$('#p'+x+'x'+y).addClass("preview");
-					$('#p'+x+'x'+y+' .prev').addClass("transparent-preview");
+					$('#p'+x+'x'+y+' .preview').addClass("transparent-preview");
 
 				}
 			}
 
+			this.modify_decoration=function(x,y,value){
+				/**
+				*	Modifies the type of decoration of a single inactive cell in the array at the selected point.
+				*	Also calls an update of the display.
+				*/
+
+				this.Tetrion[x][y]["decoration"]=value;
+				$('#p'+x+'x'+y+' .decoration').css('');
+				if(value)
+				{
+					{
+						$('#p'+x+'x'+y+' .decoration').css('background-image', 'url(\'img/blocks/utility/' + value + '.png\')');
+					}
+				}
+								
+			}			
+			
 			this.paint_active = function(){
 				/**
 				* Looks for something in the active layer, paint it on the inactive layer
@@ -677,25 +680,17 @@ $(document).ready(function(){
 
 				return this.Tetrion[x][y]['content'];
 			}
-
-			this.add_piece = function(current,modifier,piece_nature,piece_orientation,is_active){
+			
+			this.modify_set_piece = function(current,modification_type,piece_nature,piece_orientation,is_active){
 				/**
 				* Another method that modifies the playfield, but in some more complicated ways (it *uses* the other modify methods).
-				* I know, it has an awful name.
 				*
 				* Takes as parameter:
 				*		- current: array of the coordinate of the current case.
-				*		- modifier: a flag that tells whether the method should add a piece in the playfield, or should add or remove a preview
+				*		- modification_type: add, remove preview, modify the active or inactive layer ?
 				*		- piece_nature: the nature of the piece, e.g. L, S, T, garbage, item...
 				*		- piece_orientation: the orientation of the piece: flat, upside down, ...
-				*		- is_active: if the piece we add is an active one.
 				*/
-
-				/* This method:
-				1. Get the coordinate of the current case
-				2. Compute the coordinate of the other case according to the selected tetramino type
-				3. Modify the playfield array accordingly
-				4. Calls an update */
 
 
 				var center = new Array();
@@ -759,27 +754,23 @@ $(document).ready(function(){
 
 				if(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y)) // we don't want any out of bounds pieces
 				{
-					switch (modifier) // let us modify our 4 cases
+					switch (modification_type) // let us modify our 4 cases
 					{
-					case "class":
-						if(is_active)
-						{
+					case "active":
 							this.rebootActive();
 							this.modify_active(center.x,center.y,piece_nature);
 							this.modify_active_center(center.x,center.y,piece_orientation);
 							this.modify_active(t2.x,t2.y,piece_nature);
 							this.modify_active(t3.x,t3.y,piece_nature);
 							this.modify_active(t4.x,t4.y,piece_nature);
-						}
-						else // if_inactive
-						{
+							break;
+					case "inactive": 					
 							this.Tetrion_History_Save(); //history
 							this.modify(center.x,center.y,piece_nature);
 							this.modify(t2.x,t2.y,piece_nature);
 							this.modify(t3.x,t3.y,piece_nature);
 							this.modify(t4.x,t4.y,piece_nature);
-						}
-						break;
+							break;
 					case "addpreview":
 						this.modify_preview(center.x,center.y,true);
 						this.modify_preview(t2.x,t2.y,true);
@@ -794,8 +785,6 @@ $(document).ready(function(){
 						break;
 					}
 				}
-				
-
 			}
 			
 			this.rectangular_fill = function(x_start,y_start,x_end,y_end,nature){
@@ -866,7 +855,7 @@ $(document).ready(function(){
 				var position_y = 3;
 				var spawn_position = "p"+position_x+"x0"
 				
-				this.add_piece(spawn_position,"class",piece_nature,piece_nature+"i",true);
+				this.modify_set_piece(spawn_position,"active",piece_nature,piece_nature+"i");
 			}
 
 			this.line_clear = function () {
@@ -1005,7 +994,7 @@ $(document).ready(function(){
 				var piece_nature = the_center.slice(0,1); // extract the piece nature and orientation from the center_active string
 				var piece_orientation = the_center.slice(1);
 
-				switch(direction) //computes what to modify with the center position ?
+				switch(direction) //computes what to modify with the center position
 				{
 				case "none":
 					center_position.x = parseFloat(center_position.x);
@@ -1164,32 +1153,31 @@ $(document).ready(function(){
 				*	 -> "n" : "next" preview
 				*   -> "m" : "next" + 1
 				*   -> "o  : "next" + 2
-				*   -> "g" : "garbage", or the inactive pieces coordinates
+				*   -> "g" : "garbage": the inactive pieces coordinates
 				*			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
-				*   -> "a" : "active", or the active center coordoniates
+				*   -> "a" : "active": or the active center coordoniates
 				*			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
+				*   -> "d" : "decoration": the third 'decoration' layer
 				*   -> "c" : "comment", encoded in base64
 				*
 				* Example:
 				* )rARS_)geeT-feT-dfT-efT-ffT-cgT-dgT-fgT-fhT-fiT-fjT-fkT-flT-fmT-fnT-_)cT25lIGJsdWU%3D+)rARS_)gdcL-ecL-fcL-ddL-fdL-gdL-ceL-geL-heL-cfL-hfL-cgL-hgL-chL-hhL-hiL-gjL-fkL-gkL-flL-emL-dnL-enL-doL-dpL-epL-fpL-gpL-hpL-_)cVHdvIG9yYW5nZQ%3D%3D+)rARS_)gbfZ-cfZ-dfZ-efZ-fgZ-fhZ-fiZ-cjZ-djZ-ejZ-fjZ-ekZ-flZ-glZ-fmZ-gmZ-enZ-fnZ-boZ-coZ-doZ-eoZ-_)ahc-Oi_)cVGhyZWUgZ3JlZW4gYW5kIGFjdGl2ZSB5ZWxsb3c%3D+
 				* <- that should be One blue, Two Orange, Three green and yellow active.
                                 *
-				* Alt encoding: list every piece type and then they positions, e.g.
+				* Alt encoding (not implemented yet): list every piece type and then they positions, e.g.
 				*
 				* )gTO(ee-fe-df-df-ef-ff-cg(fj-fk-fl-fm
 				* | |        |-> 1st coord      |-> 2nd
 				* | |-> piece types
-				* |-> c
-				ontrol character
+				* |-> control character
 				*/
 				var TetrionState=""; // our final string
 				var tmp=""; // an utility string, may be flushed at will
 				var coord_x;
 				var coord_y;
 
+
 				// We're encoding for one frame only, the rest is handled by the higher class
-
-
 
 				// "r": since a pf has *always" a rotation system, we're beginning with it
 				if(this.system)
@@ -1273,6 +1261,28 @@ $(document).ready(function(){
 				}
 
 
+				// "d" same old song
+
+				for(var j=0; j<this.pf_height;j++) //inactive
+				{
+					for(var i=0; i<this.pf_width;i++)
+					{
+						if(this.Tetrion[i][j]["decoration"])
+						{
+							coord_x = alphanumconvert(i);
+							coord_y = alphanumconvert(j);
+							tmp += coord_x+coord_y+this.Tetrion[i][j]["decoration"]+"-";
+						}
+					}
+				}
+
+				if(tmp)
+				{
+					TetrionState+=")d";
+					TetrionState+=tmp+"_";
+					tmp=""; // let's reset tmp for further use
+				}				
+				
 				if(this.comment) //comment
 				{
 					TetrionState+=")c"+encodeURIComponent(Base64.encode(this.comment));
@@ -1311,7 +1321,7 @@ $(document).ready(function(){
 
 				for(var i=0;i<Split.length;i++) // for each of its constituent, analyse what it is
 				{
-					if(Split[i].charAt(0) == ")") // the first character must be the identifier z
+					if(Split[i].charAt(0) == ")") // the first character must be the identifier ')'
 					{
 
 						switch(Split[i].charAt(1)) // let's see what is second character...
@@ -1343,6 +1353,17 @@ $(document).ready(function(){
 								coord_x = alphanumconvert(inactiveSplit[j].charAt(0));
 								coord_y = alphanumconvert(inactiveSplit[j].charAt(1));
 								this.modify(coord_x,coord_y,inactiveSplit[j].charAt(2));
+							}
+							break;
+						case "d" :
+							var inactiveSplit = Split[i].slice(2).split("-")
+							var coord_x;
+							var coord_y;
+							for(var j=0 ; j<inactiveSplit.length-1 ; j++)
+							{
+								coord_x = alphanumconvert(inactiveSplit[j].charAt(0));
+								coord_y = alphanumconvert(inactiveSplit[j].charAt(1));
+								this.modify_decoration(coord_x,coord_y,inactiveSplit[j].slice(2));
 							}
 							break;
 						case "a" :
@@ -1630,9 +1651,11 @@ $(document).ready(function(){
 			
 				for(var j=0;j<this.pf_height;j++)
 				{
-					if( this.Tetrion[i][j]['content'] == "_")
+					if(this.Tetrion[i][j]['content'] == "_")
 					{
 						
+						if(this.Tetrion[i][j]['content_active'] == "")
+						{
 						if(status)
 						{
 							if(j-1>=0 && this.Tetrion[i][j-1]['content'] != "_")
@@ -1657,6 +1680,7 @@ $(document).ready(function(){
 						}
 						$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');
 						outbkg ="";
+						}
 					}
 					
 				}
@@ -1688,6 +1712,20 @@ $(document).ready(function(){
 					this.recursive_fill(x-1, y, replaced, replacer);
 			}			
 			
+			
+			this.Tetrion_History_Save = function (){
+				/**
+				* Stores the last frame in memory
+				*/
+				this.Tetrion_History.push(this.print());
+			}
+			this.Tetrion_History_Recall = function (){
+				/**
+				* Load the last frame in memory
+				*/
+				this.load_pf(this.Tetrion_History[this.Tetrion_History.length-1]);
+				this.Tetrion_History.pop();
+			}
 			
 			
 		}
@@ -2218,6 +2256,9 @@ $(document).ready(function(){
 
 		var D = new Diagram();
 		D.init();
+		
+// save handler
+		
 		var URLHash = window.location.hash;
 		if(URLHash) // load if there's something in the url
 		{
@@ -2264,6 +2305,9 @@ $(document).ready(function(){
 				}
 		})
 
+// mouse handler
+		
+		
 		$("#load-button").click(function(){
 				if ($('input[name=export]:checked').val() == 'All') {
 					var bigstr = $("#import").val();
@@ -2279,41 +2323,50 @@ $(document).ready(function(){
 		$('body').mouseup(function(){is_clicking = 0; right_clicking = 0; left_remove = 0;});
 		$('body').rightMouseDown(function(){is_clicking = 0; right_clicking = 1;});
 		$('body').rightMouseUp(function(){is_clicking = 0; right_clicking = 0;});
-
+		
 		$('#diagram td').hover(function()
 			{
 				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
 				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 				var is_active = $('#active').attr('checked');
 
-				// remove blocks by dragging with a right click
-				if(right_clicking)
+				if(right_clicking) // right click -> remove blocks by dragging with a right click
 				{
-					D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"class","_",piece_orientation,is_active); // replace with empty
+
+					D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive","_",piece_orientation); // replace with empty
 				}
-				else if(is_clicking)
+				else if(is_clicking) // left click
 				{
+
 					// remove blocks by dragging with a left click
 					if (left_remove) {
-						D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"class","_",piece_orientation,is_active);
+						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive","_",piece_orientation);
 					}
 					// place blocks by dragging with a left click
 					else {
-						D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"class",piece_nature,piece_orientation,is_active); //add class
+						if(is_active)
+						{
+						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"active",piece_nature,piece_orientation); //add class						
+						}
+						else
+						{
+						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive",piece_nature,piece_orientation); //add class
+						}
 					}
 				}
-				else
+				else // hover enter: add preview
 				{
-					D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"addpreview",piece_nature,piece_orientation,is_active); // add preview
+					D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"addpreview",piece_nature,piece_orientation,is_active); // add preview
 				}
 
 			},                       
 			function(){
 				{
+					// hover quit: remove preview
 					var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
 					var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 					var is_active = $('#active').attr('checked');
-					D.Playfields[D.current_playfield].add_piece($(this).attr("id"),"removepreview",piece_nature,piece_orientation,is_active); // remove preview
+					D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"removepreview",piece_nature,piece_orientation,is_active); // remove preview
 				}
 			}
 			);
@@ -2328,10 +2381,22 @@ $(document).ready(function(){
 				var is_active = $('#active').attr('checked');
 				var is_rectangle_mode = $('#rectangular-fill').attr('checked');
 				var is_recursive_fill_mode = $('#recursive-fill').attr('checked');
-				if(is_rectangle_mode)
+
+				if(piece_nature == 'decoration')
+				{
+				var x_begin = clicked.indexOf('p');
+				var y_begin = clicked.indexOf('x');
+
+				var x = parseInt(clicked.substring(x_begin+1, y_begin));
+				var y = parseInt(clicked.substring(y_begin+1));
+				
+					D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);						
+				}                                                                             
+				
+				else if(is_rectangle_mode) // rectangular fill
 				{
 					if(have_coord)
-					{
+					{                                                                      
 					$('#p'+rect_x_start+'x'+rect_y_start).css('background-color','');
 					rect_x_end = clicked.slice(1,clicked.indexOf("x"));	
 					rect_y_end = clicked.slice(clicked.indexOf("x")+1);
@@ -2347,30 +2412,30 @@ $(document).ready(function(){
 					$('#'+clicked).css('background-color','green');
 					}
 				}
-				else if(is_recursive_fill_mode)
+				else if(is_recursive_fill_mode) // recursive fill
 				{
 					var x_location = clicked.slice(1,clicked.indexOf("x"));	
 					var y_location = clicked.slice(clicked.indexOf("x")+1);
 					D.Playfields[D.current_playfield].recursive_fill(x_location, y_location, D.Playfields[D.current_playfield].lookup_block(clicked), piece_nature);
 				}
-				else
+				else // normal click
 				{
 					
 					if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) {
 						
 						if(is_active)
 						{
-							D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+						D.Playfields[D.current_playfield].modify_set_piece(clicked,"active",piece_nature,piece_orientation);
 						left_remove = 1;
 						}
 						else
 						{
-						D.Playfields[D.current_playfield].add_piece(clicked,"class","_",piece_orientation,is_active);
+						D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive","_",piece_orientation);
 						left_remove = 1;
 						}
 					}
 					else {
-						D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+						D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation,is_active);
 					}
 				}
 				// TODO: pf_modifly(clicked, "highlight");
@@ -2382,9 +2447,12 @@ $(document).ready(function(){
 				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 				var is_active = $('#active').attr('checked');
 
-				D.Playfields[D.current_playfield].add_piece(clicked,"class",piece_nature,piece_orientation,is_active);
+				D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation);
 				right_clicking = 1;                 
 		} );		
+
+// button handler
+
 		
 		$('#stackborder').change(function(){
 
@@ -2574,15 +2642,6 @@ $(document).ready(function(){
 				D.Playfields[D.current_playfield].modify_next3($('#next3').val());
 		})
 
-		$('.preview').click(function(){
-				return false;
-		})
-		$('.preview').mousedown(function(){
-				return false;
-		})
-		$('.preview').mouseup(function(){
-				return false;
-		})
 		/*------------------------ Keyboard control ------------------ */
 		
 		var kb_modifier;
