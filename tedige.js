@@ -288,7 +288,7 @@ $(document).ready(function(){
 					code += '&#060;diagram';
 
 					// border color
-					if (this.Playfields[playfield].border_color != "")
+					if (this.Playfields[playfield].border_color)
 						code += ' border=' + this.Playfields[playfield].border_color;
 
 					// width other than 10
@@ -296,11 +296,11 @@ $(document).ready(function(){
 						code += ' width=' + parseInt($('#width').val());
 
 					// system
-					if (this.Playfields[playfield].system != "")
+					if (this.Playfields[playfield].system)
 						code += ' system=' + this.Playfields[playfield].system;
 
 					// hold
-					if (this.Playfields[playfield].hold != "")
+					if (this.Playfields[playfield].hold)
 						code += ' hold=' + this.Playfields[playfield].hold;
 
 					// next
@@ -422,8 +422,8 @@ $(document).ready(function(){
 				*/
 				// this.pf_width = parseInt($('#width').val());
 				// this.pf_height = parseInt($('#height').val());
-				this.system = defaultsystem; 
-				$('#system').val(defaultsystem); // this is for loading purpose
+//				this.system = defaultsystem; 
+//				$('#system').val(defaultsystem); // this is for loading purpose
 
 				for(var i=0;i<this.pf_width;i++)
 				{
@@ -460,7 +460,14 @@ $(document).ready(function(){
 						}
 					else
 					{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+						if(this.system)
+						{
+							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');						
+						}
+						else // fallback to default system
+						{
+							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');
+						}
 					}
 				}
 				else
@@ -471,7 +478,15 @@ $(document).ready(function(){
 					else
 					{
 						$('#p'+x+'x'+y).addClass('inactive');
+						if(this.system)
+						{
 						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+						
+						}
+						else //fallback to default system
+						{
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');
+						}
 					}
 				}
 				
@@ -515,7 +530,15 @@ $(document).ready(function(){
 				$('#p'+x+'x'+y).removeClass();
 				if(value)
 				{
-					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
+					if(this.system)
+					{
+					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');					
+					}
+					else
+					{
+					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');						
+					}
+
 					$('#p'+x+'x'+y).addClass("hasactive");
 				}
 				else // if we set the active layer to something empty, add the class of the non-active case
@@ -526,7 +549,14 @@ $(document).ready(function(){
 					}
 					else
 					{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');
+						if(this.system)
+						{
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');						
+						}
+						else
+						{
+						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[x][y]['content'] + 'Tet.png\')');													
+						}
 						$('#p'+x+'x'+y).addClass("inactive")
 		
 					}
@@ -554,28 +584,60 @@ $(document).ready(function(){
 				* Changes the hold piece
 				*/
 				this.hold = newhold ;
-				var holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';
+				var holddisplay;
+				if(this.system)
+				{
+				holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';				
+				}
+				else
+				{
+				holddisplay = 'img/blocks/' + defaultsystem + '/hold/' + defaultsystem + 'hold' + this.hold + '.png';					
+				}
 				$('#hold').val(newhold); // this is for loading purpose
 				$('#holdbox').attr("src", holddisplay);
 			}
 
 			this.modify_next1 = function(newnext1) {
 				this.next1 = newnext1
-				var next1display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';
+				var next1display;
+				if(this.system)
+				{
+				next1display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';				
+				}
+				else
+				{
+				next1display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next1 + '.png';									
+				}
 				$('#next1').val(newnext1);
 				$('#next1box').attr("src", next1display);
 			}
 
 			this.modify_next2 = function(newnext2) {
 				this.next2 = newnext2
-				var next2display = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'NEXT' + this.next2 + '.png';
+				var next2display; 
+				if(this.system)
+				{
+				next2display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next2 + '.png';				
+				}
+				else
+				{
+				next2display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next2 + '.png';									
+				}
 				$('#next2').val(newnext2);
 				$('#next2box').attr("src", next2display);
 			}
 
 			this.modify_next3 = function(newnext3) {
 				this.next3 = newnext3
-				var next3display = 'img/blocks/' + this.system + '/smallnext/' + this.system + 'NEXT' + this.next3 + '.png';
+				var next3display; 
+				if(this.system)
+				{
+				next3display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next3 + '.png';				
+				}
+				else
+				{
+				next3display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next3 + '.png';									
+				}
 				$('#next3').val(newnext3);
 				$('#next3box').attr("src", next3display);
 			}
@@ -607,6 +669,9 @@ $(document).ready(function(){
 					break;
 				case "none" :
 					$('table#diagram').css('border', '5px solid transparent');
+					break;
+				default:
+					$('table#diagram').css('border', '5px solid gray');
 					break;
 				}
 				$('#border_color').val(newborder);
@@ -1179,7 +1244,7 @@ $(document).ready(function(){
 
 				// We're encoding for one frame only, the rest is handled by the higher class
 
-				// "r": since a pf has *always" a rotation system, we're beginning with it
+				// "r"
 				if(this.system)
 				{
 					TetrionState += ")r"+this.system+"_";
@@ -1464,9 +1529,15 @@ $(document).ready(function(){
 				case "none" :
 					$('table#diagram').css('border', '5px solid transparent');
 					break;
+				default :
+					$('table#diagram').css('border', '5px solid gray');
+					break;
+				
 				}
 
 				// sets hold_and next
+				if(this.system)
+				{
 				$('#holdbox').attr("src", 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png');
 
 				$('#next1box').attr("src", 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png');
@@ -1474,7 +1545,20 @@ $(document).ready(function(){
 				$('#next2box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next2 + '.png');
 
 				$('#next3box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next3 + '.png');
+				
+				}
 
+				else
+				{
+				$('#holdbox').attr("src", 'img/blocks/' + defaultsystem + '/hold/' + defaultsystem + 'hold' + this.hold + '.png');
+
+				$('#next1box').attr("src", 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next1 + '.png');
+
+				$('#next2box').attr("src", 'img/blocks/' + defaultsystem + '/smallnext/' + defaultsystem + 'next' + this.next2 + '.png');
+
+				$('#next3box').attr("src", 'img/blocks/' + defaultsystem + '/smallnext/' + defaultsystem + 'next' + this.next3 + '.png');
+				}
+				
 				// sets every cell
 				for(var i=0;i<this.pf_width;i++)
 				{
@@ -1485,18 +1569,39 @@ $(document).ready(function(){
 						{
 							//$('#p'+i+'x'+j).addClass(this.system+this.Tetrion[i][j]['content_active']);
 							//$('#p'+i+'x'+j).addClass("active");
-							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');
+							if(this.system)
+							{
+							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');							
+							}
+							else
+							{
+							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');							
+							}
 							$('#p'+i+'x'+j).addClass("active");
 						}
 						else
 						{
 							if(this.Tetrion[i][j]['content'] == "_") // <- if empty cell
 							{
+								if(this.system)
+								{
 								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+								}
+								else
+								{
+								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+								}
 							}
 							else
 							{
+								if(this.system)
+								{
 								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+								}
+								else
+								{
+								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content'] + 'Tet.png\')');
+								}
 								$('#p'+i+'x'+j).addClass("inactive");
 							}
 						}
@@ -1633,9 +1738,14 @@ $(document).ready(function(){
 							outbkg += "left";
 						}
 					}
-
+					if(this.system)
+					{
 					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
-					
+					}
+					else
+					{
+					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + outbkg + 'Tet.png\')');						
+					}
 			}
 						
 			
@@ -1678,7 +1788,14 @@ $(document).ready(function(){
 								outbkg += "left";
 							}
 						}
-						$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');
+						if(this.system)
+						{
+						$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
+						}
+						else
+						{
+							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + outbkg + 'Tet.png\')');
+						}
 						outbkg ="";
 						}
 					}
