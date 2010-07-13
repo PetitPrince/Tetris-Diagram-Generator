@@ -39,7 +39,11 @@ table#diagram{
 
 .active{}
 .cover{background-color:red;}
-.preview{ }
+.preview{ 
+	width: 12px;
+	height: 12px; 
+
+}
 .bordered{border: 1px solid black;}  
 
 #palette{
@@ -106,6 +110,16 @@ float:left;
 	-webkit-border-radius: 5px;
 }
 
+#playfield-properties{
+	margin: 1em 0 1em 0;
+	border:1px solid #3E5FC9;
+	background: #0C0000;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
 #field-control{
 	margin: 1em 0 1em 0;
 	border:1px solid #337715;
@@ -147,9 +161,12 @@ float:left;
 .inactive{
 	opacity:0.8;
 }
-.transparent-preview{
+.active
+{
 	width: 12px;
 	height: 12px; 
+}
+.transparent-preview{
 	background-image:url("img/previewblock.png");
 }
 .hidden{
