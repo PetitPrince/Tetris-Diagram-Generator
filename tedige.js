@@ -36,7 +36,16 @@ $(document).ready(function(){
 		var defaultborder = "Gray";
 		var defaultwidth = 10;
 		var defaultheight = 20;
-
+		
+		var editor_mode;
+		if($('body').hasClass('viwer'))
+		{
+			editor_mode = 0;
+		}
+		else
+		{
+			editor_mode = 1;
+		}
 		
 		
 		function Diagram(){
@@ -2449,6 +2458,7 @@ $(document).ready(function(){
 			{
 				D.load(URLHash.slice(1));
 				D.first_playfield();
+				
 			}
         	
         	
@@ -2695,7 +2705,7 @@ $(document).ready(function(){
 			})
                 	
 			$("#cmd_next").click(function(){
-					if(D.current_playfield == D.Playfields.length-1)
+					if(D.current_playfield == D.Playfields.length-1 && editor_mode) 
 					{
 					D.new_copy_playfield();
 					}
