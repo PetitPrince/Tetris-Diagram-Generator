@@ -5,8 +5,12 @@ MAJOR FEATURES
 - interface cleanup
 - gif generation (use imagemagick)
 - frame browser like Tage
-- better width/height support. Redraw seed if there's a change in those parameters. Also make a "change" button for this property
-	-> $('#diagram').html(''); doesn't work. Workaround: make a larger table (40X40 ?), make clever use of display:none;
+- command display (what is pressed on each frame) + command decoration (so a possible combo would be arrow + CCW for instance)
+	-> clearer DAS indicator ?
+- animation ?
+	-> each frame has a var that stores how long the frame must be displayed.
+- nullpo map integration
+
 MINOR FEATURES
 - a button to switch the hold piece with the first next piece
 - change colored garbage to gray garbage ?
@@ -14,15 +18,6 @@ MINOR FEATURES
 	-> currently now impractical
 - a mirror button that would mirror the field with the option to also mirror the colors of JL/SZ
 - Digital_:
-PetitPrince: oh man, that undo feature is so freaking useful
-[15:39] Digital_:
-especially if you clear lines by accident XD
-[15:41] Digital_:
-just now, I noticed something that would be really useful
-[15:42] Digital_:
-keyboard shortcuts to switch to the block you want to paint with
-[15:43] Digital_:
-it's painfully slow for me to move my mouse back and forth for the busier diagrams
 [15:57] Digital_:
 oh another thing, for the dropdowns, the reason I had blank values in there before is because the wiki defaults to something if you choose not to enter in any parameters
 [15:57] Digital_:
@@ -37,37 +32,37 @@ maybe we should add a blank rotation system then ?
 default it to an existing rotation system perhaps?
 [16:05] PetitPrince:
 good idea
-oh, another usability idea
-[16:06] Digital_:
-maybe it's because I'm used to fumen but it was nice being able to hit the next arrow on the last frame to create a new frame automatically
-[16:07] PetitPrince:
-that very simple to implement
-[16:07] Digital_:
+
+- 
+[22:51] Digital_:
+pp, what do you think about implementing a tetromino sequence generator in tedige?
+[22:51] PetitPrince:
+i though of that
+[22:51] PetitPrince:
+that should be fun
+[22:52] Edo joined the chat room.
+[22:52] Digital_:
+we can have a button that sets the next boxes
+[22:52] Digital_:
+and advances it or something
+[22:52] PetitPrince:
+i though of a bigger buffer for next piece
+[22:53] PetitPrince:
+currently we only have 3 piece (and see 3 $9
+[22:53] PetitPrince:
+we could set a bigger reservoir
+[22:54] PetitPrince:
+and have a lock+next piece button
+[22:56] Digital_:
 yeah
-[16:07] Digital_:
-just lock the active piece, make a copy, and clear lines
-[16:08] PetitPrince:
-what if you wanted a line to be filled or a piece to be still active ?
-[16:09] Digital_:
-I figured the former will be used more often
-[16:09] Digital_:
-the latter can still be done manually
-[16:09] PetitPrince:
-true
-[16:10] PetitPrince:
-so next arrow : new processed frame and shift next arrow: new blank frame ?
-[16:11] Digital_:
-is the shift next, the double arrow?
-[16:12] PetitPrince:
-?
-[16:13] PetitPrince:
-oh
-[16:13] PetitPrince:
-i though you meant the arrows on keyboard
--what I had in mind was something like ctrl+s selects the s tetromino or something like that
--i don't know if it's a crypto memory but i also remember thinking about pressing [1-9] to get the good tetramino
-[02:10] PetitPrince:
-pressing the number several time would iterate each row
+[22:57] PetitPrince:
+textarea + string  for the piece sequuence?
+[22:58] Digital_:
+ooh, brilliant, I didn't think of it like that
+[22:59] Digital_:
+we could then have an external tool to spit out a sequence
+[22:59] Digital_:
+and import it into tedige that way
 
 TO EXPAND
 - undo/redo: there's could be a *much* more powerful system than just saving the last frame. See photoshop for instance...

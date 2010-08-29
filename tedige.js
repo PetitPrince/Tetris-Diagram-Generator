@@ -811,7 +811,7 @@ $(document).ready(function(){
 				return this.Tetrion[x][y]['content'];
 			}
 			
-			this.modify_set_piece = function(current,modification_type,piece_nature,piece_orientation,is_active){
+			this.modify_set_piece = function(current,modification_type,piece_nature,piece_orientation){
 				/**
 				* Another method that modifies the playfield, but in some more complicated ways (it *uses* the other modify methods).
 				*
@@ -2616,22 +2616,30 @@ $(document).ready(function(){
 					}
 					else // normal click
 					{
-						
-						if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) {
-							
-							if(is_active)
-							{
-							D.Playfields[D.current_playfield].modify_set_piece(clicked,"active",piece_nature,piece_orientation);
-							left_remove = 1;
-							}
-							else
-							{
-							D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive","_",piece_orientation);
-							left_remove = 1;
-							}
+						//does the click removes the blocks ? ?
+						if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) 
+						{
+								if(is_active)
+								{
+								D.Playfields[D.current_playfield].modify_set_piece(clicked,"active","_",piece_orientation);
+								left_remove = 1;
+								}
+								else                                                              
+								{
+								D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive","_",piece_orientation);
+								left_remove = 1;
+								}
 						}
-						else {
-							D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation,is_active);
+						else //if not, it adds
+						{
+								if(is_active)
+								{
+								D.Playfields[D.current_playfield].modify_set_piece(clicked,"active",piece_nature,piece_orientation);
+								}
+								else                                                              
+								{
+								D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation);
+								}
 						}
 					}
 					// TODO: pf_modifly(clicked, "highlight");
