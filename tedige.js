@@ -1,52 +1,15 @@
-/*
-TeDiGe uses an array to store information about playfield state (each case would
-be a independant state of the game) in an conveniently sized multidimensional
-array containing symbols that represents the current type of bloc.
-
-The symbol encoding is nearly compatible with tetriswiki's
-<playfield> notation (see http://www.tetrisconcept.net/wiki/Help:Playfield):
-
-_ 	  	Empty Cell
-Z 	  	Red Block (Z Tetromino)
-L 		Orange Block (L Tetromino)
-O 		Yellow Block (O Tetromino)
-S 		Green Block (S Tetromino)
-I 		Cyan Block (I Tetromino)
-J 		Blue Block (J Tetromino)
-T 		Purple Block (T Tetromino)
-G 		Gray Block (Garbage or playfield wall)
-- 		Ghost piece or Line clear
-C 		Rotation center of a piece, a bomb in Bombliss, or any other specially marked block
-P 		Purple block for the T Tetromino, designed for use in documenting T-Spin setups
-B 		Mark a cell that has to be occupied for something (like a wallkick) to happen
-X 		Mark a cell that cannot be occupied for something (like a wallkick) to happen
-1â€“9 		Mark the cells that reject a given kick position
-
-Note that for obvious CSS reasons, . (dot) was remplaced by _ (underscore).
-*/
-
 
 $(document).ready(function(){
-
+		/* Interface global variable */
 		var is_clicking = 0;
 		var right_clicking = 0;
 		var left_remove = 0;
 		
+		/* Global variable */
 		var defaultsystem = "ARS";
 		var defaultborder = "Gray";
 		var defaultwidth = 10;
 		var defaultheight = 20;
-		
-		var editor_mode;
-		if($('body').hasClass('viwer'))
-		{
-			editor_mode = 0;
-		}
-		else
-		{
-			editor_mode = 1;
-		}
-		
 		
 		function Diagram(){
 			/**
@@ -66,25 +29,22 @@ $(document).ready(function(){
 				var drawnTetrion = "";
 				
 
-				// technicly speaking, we shouldn't refer to this.Playfields[0] and directly use a blank state
-				// because the "viewer" mode
 				// these are the hold and next pieces
 				drawnTetrion += '<div id="top-box">';
-				drawnTetrion += '<img id="holdbox"  src="" />';
-				drawnTetrion += '<img id="next1box" src="" />';
-				drawnTetrion += '<img id="next2box" src="" />';
-				drawnTetrion += '<img id="next3box" src="" />';
+				drawnTetrion += '<div id="holdbox"></div>';
+				drawnTetrion += '<div id="next1box"></div>';
+				drawnTetrion += '<div id="next2box"></div>';
+				drawnTetrion += '<div id="next3box"></div>';
 				drawnTetrion += '</div>';
 				drawnTetrion += '<table id="diagram"> \n';
 				
-				//varsize
 				for(var j=0; j<26;j++)
 				{
 					drawnTetrion += '<tr class="row'+j+'">';
 					for(var i=0; i<26;i++)
 					{
 						
-							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="col'+i+'"><div class="active"><div class="decoration"><div class="preview"></div></div></div></td>';
+							drawnTetrion += '<td id="p' + i + 'x' + j + '" class="col'+i+'"><div class="inactivelayer"><div class="pixelborder"><div class="activelayer"><div class="decorationlayer"><div class="previewlayer"></div></div></div></div></div></td>';
 						
 						// classes are p<value> and not just <value> because CSS doesn't support
 						// classes that begins with a number (theorically yes, but then you'll
@@ -100,16 +60,16 @@ $(document).ready(function(){
 						{
 							for(var j=10;j<26;j++)
 							{
-								$('.col'+j).addClass('hidden');
+								$('.col'+j,'#diagram').addClass('hidden');
 							}
 						}
 						else
 						{
-							$('.row'+i).addClass('hidden');					
+							$('.row'+i,'#diagram').addClass('hidden');					
 						}
 					}
 			}
-
+			/* Add/remove playfields */
 			this.new_playfield = function(){
 				/**
 				* Inject a new playfield in the Playfields array just after the current playfield.
@@ -166,26 +126,25 @@ $(document).ready(function(){
 				/**
 				* Nukes everything !
 				*/
+				
 				this.Playfields.splice(1);
 				this.Playfields[0].init();
 				this.current_playfield = 0;
 				this.Playfields[this.current_playfield].draw();
-
 				this.update_framecount();
-				
 				this.Playfields[this.current_playfield].change_size(10,20);				
-				
 			}
 
+			/* Playfields navigation*/
+			
 			this.next_playfield = function(){
 				/**
 				* Displays the next playfield
 				*/
-
+				
 				if(this.current_playfield+1 < this.Playfields.length)
 				{
 					this.current_playfield += 1;
-
 					$("#border_color").val(D.Playfields[D.current_playfield].border_color); // sets selected border color to current
 				}
 				this.Playfields[this.current_playfield].draw();
@@ -230,33 +189,54 @@ $(document).ready(function(){
 				$('#current-frame').html(this.current_playfield+1);
 				$('#total-frame').html(this.Playfields.length);
 			}
+			
+			/* Playfields manipulation*/			
 
 			this.set_system_to_all = function(newsystem){
+				/*
+				* Applies the modify_system method to all playfields
+				*/
 			
 				for(var i=0;i<this.Playfields.length;i++)
 				{
 					this.Playfields[i].system = newsystem;				
 				}
+				this.Playfields[this.current_playfield].modify_system(newsystem);
 			}
 
 			this.set_default_system = function(newsystem){
+				/*
+				* Set the default system to a new one
+				*/
 			
 				defaultsystem = newsystem;
 			}
 
 			this.set_border_to_all = function(newborder){
+				/*
+				* Sets all the border to a new one
+				*/
 			
 				for(var i=0;i<this.Playfields.length;i++)
 				{
-					this.Playfields[i].border = newborder;				
+					this.Playfields[i].border_color = newborder;				
 				}
+				this.Playfields[this.current_playfield].modify_border(newborder);
 			}
-
+           
 			this.set_default_border = function(newborder){
+				/*
+				* Set the default border to a new one
+				*/
 			
 				defaultborder = newborder;
 			}
-			                                                         
+			        
+			this.change_size_to_all = function(){
+			
+			}
+			/* Import/export*/			
+			
 			this.print = function(){
 				/**
 				* Generates an encoded string that describes the playfield.
@@ -276,13 +256,24 @@ $(document).ready(function(){
 				/**
 				* Displays what return print in the #export textarea.
 				*/
+				
 				$("#export").html(this.print());
 			}
+			
+			this.export_all_to_forum = function(){
+				/**
+				* Displays what return print in the #export textarea.
+				*/
+				
+				$("#export").html('[tedige]'+this.print()+'[/tedige]');
+			}	
+			
 			this.load = function(bigstr){
 				/**
 				* Reboot the diagram, parses the string in parameter and
 				* fills the Playfields array accordingly.
 				*/
+				
 				this.remove_all_playfields();
 
 				if(!bigstr){return;}
@@ -295,97 +286,13 @@ $(document).ready(function(){
 						this.new_playfield();
 					}
 				}
-
-			}
-			this.export_all_to_tw = function (){
-				/**
-				* Generates a tetris wiki-compliant string of all playfield arrays.
-				*/
-				var code="";
-
-				if ($('#slidagram:checked').val() != null)
-					code += '&#060;slide>\n';
-
-				for (var playfield = 0; playfield < this.Playfields.length; playfield++) {
-					code += '&#060;diagram';
-
-					// border color
-					if (this.Playfields[playfield].border_color)
-						code += ' border=' + this.Playfields[playfield].border_color;
-
-					// width other than 10
-					if (parseInt($('#width').val()) != 10)
-						code += ' width=' + parseInt($('#width').val());
-
-					// system
-					if (this.Playfields[playfield].system)
-						code += ' system=' + this.Playfields[playfield].system;
-
-					// hold
-					if (this.Playfields[playfield].hold)
-						code += ' hold=' + this.Playfields[playfield].hold;
-
-					// next
-					if (this.Playfields[playfield].next1 != "" || this.Playfields[playfield].next2 != "" || this.Playfields[playfield].next3 != "") {
-						code += ' next=';
-
-						if(this.Playfields[playfield].next1 != "")
-							code += this.Playfields[playfield].next1 + ',';
-						else
-							code += ',';
-
-						if(this.Playfields[playfield].next2 != "")
-							code += this.Playfields[playfield].next2;
-
-						if(this.Playfields[playfield].next3 != "")
-							code += ',' + this.Playfields[playfield].next3;
-					}
-
-					code += '>\n';
-
-					for(var j=0; j<this.Playfields[playfield].pf_height;j++)
-					{
-						for(var i=0; i<this.Playfields[playfield].pf_width;i++)
-						{
-							if(this.Playfields[playfield].Tetrion[i][j]['content_active'])
-							{
-								code+= "|" + this.Playfields[playfield].Tetrion[i][j]['content_active'];
-							}
-							else
-							{
-								if(this.Playfields[playfield].Tetrion[i][j]["content"] == "_")
-								{
-									code += "| ";
-								}
-								else
-								{
-									code += "|" + this.Playfields[playfield].Tetrion[i][j]["content"];
-								}
-							}
-						}
-						code += '|\n';
-					}
-
-					code += '&#060;/diagram>';
-
-					if($('#com').val() != "")
-						code += '\n' + $('#com').val();
-
-					if ($('#slidagram:checked').val() != null && playfield != this.Playfields.length-1)
-						code += '&#060;sep>\n';
-				}
-
-				if ($('#slidagram:checked').val() != null)
-					code += '\n&#060;/slide>';
-
-				$('#export').html(code);
-				$('#console-description').html("copy and paste into tetriswiki");
 			}
 
 			this.export_all_to_url = function(){
 				/**
 				* Generates an URL with the current playfields
 				*/
+				
 				var output = window.location.protocol+window.location.hostname;
 				var tmp = window.location.pathname.split("/");
 
@@ -394,10 +301,24 @@ $(document).ready(function(){
 					output += tmp[i]+"/";
 				}
 				output+="view.html";
-				$("#export").html(output+"#"+this.print());
+				$("#export").html(output+"?"+this.print());
 			}
 
+			this.export_all_to_edit_url = function(){
+				/**
+				* Generates an URL with the current playfields
+				*/
+				
+				var output = window.location.protocol+window.location.hostname;
+				var tmp = window.location.pathname.split("/");
 
+				for(var i = 0; i<tmp.length-1;i++)
+				{
+					output += tmp[i]+"/";
+				}
+				output+="tedige.html";
+				$("#export").html(output+"?"+this.print());
+			}			
 		}
 
 		/* ------------------------------------------------------------- */
@@ -405,10 +326,10 @@ $(document).ready(function(){
 		function Playfield(){
 			/**
 			* Playfield: an object that stores a single state of the game
-			* Tetrion is the main multid-dimensionnal array that contains all the necessary informations
-			* Tetrion[i][j]['content']		: inactive layer (unmovable blocks). Data is stored as a simple character. Displayed as the main cell background
+			* Tetrion is the main multi-dimensionnal array that contains all the necessary informations. Yes I know, Tetrion is the wrong term.
+			* Tetrion[i][j]['content']			: inactive layer (unmovable blocks). Data is stored as a simple character. Displayed as the main cell background
 			* Tetrion[i][j]['content_active']	: active layer (blocks that players can move). Data is stored as a simple character. Displayed as a background of a .active div inside the main cell.
-			* Tetrion[i][j]['center_active']	: active center layer  (used to rotate the piece). Data is stored as 1 character for the piece nature and 1-3 character for the orientation
+			* Tetrion[i][j]['center_active']		: active center layer  (used to rotate the piece). Data is stored as 1 character for the piece nature and 1-3 character for the orientation
 			* Tetrion[i][j]['decoration']		: decoration layer (i.e. arrows, highlight etc.) Displayed as a background of a .decoration div inside the main cell.
 			*/
 
@@ -416,68 +337,21 @@ $(document).ready(function(){
 			this.pf_height = defaultheight;
 			this.comment = "";
 			this.Tetrion = new Array();
-			this.system;
+			this.system = defaultsystem;
 			this.stackborder_status;
 
-			this.border_color;
+			this.border_color = defaultborder;
 			this.hold = "";
 			this.next1 = "";
 			this.next2 = "";
 			this.next3 = "";
-
+			
+			this.the_active_center = new Array();
+			this.the_active_center['coord']='';
+			this.the_active_center['piece']='';
 			this.Tetrion_History = new Array();			
 
-
-			this.change_size = function(newwidth,newheight){
-
-				/* $('diagram').html(newShinyPlayfield) won't work because 
-				Jquery doesn't bind to newly created elements.
-				I *don't* want to rewrite 90% of my code to implement
-				livequery */         
-
-				// reset everything
-				if(this.pf_height != newheight || this.pf_width != newwidth)
-				{
-								
-					this.pf_height = newheight;
-					this.pf_width = newwidth;
-					
-					defaultwidth  = newwidth;
-					defaultheight = newheight;					
-					
-				}
-			}
 			
-			this.change_size_display = function(){
-					for(var i=0;i<26;i++)
-					{
-						$('.row'+i).removeClass('hidden');					
-						for(var j=0;j<this.pf_width;j++)
-						{
-							$('.col'+j).removeClass('hidden');
-						}
-					}
-					
-					
-					for(var i=0;i<26;i++)
-					{
-						if(i<this.pf_height)
-						{
-							for(var j=this.pf_width;j<26;j++)
-							{
-								$('.col'+j).addClass('hidden');
-							}
-						}
-						else
-						{
-							$('.row'+i).addClass('hidden');					
-						}
-						
-					}
-				
-			}
-			
-
 			this.init=function(){
 				/**
 				* Initializes the playfield and fills it with "_" (empty space).
@@ -495,19 +369,17 @@ $(document).ready(function(){
 					for(var j=0;j<this.pf_height;j++)
 					{                            
 						/* Tetrion store all the necessary information: content stores what type of piece is at (i,j)
-						content_active stores the same but for the activer layer and finally
-						active_center store the center of the active piece*/
+						content_active stores the same but for the activer layer*/
 						this.Tetrion[i][j] = new Array();
 						this.Tetrion[i][j]['content']="_";
 						this.Tetrion[i][j]['content_active']="";
-						this.Tetrion[i][j]['center_active']="";
 						this.Tetrion[i][j]['decoration']="";
 					}
 				}
 
 
-			}
-
+			}			
+			/* Direct playfield manipulation */
 			this.modify=function(x,y,value){
 				/**
 				*	Modifies the type of a single inactive cell in the array at the selected point.
@@ -515,44 +387,27 @@ $(document).ready(function(){
 				*/
 
 				this.Tetrion[x][y]["content"]=value;
-				$('#p'+x+'x'+y).removeClass('inactive');
-				$('#p'+x+'x'+y).removeClass('preview');
-				if(value == "_")
+				var $workingcell = $('#p'+x+'x'+y);
+				var $inactivelayer = $workingcell.find('.inactivelayer');   
+				$workingcell.removeClass('haspreview hasinactive foreground-inactive');
+				
+				if(value == "_") //if we add something empty...                                                     
+				{                                                                                                    
+					$inactivelayer.attr('class', 'inactivelayer'); //removes everything except inactivelayer 
+				}
+				else // ...else it's not void
 				{
-					if(this.Tetrion[x][y]['content_active'])
+					if(this.Tetrion[x][y]['content_active'])  //if there's something on the active layer, do nothing
 						{
 						}
 					else
 					{
-						if(this.system)
-						{
-							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');						
-						}
-						else // fallback to default system
-						{
-							$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');
-						}
+						$inactivelayer.attr('class', 'inactivelayer') //removes everything except inactivelayer 
+									.addClass('piece-'+value);  // and add the correct classes                      
+						$workingcell.addClass('hasinactive foreground-inactive');
 					}
-				}
-				else
-				{
-					if(this.Tetrion[x][y]['content_active'])
-						{
-						}
-					else
-					{
-						$('#p'+x+'x'+y).addClass('inactive');
-						if(this.system)
-						{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');
-						
-						}
-						else //fallback to default system
-						{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');
-						}
-					}
-				}
+				}				
+				
 				
 				if(this.stackborder_status) // draw the surrounding white pixel border; fake border method: checks if the surrounding cell is empty, then paint it with the apropriate the surrounding blocks with border images
 				{
@@ -583,234 +438,69 @@ $(document).ready(function(){
 				}
 				
 			}
-
 			this.modify_active=function(x,y,value){
 				/**
 				*	Modifies the type of a single active cell in the array at the selected point.
 				*	Also calls an update of the display.
 				*/
 
-				this.Tetrion[x][y]['content_active']=value;
-				$('#p'+x+'x'+y).removeClass('inactive');
-				$('#p'+x+'x'+y).removeClass('preview');
+				this.Tetrion[x][y]['content_active']=value;       
+				var $workingcell = $('#p'+x+'x'+y);
+				var $activelayer = $workingcell.find('.activelayer');   
+				
+				$workingcell.removeClass('inactive haspreview foreground-inactive');
 				if(value)
 				{
-					if(this.system)
-					{
-					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + value + 'Tet.png\')');					
-					}
-					else
-					{
-					$('#p'+x+'x'+y+' .active').css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + value + 'Tet.png\')');						
-					}
-
-					$('#p'+x+'x'+y).addClass("hasactive");
+					$activelayer.attr('class', 'activelayer') //removes everything except activelayer 
+							    .addClass('piece-'+value);
+					
+					$workingcell.addClass("hasactive");
 				}
-				else // if we set the active layer to something empty, add the class of the non-active case
+				else 
 				{
-					if(this.Tetrion[x][y]['content'] == "_") // <- "_" is an empty cell. The class doesn't have any g in it.
+					$activelayer.attr('class', 'activelayer'); //removes everything except activelayer 
+					$workingcell.removeClass("hasactive");
+					if(this.Tetrion[x][y]['content'] != "_")
 					{
-						$('#p'+x+'x'+y+' .active').css('background-image', '');
+						$workingcell.addClass('foreground-inactive');
 					}
-					else
-					{
-						if(this.system)
-						{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[x][y]['content'] + 'Tet.png\')');						
-						}
-						else
-						{
-						$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[x][y]['content'] + 'Tet.png\')');													
-						}
-						$('#p'+x+'x'+y).addClass("inactive")
-		
-					}
-					$('#p'+x+'x'+y).removeClass("hasactive");
 				}
 			}
 			this.modify_active_center = function(x,y,value){
 				/**
 				*	Modifies the type of a single active center in the array at the selected point.
-				*/
-				this.Tetrion[x][y]["center_active"]=value;
+				*/                
+				this.the_active_center['coord']= x+"x"+y;
+				this.the_active_center['piece']= value;
 			}
-
-			this.modify_system = function(new_system){
-				/**
-				*  Changes the system to the current selected option.
-				*/
-				this.system = new_system;
-				$('#system').val(new_system); // this is for loading purpose
-				this.draw();
-			}
-
-			this.modify_hold = function(newhold) {
-				/**
-				* Changes the hold piece
-				*/
-				this.hold = newhold ;
-				var holddisplay;
-				if(this.system)
-				{
-				holddisplay = 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png';				
-				}
-				else
-				{
-				holddisplay = 'img/blocks/' + defaultsystem + '/hold/' + defaultsystem + 'hold' + this.hold + '.png';					
-				}
-				$('#hold').val(newhold); // this is for loading purpose
-				$('#holdbox').attr("src", holddisplay);
-			}
-
-			this.modify_next1 = function(newnext1) {
-				this.next1 = newnext1
-				var next1display;
-				if(this.system)
-				{
-				next1display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png';				
-				}
-				else
-				{
-				next1display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next1 + '.png';									
-				}
-				$('#next1').val(newnext1);
-				$('#next1box').attr("src", next1display);
-			}
-
-			this.modify_next2 = function(newnext2) {
-				this.next2 = newnext2
-				var next2display; 
-				if(this.system)
-				{
-				next2display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next2 + '.png';				
-				}
-				else
-				{
-				next2display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next2 + '.png';									
-				}
-				$('#next2').val(newnext2);
-				$('#next2box').attr("src", next2display);
-			}
-
-			this.modify_next3 = function(newnext3) {
-				this.next3 = newnext3
-				var next3display; 
-				if(this.system)
-				{
-				next3display = 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next3 + '.png';				
-				}
-				else
-				{
-				next3display = 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next3 + '.png';									
-				}
-				$('#next3').val(newnext3);
-				$('#next3box').attr("src", next3display);
-			}
-
-			this.modify_border = function(newborder){
-				/**
-				*  Changes the color of the playfield border to the current selected option.
-				*/
-				this.border_color = newborder;
-				switch(this.border_color)
-				{
-				case "gray" :
-					$('table#diagram').css('border', '5px solid gray');
-					break;
-				case "yellow" :
-					$('table#diagram').css('border', '5px solid yellow');
-					break;
-				case "blue" :
-					$('table#diagram').css('border', '5px solid blue');
-					break;
-				case "red" :
-					$('table#diagram').css('border', '5px solid red');
-					break;
-				case "green" :
-					$('table#diagram').css('border', '5px solid green');
-					break;
-				case "clear" :
-					$('table#diagram').css('border', '5px solid transparent');
-					break;
-				case "none" :
-					$('table#diagram').css('border', '5px solid transparent');
-					break;
-				default:
-					$('table#diagram').css('border', '5px solid gray');
-					break;
-				}
-				$('#border_color').val(newborder);
-
-			}
-
 			this.modify_preview=function(x,y,value){
 				/**
 				*	Calls for an update of the display at the selected point
-				*/
-				$('#p'+x+'x'+y).removeClass("preview");
-				$('#p'+x+'x'+y+' .preview').removeClass("transparent-preview");
+				*/                     
+				var $workingcell =$('#p'+x+'x'+y);
+				var $previewlayer = $workingcell.find(".previewlayer");          
+				
+				$workingcell.removeClass("haspreview");
+				$previewlayer.removeClass("transparent-preview");
 				if(value)
 				{
-					$('#p'+x+'x'+y).addClass("preview");
-					$('#p'+x+'x'+y+' .preview').addClass("transparent-preview");
+					$workingcell.addClass("haspreview");
+					$previewlayer.addClass("transparent-preview");
 
 				}
-			}
-
+			}			
 			this.modify_decoration=function(x,y,value){
 				/**
 				*	Modifies the type of decoration of a single inactive cell in the array at the selected point.
 				*	Also calls an update of the display.
 				*/
 
-				this.Tetrion[x][y]["decoration"]=value;
-				$('#p'+x+'x'+y+' .decoration').css('');
-				if(value)
-				{
-					{
-						$('#p'+x+'x'+y+' .decoration').css('background-image', 'url(\'img/blocks/utility/' + value + '.png\')');
-					}
-				}
+				this.Tetrion[x][y]["decoration"]=value;  
+				var $decorationlayer = $('#p'+x+'x'+y).find(".decorationlayer")
+				$decorationlayer.attr('class', 'decorationlayer') //removes everything except inactivelayer 
+							    .addClass(value);
 								
-			}			
-			
-			this.paint_active = function(){
-				/**
-				* Looks for something in the active layer, paint it on the inactive layer
-				*/
-				for(var i=0;i<this.pf_width;i++)
-				{
-					for(var j=0;j<this.pf_height;j++)
-					{
-						if(this.Tetrion[i][j]['content_active'])
-						{
-							this.modify(i,j,this.Tetrion[i][j]['content_active']);
-						}
-					}			
-				}
-			}
-			this.lock_active = function(){
-				/**
-				* Locking is simply paint + remove active  
-				*/				
-				this.paint_active();
-				this.rebootActive();
-			}
-			
-			this.lookup_block = function(id) {
-				/**
-				* Looks for the block type at the coordinate in parameter (e.g. p3x2)
-				*/				
-
-				var x_begin = id.indexOf('p');
-				var y_begin = id.indexOf('x');
-
-				var x = parseInt(id.substring(x_begin+1, y_begin));
-				var y = parseInt(id.substring(y_begin+1));
-
-				return this.Tetrion[x][y]['content'];
-			}
-			
+			}	
 			this.modify_set_piece = function(current,modification_type,piece_nature,piece_orientation){
 				/**
 				* Another method that modifies the playfield, but in some more complicated ways (it *uses* the other modify methods).
@@ -821,66 +511,67 @@ $(document).ready(function(){
 				*		- piece_nature: the nature of the piece, e.g. L, S, T, garbage, item...
 				*		- piece_orientation: the orientation of the piece: flat, upside down, ...
 				*/
-
-
+				
 				var center = new Array();
 				center.x = parseFloat(current.slice(1,current.indexOf("x"))); // X position
 				center.y = parseFloat(current.slice(current.indexOf("x")+1)); // Y position
 
-				var orientation = get_orientation(piece_orientation,center); // the orientation is set via an exterior function
+				var orientation = get_orientation(piece_orientation,center,this.system); // the orientation is set via an exterior function
 
 				var t2 = new Array();
 				var t3 = new Array();
 				var t4 = new Array();
 
-				t2.x = parseFloat(orientation[0].x); // put the orientation we got in the new arrays
-				t2.y = parseFloat(orientation[0].y);
-				t3.x = parseFloat(orientation[1].x);
-				t3.y = parseFloat(orientation[1].y);
-				t4.x = parseFloat(orientation[2].x);
-				t4.y = parseFloat(orientation[2].y);
-
-				if(piece_orientation == "T"	// exception if the piece is a locked single case
-					|| piece_orientation == "L"
-				|| piece_orientation == "J"
-				|| piece_orientation == "S"
-				|| piece_orientation == "Z"
-				|| piece_orientation == "I"
-				|| piece_orientation == "G"
-				|| piece_orientation == "single"
-				|| piece_orientation == "l"
-				|| piece_orientation == "j"
-				|| piece_orientation == "s"
-				|| piece_orientation == "z"
-				|| piece_orientation == "i"
-				|| piece_orientation == "g"
-				|| piece_orientation == "0"
-				|| piece_orientation == "1"
-				|| piece_orientation == "2"
-				|| piece_orientation == "3"
-				|| piece_orientation == "4"
-				|| piece_orientation == "5"
-				|| piece_orientation == "6"
-				|| piece_orientation == "7"
-				|| piece_orientation == "8"
-				|| piece_orientation == "9"
-				|| piece_orientation == "B"
-				|| piece_orientation == "C"
-				|| piece_orientation == "c"
-				|| piece_orientation == "-"
-				|| piece_orientation == "."
-				|| piece_orientation == "X"
-				|| piece_orientation == "x"
-				|| piece_orientation == "@"
-				)
-				{
-					t2.x = parseFloat(center.x);
-					t2.y = parseFloat(center.y);
-					t3.x = parseFloat(center.x);
-					t3.y = parseFloat(center.y);
-					t4.x = parseFloat(center.x);
-					t4.y = parseFloat(center.y);
+				// by default, all the coordinate are at the same point
+				
+				t2.x = parseFloat(center.x);
+				t2.y = parseFloat(center.y);
+				t3.x = parseFloat(center.x);
+				t3.y = parseFloat(center.y);                                       
+				t4.x = parseFloat(center.x);
+				t4.y = parseFloat(center.y);
+				// put the orientation we got in the new arrays				
+				if(orientation[0].x>=0) 		{
+					t2.x = parseFloat(orientation[0].x); 
+					t2.y = parseFloat(orientation[0].y);
+					t3.x = parseFloat(orientation[1].x);
+					t3.y = parseFloat(orientation[1].y);
+					t4.x = parseFloat(orientation[2].x);
+					t4.y = parseFloat(orientation[2].y);
 				}
+				
+			
+				// process what we have	
+
+				//20G or not ?
+				if($('#drop:checked').val())
+				{
+					while(this.is_in(center.x,center.y) &&  this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y)
+								&&	this.Tetrion[center.x][center.y]['content'] == "_"
+								&&	this.Tetrion[t2.x][t2.y]['content'] == "_"
+								&&	this.Tetrion[t3.x][t3.y]['content'] == "_"
+								&&	this.Tetrion[t4.x][t4.y]['content'] == "_")
+							{
+								center.y = parseFloat(center.y)+1;	
+								orientation = get_orientation(piece_orientation,center,this.system);
+								t2.x = orientation[0].x;
+								t2.y = orientation[0].y;
+								t3.x = orientation[1].x;
+								t3.y = orientation[1].y;
+								t4.x = orientation[2].x;
+								t4.y = orientation[2].y;
+							}		
+							center.y = parseFloat(center.y)-1;	
+							orientation = get_orientation(piece_orientation,center,this.system);
+							t2.x = orientation[0].x;
+							t2.y = orientation[0].y;
+							t3.x = orientation[1].x;
+							t3.y = orientation[1].y;
+							t4.x = orientation[2].x;
+							t4.y = orientation[2].y;						
+
+				}
+				
 
 				if(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y)) // we don't want any out of bounds pieces
 				{
@@ -900,6 +591,11 @@ $(document).ready(function(){
 							this.modify(t2.x,t2.y,piece_nature);
 							this.modify(t3.x,t3.y,piece_nature);
 							this.modify(t4.x,t4.y,piece_nature);
+							
+							this.modify_preview(center.x,center.y,false);
+							this.modify_preview(t2.x,t2.y,false);
+							this.modify_preview(t3.x,t3.y,false);
+							this.modify_preview(t4.x,t4.y,false);							
 							break;
 					case "addpreview":
 						this.modify_preview(center.x,center.y,true);
@@ -915,8 +611,8 @@ $(document).ready(function(){
 						break;
 					}
 				}
-			}
-			
+			}			
+
 			this.rectangular_fill = function(x_start,y_start,x_end,y_end,nature){
 				/**
 				* Fills the playfield with the selected blocks at the selected coordinates
@@ -937,98 +633,31 @@ $(document).ready(function(){
 				}
 		
 			}
-
-
-			this.switchhold = function(){
-				
-				var tmp;
-				
-				for(var j=0; j<this.pf_height;j++) //Active
-				{
-					for(var i=0; i<this.pf_width;i++)
-					{
-						if(this.Tetrion[i][j]['center_active'])
-						{
-							tmp = this.Tetrion[i][j]['center_active'];
-							tmp = tmp.slice(0,1);
-						}
-					}
-				}
-				this.rebootActive();
-				if(this.hold)
-				{
-				this.spawn_piece(this.hold);
-				this.modify_hold('');				
-				}
-				this.modify_hold(tmp);
-				
-			}
-
-			this.advance_next = function(){
+			this.recursive_fill = function(x,y, replaced, replacer) {
 				/**
-				* Advance the next piece, as if next1 was distributed
-				* possible expansion: take next3 piece as parameter
-				*/				
-				
-				this.modify_next1(this.next2);	
-				this.modify_next2(this.next3);	
-				this.modify_next3('');				
-			}
-			
-			this.spawn_piece = function(piece_nature){
-				/**
-				*	Spawn an active piece to the top of a playfield, juste like a normal game would do
-				*  TODO: implement IRS. Problem: the playfield need to be 2 case heigher in the Y direction
-				*		  (4 in SRS)                   
+				*  Fills the playfield like a paint bucket. Thanks Digital !
 				*/
-				var position_x = parseInt(this.pf_width) / 2;
-				var position_y = 3;
-				var spawn_position = "p"+position_x+"x0"
 				
-				this.modify_set_piece(spawn_position,"active",piece_nature,piece_nature+"i");
-			}
+				x = parseFloat(x);
+				y = parseFloat(y);
+				
+				if (this.Tetrion[x][y]['content'] != replaced)
+					return;
 
-			this.line_clear = function () {
-				/**
-				*	Clears all rows on the field that are full and shifts field down.
-				*/
+				this.modify(x, y, replacer);
 
-				for (var j = 0; j <= this.pf_height-1; j++) // start at the top row and go down
-				{
-					var row_occupation = 0; // to track how many blocks are on a row
+				if (y-1 >= 0)
+					this.recursive_fill(x, y-1, replaced, replacer);
 
-					// searches the row to find out how many blocks are in it
-					for (var i = 0; i < this.pf_width; i++)
-					{
-						if (this.Tetrion[i][j]['content'] != "_")
-							row_occupation++;
-					}
+				if (y+1 < this.pf_height)
+					this.recursive_fill(x, y+1, replaced, replacer);
 
-					// clears line if row is completely occupied
-					if (row_occupation == this.pf_width)
-					{
-						// shifts rows down beginning at specified row and going up
-						for (k = j; k > -1; k--)
-						{
-							// if not the top row, copy row above
-							if ( k != 0)
-							{
-								for (i = 0; i < this.pf_width; i++)
-								{
-									this.modify(i, k, this.Tetrion[i][k-1]['content']);
-								}
-							}
-							// for top row since there's no row above
-							else {
-								for (i = 0; i < this.pf_width; i++)
-								{
-									this.modify(i, k, "_");
-								}
-							}
-						}
-					}
-				}
-			}
+				if (x+1 < this.pf_width)
+					this.recursive_fill(x+1, y, replaced, replacer);
+
+				if (x-1 >= 0)
+					this.recursive_fill(x-1, y, replaced, replacer);
+			}			
 
 			this.shift_field = function (direction) {
 				/**
@@ -1102,13 +731,234 @@ $(document).ready(function(){
 						this.modify(0, j, "_");
 					}
 				}
+			}			
+			
+			/* Playfield properties */
+			
+			this.modify_system = function(new_system){
+				/**
+				*  Changes the system to the current selected option.
+				*/
+				this.system = new_system;
+				$('#system').val(new_system); // this is for loading purpose   
+
+					if(new_system)
+					{
+					$("#style-blocks").attr("href","ressources/"+new_system+".css");				
+					}
+					else
+					{
+					$("#style-blocks").attr("href","ressources/ARS.css");
+					}
+			}                                                                                                                                                                                                                                             
+			this.modify_border = function(newborder){
+				/**
+				*  Changes the color of the playfield border to the current selected option.
+				*/
+				this.border_color = newborder;
+				$diagram = $('#diagram');
+				switch(this.border_color)
+				{
+				case "gray" :
+					$diagram.css('border', '5px solid gray');
+					break;
+				case "yellow" :
+					$diagram.css('border', '5px solid yellow');
+					break;
+				case "blue" :
+					$diagram.css('border', '5px solid blue');
+					break;
+				case "red" :
+					$diagram.css('border', '5px solid red');
+					break;
+				case "green" :
+					$diagram.css('border', '5px solid green');
+					break;
+				case "clear" :
+					$diagram.css('border', '5px solid transparent');
+					break;
+				case "none" :
+					$diagram.css('border', '5px solid transparent');
+					break;
+				default:
+					$diagram.css('border', '5px solid gray');
+					break;
+				}
+				$('#border_color').val(newborder);
+
+			}
+			this.stackborder = function(x,y){
+				/**
+				* Add appropriate white border to an empty cell
+				*/				
+				
+				var outbkg ="";
+				$pixelborder = $('#p'+x+'x'+y).find('.pixelborder');                  
+				$pixelborder.attr('class', 'pixelborder');
+				if(this.Tetrion[x][y]['content'] == "_")
+					{
+						outbkg +="border-";
+						if(y-1>=0 && this.Tetrion[x][y-1]['content'] != "_")
+						{
+							outbkg += "top";
+						}					
+						
+						if(x+1<this.pf_width && this.Tetrion[x+1][y]['content'] != "_")
+						{
+							outbkg += "right";
+						}					
+						
+						if(y+1<this.pf_height && this.Tetrion[x][y+1]['content'] != "_")
+						{
+							outbkg += "bottom";
+						}										
+						
+						if(x-1>=0 && this.Tetrion[x-1][y]['content'] != "_")
+						{
+							outbkg += "left";
+						}
+					}
+				if(outbkg)
+					{
+						$pixelborder.addClass(outbkg);						
+					}
+			}
+			this.draw_stackborder = function(status){
+				/**
+				* Apply stackborder to every cell
+				*/				
+				
+				var outbkg ="";	
+
+
+				for(var i=0;i<this.pf_width;i++)
+				{
+					for(var j=0;j<this.pf_height;j++)
+					{
+						var $pixelborder = $('#p'+i+'x'+j).find('.pixelborder');                  
+						$pixelborder.attr('class', 'pixelborder');						
+						if(this.Tetrion[i][j]['content'] == "_")
+						{
+							if(this.Tetrion[i][j]['content_active'] == "")
+							{
+								if(status)
+								{
+									outbkg +="border-";
+									
+									if(j-1>=0 && this.Tetrion[i][j-1]['content'] != "_")
+									{
+										outbkg += "top";
+									}					
+									
+									if(i+1<this.pf_width && this.Tetrion[i+1][j]['content'] != "_")
+									{
+										outbkg += "right";
+									}					
+									
+									if(j+1<this.pf_height && this.Tetrion[i][j+1]['content'] != "_")
+									{
+										outbkg += "bottom";
+									}										
+									
+									if(i-1>=0 && this.Tetrion[i-1][j]['content'] != "_")
+									{
+										outbkg += "left";
+									}
+								}
+
+								if(outbkg)
+								{
+									$pixelborder.addClass(outbkg);						
+								}
+								
+							outbkg ="";
+							}
+						}
+					}
+					
+				}
+				
+			}
+			this.save_comment = function(){
+				/**
+				* saves what is in the comment textarea
+				*/
+				this.comment = $('#com').val();
+			}
+			
+			/* Active piece manipulation */
+			
+			this.paint_active = function(){
+				/**
+				* Looks for something in the active layer, paint it on the inactive layer
+				*/
+				for(var i=0;i<this.pf_width;i++)
+				{
+					for(var j=0;j<this.pf_height;j++)
+					{
+						if(this.Tetrion[i][j]['content_active'])
+						{
+							this.modify(i,j,this.Tetrion[i][j]['content_active']);
+						}
+					}			
+				}
+			}    
+			this.lock_active = function(){
+				/**
+				* Locking is simply paint + remove active  
+				*/				
+				this.paint_active();
+				this.rebootActive();
+			}
+			this.drop_active = function(){
+				/*                                            
+				get active positions . how about making that a class attribute ?
+				look down
+				draw in the highest place
+				*/     
+
+
+			}
+			this.lookup_block = function(id) {
+				/**
+				* Looks for the block type at the coordinate in parameter (e.g. p3x2)
+				* (only in the inactive layer)
+				*/				
+
+				var x_begin = id.indexOf('p');
+				var y_begin = id.indexOf('x');
+
+				var x = parseInt(id.substring(x_begin+1, y_begin));
+				var y = parseInt(id.substring(y_begin+1));
+				
+				return this.Tetrion[x][y]['content'];
+			}
+			this.spawn_piece = function(piece_nature){
+				/**
+				*	Spawn an active piece to the top of a playfield, juste like a normal game would do
+				*  TODO: implement IRS. Problem: the playfield need to be 2 case heigher in the Y direction
+				*		  (4 in SRS)                   
+				*/
+				var position_x = parseInt(this.pf_width) / 2;
+				var position_y = 3;
+				var spawn_position = "p"+position_x+"x0"
+				
+				this.modify_set_piece(spawn_position,"active",piece_nature,piece_nature+"i");
 			}
 
 			this.move_piece = function (direction) {
 				/**
 				*	Moves the active piece in active layer of the array
-				*/
-				for(var i=0;i<this.pf_width;i++) // we need a center ! where is it ?
+				*/                                                         
+				// i'm too lazy to rewrite the whole function according to the_active_center... I know, this is BAD :( 
+				var lazy= this.the_active_center['coord'].split('x');
+				var the_center = this.the_active_center['piece'];
+				var center_position = new Array;
+				center_position.x = lazy[0];                                                                                                                                                     
+				center_position.y = lazy[1];   
+				
+				// we need a center ! where is it ?
+				/*for(var i=0;i<this.pf_width;i++) // we need a center ! where is it ?
 				{
 					for(var j=0;j<this.pf_height;j++)
 					{
@@ -1116,11 +966,11 @@ $(document).ready(function(){
 						{
 							var the_center = this.Tetrion[i][j]['center_active'];
 							var center_position = new Array;
-							center_position.x = i;
+							center_position.x = i;                                                                                                                                                     
 							center_position.y = j;
 						}
 					}
-				}     
+				}           */                          
 				var piece_nature = the_center.slice(0,1); // extract the piece nature and orientation from the center_active string
 				var piece_orientation = the_center.slice(1);
 
@@ -1190,7 +1040,7 @@ $(document).ready(function(){
 					break;
 				}
 
-				var orientation = get_orientation(the_center,center_position);
+				var orientation = get_orientation(the_center,center_position,this.system);
 
 				var t2 = new Array();
 				var t3 = new Array();
@@ -1217,57 +1067,280 @@ $(document).ready(function(){
 					t4.x = center_position.x;
 					t4.y = center_position.y;
 				}
-
-
 				if(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y))
 				{
-					this.rebootActive();
-					this.modify_active(center_position.x,center_position.y,piece_nature);
-					this.modify_active_center(center_position.x,center_position.y,the_center);
-					this.modify_active(t2.x,t2.y,piece_nature);
-					this.modify_active(t3.x,t3.y,piece_nature);
-					this.modify_active(t4.x,t4.y,piece_nature);
+					if($('input#collision:checked').val())
+					{                                                                      
+						if(this.Tetrion[center_position.x][center_position.y]['content'] == "_"
+							&& this.Tetrion[t2.x][t2.y]['content'] == "_"
+							&& this.Tetrion[t3.x][t3.y]['content'] == "_"	
+							&& this.Tetrion[t4.x][t4.y]['content'] == "_")
+						{
+						this.rebootActive();
+						this.modify_active(center_position.x,center_position.y,piece_nature);
+						this.modify_active_center(center_position.x,center_position.y,the_center);
+						this.modify_active(t2.x,t2.y,piece_nature);
+						this.modify_active(t3.x,t3.y,piece_nature);
+						this.modify_active(t4.x,t4.y,piece_nature);						
+						}
+					}
+					else
+					{          
+						this.rebootActive();
+						this.modify_active(center_position.x,center_position.y,piece_nature);
+						this.modify_active_center(center_position.x,center_position.y,the_center);
+						this.modify_active(t2.x,t2.y,piece_nature);
+						this.modify_active(t3.x,t3.y,piece_nature);
+						this.modify_active(t4.x,t4.y,piece_nature);
+					}
 				}
 			}
-
-			this.is_in = function(x,y){
+			
+			this.drop_active_piece = function(){
 				/**
-				* Checks if a point is outside of the playfield
+				* Drop the active piece as if it was 20G.
 				*/
-				if(x < 0 ||y < 0 || x>=this.pf_width || y>=this.pf_height)
-					{return false;}
-				return true;
+
+				var lazy= this.the_active_center['coord'].split('x');
+				var the_center = this.the_active_center['piece'];
+				var center_position = new Array;
+				var piece_nature = the_center.slice(0,1); // extract the piece nature and orientation from the center_active string
+				var piece_orientation = the_center.slice(1);
+				
+				center_position.x = lazy[0];                                                                                                                                                     
+				center_position.y = lazy[1];   
+				var orientation = get_orientation(the_center,center_position,this.system);
+				var t2 = new Array();
+				var t3 = new Array();
+				var t4 = new Array();
+				t2.x = orientation[0].x;
+				t2.y = orientation[0].y;
+				t3.x = orientation[1].x;
+				t3.y = orientation[1].y;
+				t4.x = orientation[2].x;
+				t4.y = orientation[2].y;
+				
+						center_position.x = parseFloat(center_position.x);
+						center_position.y = parseFloat(center_position.y)+1;	
+						orientation = get_orientation(the_center,center_position,this.system);
+
+						if($('#collision:checked').val())
+						{     
+							/* As long as the active piece doesn't hits something, shift 1 case down. */
+							while(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y)
+								&&	this.Tetrion[center_position.x][center_position.y]['content'] == "_"
+								&&	this.Tetrion[t2.x][t2.y]['content'] == "_"
+								&&	this.Tetrion[t3.x][t3.y]['content'] == "_"
+								&&	this.Tetrion[t4.x][t4.y]['content'] == "_")
+							{
+								center_position.y = parseFloat(center_position.y)+1;	
+								orientation = get_orientation(the_center,center_position,this.system);
+								t2.x = orientation[0].x;
+								t2.y = orientation[0].y;
+								t3.x = orientation[1].x;
+								t3.y = orientation[1].y;
+								t4.x = orientation[2].x;
+								t4.y = orientation[2].y;
+							}
+						}
+						else
+						{          
+							while(this.is_in(t2.x,t2.y) && this.is_in(t3.x,t3.y) && this.is_in(t4.x,t4.y))
+							{
+								center_position.y = parseFloat(center_position.y)+1;	
+								orientation = get_orientation(the_center,center_position,this.system);
+								t2.x = orientation[0].x;
+								t2.y = orientation[0].y;
+								t3.x = orientation[1].x;
+								t3.y = orientation[1].y;
+								t4.x = orientation[2].x;
+								t4.y = orientation[2].y;
+
+							}                                   
+						}
+							/* The while loops had the piece one case too low. */
+							center_position.y = parseFloat(center_position.y)-1;	
+							orientation = get_orientation(the_center,center_position,this.system);
+							t2.x = orientation[0].x;
+							t2.y = orientation[0].y;
+							t3.x = orientation[1].x;
+							t3.y = orientation[1].y;
+							t4.x = orientation[2].x;
+							t4.y = orientation[2].y;
+						
+						
+						this.rebootActive();
+						this.modify_active(center_position.x,center_position.y,piece_nature);
+						this.modify_active_center(center_position.x,center_position.y,the_center);
+						this.modify_active(t2.x,t2.y,piece_nature);
+						this.modify_active(t3.x,t3.y,piece_nature);
+						this.modify_active(t4.x,t4.y,piece_nature);
+		
+						
+
+				
+			}
+			
+			/* Playfield size management */			
+
+			this.change_size = function(newwidth,newheight){
+
+				/* $('diagram').html(newShinyPlayfield) won't work because 
+				Jquery doesn't bind to newly created elements.
+				I *don't* want to rewrite 90% of my code to implement
+				livequery */ 
+				/* The solution is to drawn a greater than necessary playfield and
+				    hide what's unecessary (see change_size_display)*/
+
+				// reset everything
+				if(this.pf_height != newheight || this.pf_width != newwidth)
+				{
+								
+					this.pf_height = newheight;
+					this.pf_width = newwidth;
+					
+					defaultwidth  = newwidth;
+					defaultheight = newheight;					
+					
+				}
+			}
+			
+			this.change_size_display = function(){
+				/**
+				* change_size changed the class attribute, change_size_display actually
+				* changes how the playfield is displayed
+				*/
+				
+					for(var i=0;i<26;i++)
+					{
+						$('.row'+i,'#diagram').removeClass('hidden');					
+						for(var j=0;j<this.pf_width;j++)
+						{
+							$('.col'+j,'#diagram').removeClass('hidden');
+						}
+					}
+					
+					
+					for(var i=0;i<26;i++)
+					{
+						if(i<this.pf_height)
+						{
+							for(var j=this.pf_width;j<26;j++)
+							{
+								$('.col'+j,'#diagram').addClass('hidden');
+							}
+						}
+						else
+						{
+							$('.row'+i,'#diagram').addClass('hidden');					
+						}
+						
+					}
+				
+			}
+			
+			/* Next and hold management */
+			this.modify_hold = function(newhold) {
+				/**
+				* Changes the hold piece
+				*/
+				this.hold = newhold ;  
+				var $holdbox = $('#holdbox');
+				$('#hold').val(newhold); // this is for loading purpose
+				$holdbox.attr('class', 'holdbox')   
+						.addClass('hold-'+newhold);
+			}
+			this.modify_next1 = function(newnext1) {
+				this.next1 = newnext1        
+				var $next1box = $('#next1box');
+				$('#next1').val(newnext1);
+				$next1box.attr('class', 'next1box') 
+						  .addClass('next1-'+newnext1);
+			}
+			this.modify_next2 = function(newnext2) {
+				this.next2 = newnext2
+				var $next2box = $('#next2box');
+				$('#next2').val(newnext2);
+				$next2box.attr('class', 'next2box') 
+						  .addClass('next2-'+newnext2);
+			}
+			this.modify_next3 = function(newnext3) {
+				this.next3 = newnext3         
+				var $next3box = $('#next3box');
+				$('#next3').val(newnext3);
+				$next3box.attr('class', 'next3box') 
+						  .addClass('next3-'+newnext3);
+			}
+			this.switchhold = function(){
+				/**
+				* Switch the current active piece with the hold.
+				*/
+				
+				var tmp = this.the_active_center['piece'].slice(0,1);
+				this.rebootActive();
+				if(this.hold)
+				{
+				this.spawn_piece(this.hold);
+				this.modify_hold('');				
+				}
+				this.modify_hold(tmp);
+				
 			}
 
-
-			this.rebootPlayfield = function(){
+			this.advance_next = function(){
 				/**
-				* Sets the whole inactive layer of the array to "_" (empty cell).
+				* Advance the next piece, as if next1 was distributed
+				* possible expansion: take next3 piece as parameter
+				*/				
+				
+				this.modify_next1(this.next2);	
+				this.modify_next2(this.next3);	
+				this.modify_next3('');				
+			}
+			
+			this.line_clear = function () {
+				/**
+				*	Clears all rows on the field that are full and shifts field down.
 				*/
-				for(var i=0;i<this.pf_width;i++)
+
+				for (var j = 0; j <= this.pf_height-1; j++) // start at the top row and go down
 				{
-					for(var j=0;j<this.pf_height;j++)
+					var row_occupation = 0; // to track how many blocks are on a row
+
+					// searches the row to find out how many blocks are in it
+					for (var i = 0; i < this.pf_width; i++)
 					{
-						this.Tetrion[i][j]["content"]= "_";
+						if (this.Tetrion[i][j]['content'] != "_")
+							row_occupation++;
+					}
+
+					// clears line if row is completely occupied
+					if (row_occupation == this.pf_width)
+					{
+						// shifts rows down beginning at specified row and going up
+						for (k = j; k > -1; k--)
+						{
+							// if not the top row, copy row above
+							if ( k != 0)
+							{
+								for (i = 0; i < this.pf_width; i++)
+								{
+									this.modify(i, k, this.Tetrion[i][k-1]['content']);
+								}
+							}
+							// for top row since there's no row above
+							else {
+								for (i = 0; i < this.pf_width; i++)
+								{
+									this.modify(i, k, "_");
+								}
+							}
+						}
 					}
 				}
 			}
 
-
-			this.rebootActive = function(){
-				/**
-				* Sets the whole active layer of the array to "" (empty cell).
-				* Sets the same with the active center
-				*/
-				for(var i=0;i<this.pf_width;i++)
-				{
-					for(var j=0;j<this.pf_height;j++)
-					{
-						this.modify_active(i,j,"");
-						this.modify_active_center(i,j,"");
-					}
-				}
-			}
+			/* Import/export management */
 
 			this.print = function (){
 				/**
@@ -1277,107 +1350,117 @@ $(document).ready(function(){
 				*******************
 				* - Each frame are separated by a "+"
 				* - within each frame, a "_" separates different data
-				* - those data are identified with a two letters identifier, starting with ")" and the following
+				* - those data are identified with a two letters identifier, starting with "*" and following with:
 				*   -> "s" : size
 				*   -> "r" : "rotation", or rotation system currently in use
-				*	 -> "b" : border color
-				*	 -> "n" : "next" preview
+				*   -> "b" : border color
+				*   -> "n" : "next" preview
 				*   -> "m" : "next" + 1
 				*   -> "o  : "next" + 2
 				*   -> "g" : "garbage": the inactive pieces coordinates
 				*			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
-				*   -> "a" : "active": or the active center coordoniates
+				*   -> "a" : "active": or the active center coordoniates                                                       
 				*			  each case are separated by a "-", and the coordinate are encoded by two letters (see alphanumconvert())
 				*   -> "d" : "decoration": the third 'decoration' layer
 				*   -> "c" : "comment", encoded in base64
-				*
+				*   -> "w" : "white (border)", white pixel border
+				*				*
 				* Example:
-				* )rARS_)geeT-feT-dfT-efT-ffT-cgT-dgT-fgT-fhT-fiT-fjT-fkT-flT-fmT-fnT-_)cT25lIGJsdWU%3D+)rARS_)gdcL-ecL-fcL-ddL-fdL-gdL-ceL-geL-heL-cfL-hfL-cgL-hgL-chL-hhL-hiL-gjL-fkL-gkL-flL-emL-dnL-enL-doL-dpL-epL-fpL-gpL-hpL-_)cVHdvIG9yYW5nZQ%3D%3D+)rARS_)gbfZ-cfZ-dfZ-efZ-fgZ-fhZ-fiZ-cjZ-djZ-ejZ-fjZ-ekZ-flZ-glZ-fmZ-gmZ-enZ-fnZ-boZ-coZ-doZ-eoZ-_)ahc-Oi_)cVGhyZWUgZ3JlZW4gYW5kIGFjdGl2ZSB5ZWxsb3c%3D+
+				* *rARS_*geeT-feT-dfT-efT-ffT-cgT-dgT-fgT-fhT-fiT-fjT-fkT-flT-fmT-fnT-_*cT25lIGJsdWU%3D+*rARS_*gdcL-ecL-fcL-ddL-fdL-gdL-ceL-geL-heL-cfL-hfL-cgL-hgL-chL-hhL-hiL-gjL-fkL-gkL-flL-emL-dnL-enL-doL-dpL-epL-fpL-gpL-hpL-_*cVHdvIG9yYW5nZQ%3D%3D+*rARS_*gbfZ-cfZ-dfZ-efZ-fgZ-fhZ-fiZ-cjZ-djZ-ejZ-fjZ-ekZ-flZ-glZ-fmZ-gmZ-enZ-fnZ-boZ-coZ-doZ-eoZ-_*ahc-Oi_*cVGhyZWUgZ3JlZW4gYW5kIGFjdGl2ZSB5ZWxsb3c%3D+
+
 				* <- that should be One blue, Two Orange, Three green and yellow active.
                                 *
 				* Alt encoding (not implemented yet): list every piece type and then they positions, e.g.
 				*
-				* )gTO(ee-fe-df-df-ef-ff-cg(fj-fk-fl-fm
+				* *gTO*ee-fe-df-df-ef-ff-cg*fj-fk-fl-fm
 				* | |        |-> 1st coord      |-> 2nd
-				* | |-> piece types
+				* | |-> piece types (here, a T and a O)
 				* |-> control character
+				*
+				* *rARS_*gT*ee-fe-df-ef-ff-cg*O
+				*
 				*/
 				var TetrionState=""; // our final string
 				var tmp=""; // an utility string, may be flushed at will
 				var coord_x;
 				var coord_y;
 
-
 				// We're encoding for one frame only, the rest is handled by the higher class
 
 				// "s"
-				if(this.pf_height != 20 && this.pf_width != 10) // write size only if non-standard size
+				if(this.pf_height != 20 || this.pf_width != 10) // write size only if non-standard size
 				{
-					TetrionState +=")s"+this.pf_width+"x"+this.pf_height+"_";
+					TetrionState +="*s"+this.pf_width+"x"+this.pf_height+"_";
 				}
 					
 				
 				// "r"
 				if(this.system)
 				{
-					TetrionState += ")r"+this.system+"_";
+					TetrionState += "*r"+this.system+"_";
 				}
 
 				// "b"
 
 				if(this.border_color)
 				{
-					TetrionState += ")b"+this.border_color+"_";
+					TetrionState += "*b"+this.border_color+"_";
 				}
 
 				// "h", "n","m","o": hold and nexts pieces; the system is modular enough to don't care if they aren't present
 				if(this.hold)
 				{
-					TetrionState += ")h"+this.hold+"_";
+					TetrionState += "*h"+this.hold+"_";
 				}
 
 				if(this.next1)
 				{
-					TetrionState += ")n"+this.next1+"_";
+					TetrionState += "*n"+this.next1+"_";
 				}
 
 				if(this.next2)
 				{
-					TetrionState += ")m"+this.next2+"_";
+					TetrionState += "*m"+this.next2+"_";
 				}
 				if(this.next3)
 				{
-					TetrionState += ")o"+this.next3+"_";
+					TetrionState += "*o"+this.next3+"_";
 				}
-
-
-
+				
 				// "g": Let's check if the Tetrion is empty. While we're at it, encode its content
-
 				for(var j=0; j<this.pf_height;j++) //inactive
 				{
 					for(var i=0; i<this.pf_width;i++)
 					{
 						if(this.Tetrion[i][j]["content"] != "_")
 						{
+							
 							coord_x = alphanumconvert(i);
 							coord_y = alphanumconvert(j);
 							tmp += coord_x+coord_y+this.Tetrion[i][j]["content"]+"-";
 						}
 					}
 				}
-
+				
 				// if it's not empty, congratulation, you got a garbage string !
 				if(tmp)
 				{
-					TetrionState+=")g";
+					TetrionState+="*g";
 					TetrionState+=tmp+"_";
 					tmp=""; // let's reset tmp for further use
 				}
 
-				// "a" now for the Active piece. Same strategy
+				// "a" Active piece.
 
-				for(var j=0; j<this.pf_height;j++) //Active
+				if(this.the_active_center['piece'])
+					{
+						var coord = this.the_active_center['coord'].split('x');	
+						coord_x = alphanumconvert(parseInt(coord[0]));
+						coord_y = alphanumconvert(parseInt(coord[1]));
+						tmp+=coord_x+coord_y+"-"+this.the_active_center['piece'];						
+					}
+				
+				/*for(var j=0; j<this.pf_height;j++) //Active
 				{
 					for(var i=0; i<this.pf_width;i++)
 					{
@@ -1388,12 +1471,12 @@ $(document).ready(function(){
 							tmp+=coord_x+coord_y+"-"+this.Tetrion[i][j]['center_active'];
 						}
 					}
-				}
-
+				}*/
+                                                                                         
 				// if it's not empty means we got an active center
 				if(tmp)
 				{
-					TetrionState+=")a";
+					TetrionState+="*a";
 					TetrionState+=tmp+"_";
 					tmp=""; // let's reset tmp for further use
 				}
@@ -1416,23 +1499,38 @@ $(document).ready(function(){
 
 				if(tmp)
 				{
-					TetrionState+=")d";
+					TetrionState+="*d";
 					TetrionState+=tmp+"_";
 					tmp=""; // let's reset tmp for further use
-				}				
+				}				                                                              
 				
 				if(this.comment) //comment
 				{
-					TetrionState+=")c"+encodeURIComponent(Base64.encode(this.comment));
+					//replace the authorized html tags
+					this.comment = this.comment.replace('<strong>','html-strong-begin');
+					this.comment = this.comment.replace('</strong>','html-strong-end');					
+					this.comment = this.comment.replace('<em>','html-em-begin');
+					this.comment = this.comment.replace('</em>','html-em-end');
+					this.comment = this.comment.replace('<a','html-a-begin'); // the rest of the a tag is left untouched intentionnally
+					this.comment = this.comment.replace('</a>','html-a-end');
+					this.comment = this.comment.replace(/<(.|\n)*?>/,''); // <- destroy any html tag left
+					this.comment//replace everything
+					this.comment=this.comment.replace('html-strong-begin','<strong>');
+					this.comment=this.comment.replace('html-strong-end','</strong>');					
+					this.comment=this.comment.replace('html-em-begin','<em>');
+					this.comment=this.comment.replace('html-em-end','</em>');
+					this.comment=this.comment.replace('html-a-begin','<a'); 
+					this.comment=this.comment.replace('html-a-end','</a>');
+					
+					TetrionState+="*c"+encodeURIComponent(Base64.encode(this.comment));
 				}
 				
 				if(this.stackborder_status) //stackborder
 				{
-				TetrionState+=")w1"
+				TetrionState+="*w"
 				}
 				return TetrionState;
 			}
-
 			this.export_pf = function(){
 				/**
 				* Displays the print result in the export textarea
@@ -1441,7 +1539,6 @@ $(document).ready(function(){
 				$("#export").html(this.print());
 
 			}
-
 			this.load_pf = function(str){
 				/**
 				* Reboot the playfield, parses the string in parameter and
@@ -1450,17 +1547,12 @@ $(document).ready(function(){
 				this.rebootPlayfield();
 				this.rebootActive();
 				if(!str){return;}
-
-
-				this.rebootPlayfield();
-				this.rebootActive();
-				if(!str){return;}
 				this.change_size(10,20); // reset size to standard
 				var Split = str.split("_"); // let's decompose our string into individual element...
 
 				for(var i=0;i<Split.length;i++) // for each of its constituent, analyse what it is
 				{
-					if(Split[i].charAt(0) == ")") // the first character must be the identifier ')'
+					if(Split[i].charAt(0) == "*") // the first character must be the identifier '*'
 					{
 
 						switch(Split[i].charAt(1)) // let's see what is second character...
@@ -1470,6 +1562,7 @@ $(document).ready(function(){
 							var newwidth = parseFloat(newsize[0]);
 							var newheight = parseFloat(newsize[1]);
 							this.change_size(newwidth,newheight);
+							this.change_size_display();
 							break;
 						case "r" :
 							this.modify_system(Split[i].slice(2)); // slicing out the id characters
@@ -1520,7 +1613,7 @@ $(document).ready(function(){
 
 							var piece_nature = activeSplit[1].slice(0,1);
 							var piece_orientation = activeSplit[1];
-							var orientation = get_orientation(piece_orientation,center);
+							var orientation = get_orientation(piece_orientation,center,this.system);
 
 							var t2 = new Array();
 							var t3 = new Array();
@@ -1562,8 +1655,8 @@ $(document).ready(function(){
 							$('#com').val(this.comment);
 							break;
 						case "w" :
-							this.stackborder_status = Split[i].slice(2);
-							this.draw_stackborder(Split[i].slice(2));
+							this.stackborder_status = 1;
+							this.draw_stackborder(1);
 							break;
 
 						}
@@ -1571,131 +1664,6 @@ $(document).ready(function(){
 
 				}
 			}
-
-			this.save_comment = function(){
-				/**
-				* saves what is in the comment textarea
-				*/
-				this.comment = $('#com').val();
-			}
-
-			this.draw = function(){
-				/**
-				* Sets every cells to its rightful class
-				* /!\ Slow function ! Do not overuse it (especially on mouseover)
-				*/				
-				// sets the border
-				switch(this.border_color)
-				{
-				case "gray" :
-					$('table#diagram').css('border', '5px solid gray');
-					break;
-				case "yellow" :
-					$('table#diagram').css('border', '5px solid yellow');
-					break;
-				case "blue" :
-					$('table#diagram').css('border', '5px solid blue');
-					break;
-				case "red" :
-					$('table#diagram').css('border', '5px solid red');
-					break;
-				case "green" :
-					$('table#diagram').css('border', '5px solid green');
-					break;
-				case "clear" :
-					$('table#diagram').css('border', '5px solid transparent');
-					break;
-				case "none" :
-					$('table#diagram').css('border', '5px solid transparent');
-					break;
-				default :
-					$('table#diagram').css('border', '5px solid gray');
-					break;
-				
-				}
-
-				// sets hold_and next
-				if(this.system)
-				{
-				$('#holdbox').attr("src", 'img/blocks/' + this.system + '/hold/' + this.system + 'hold' + this.hold + '.png');
-
-				$('#next1box').attr("src", 'img/blocks/' + this.system + '/bignext/' + this.system + 'NEXT' + this.next1 + '.png');
-
-				$('#next2box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next2 + '.png');
-
-				$('#next3box').attr("src", 'img/blocks/' + this.system + '/smallnext/' + this.system + 'next' + this.next3 + '.png');
-				
-				}
-
-				else
-				{
-				$('#holdbox').attr("src", 'img/blocks/' + defaultsystem + '/hold/' + defaultsystem + 'hold' + this.hold + '.png');
-
-				$('#next1box').attr("src", 'img/blocks/' + defaultsystem + '/bignext/' + defaultsystem + 'NEXT' + this.next1 + '.png');
-
-				$('#next2box').attr("src", 'img/blocks/' + defaultsystem + '/smallnext/' + defaultsystem + 'next' + this.next2 + '.png');
-
-				$('#next3box').attr("src", 'img/blocks/' + defaultsystem + '/smallnext/' + defaultsystem + 'next' + this.next3 + '.png');
-				}
-				
-				// sets every cell
-				for(var i=0;i<this.pf_width;i++)
-				{
-					for(var j=0;j<this.pf_height;j++)
-					{
-						//$('#p'+i+'x'+j).removeClass();
-						if(this.Tetrion[i][j]['content_active'])
-						{
-							//$('#p'+i+'x'+j).addClass(this.system+this.Tetrion[i][j]['content_active']);
-							//$('#p'+i+'x'+j).addClass("active");
-							if(this.system)
-							{
-							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');							
-							}
-							else
-							{
-							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content_active'] + 'Tet.png\')');							
-							}
-							$('#p'+i+'x'+j).addClass("active");
-						}
-						else
-						{
-							if(this.Tetrion[i][j]['content'] == "_") // <- if empty cell
-							{
-								if(this.system)
-								{
-								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
-								}
-								else
-								{
-								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content'] + 'Tet.png\')');
-								}
-							}
-							else
-							{
-								if(this.system)
-								{
-								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + this.Tetrion[i][j]['content'] + 'Tet.png\')');
-								}
-								else
-								{
-								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + this.Tetrion[i][j]['content'] + 'Tet.png\')');
-								}
-								$('#p'+i+'x'+j).addClass("inactive");
-							}
-						}
-					}
-				}
-				$('#com').val(this.comment);
-				
-				if(this.stackborder_status)
-				{
-				this.draw_stackborder(this.stackborder_status);				
-				}
-
-
-			}
-
 			this.export_to_tw = function (){
 				/**
 				* Generates a tetris wiki-compliant string from the array.
@@ -1764,7 +1732,6 @@ $(document).ready(function(){
 				$('#export').html(code);
 				$('#console-description').html("copy and paste into tetriswiki");
 			}
-
 			this.export_to_url = function(){
 				/**
 				* Generates an URL with the current playfield
@@ -1780,6 +1747,22 @@ $(document).ready(function(){
 				$("#export").html(output+"#"+this.print());
 			}
 
+			this.export_to_edit_url = function(){
+				/**
+				* Generates an URL with the current playfield
+				*/
+				var output = window.location.protocol+window.location.hostname;
+				var tmp = window.location.pathname.split("/");
+
+				for(var i = 0; i<tmp.length-1;i++)
+				{
+					output += tmp[i]+"/";
+				}
+				output+="tedige.html";
+				$("#export").html(output+"#"+this.print());
+			}
+
+			
 			this.export_to_forum = function(){
 				/**
 				* Generates an usable forum string
@@ -1787,126 +1770,147 @@ $(document).ready(function(){
 				$("#export").html("[tedige]"+this.print()+"[/tedige]");
 			}
 
-			this.stackborder = function(x,y){
-				/**
-				* Add appropriate white border to an empty cell
-				*/				
-				
-				var outbkg ="";	
+			/* Internal function */
 
-				if(this.Tetrion[x][y]['content'] == "_")
-					{
-						
-						if(y-1>=0 && this.Tetrion[x][y-1]['content'] != "_")
-						{
-							outbkg += "top";
-						}					
-						
-						if(x+1<this.pf_width && this.Tetrion[x+1][y]['content'] != "_")
-						{
-							outbkg += "right";
-						}					
-						
-						if(y+1<this.pf_height && this.Tetrion[x][y+1]['content'] != "_")
-						{
-							outbkg += "bottom";
-						}										
-						
-						if(x-1>=0 && this.Tetrion[x-1][y]['content'] != "_")
-						{
-							outbkg += "left";
-						}
-					}
-					if(this.system)
-					{
-					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
-					}
-					else
-					{
-					$('#p'+x+'x'+y).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + outbkg + 'Tet.png\')');						
-					}
-			}
-						
-			
-			this.draw_stackborder = function(status){
+			this.is_in = function(x,y){
 				/**
-				* Apply stackborder to everycell
-				*/				
-				
-				var outbkg ="";	
-					
+				* Checks if a point is outside of the playfield
+				*/
+				if(x < 0 ||y < 0 || x>=this.pf_width || y>=this.pf_height)
+					{return false;}
+				return true;
+			}
+
+			this.rebootPlayfield = function(){
+				/**
+				* Sets the whole inactive layer of the array to "_" (empty cell).
+				*/
 				for(var i=0;i<this.pf_width;i++)
 				{
-				
 					for(var j=0;j<this.pf_height;j++)
 					{
-						if(this.Tetrion[i][j]['content'] == "_")
+						this.Tetrion[i][j]["content"]= "_";
+					}
+				}
+			}
+
+			this.rebootActive = function(){
+				/**
+				* Sets the whole active layer of the array to "" (empty cell).
+				* Sets the same with the active center
+				*/
+				for(var i=0;i<this.pf_width;i++)
+				{
+					for(var j=0;j<this.pf_height;j++)
+					{
+						this.modify_active(i,j,"");
+						this.modify_active_center(i,j,"");
+					}
+				}
+			}
+
+			this.draw = function(){
+				/**
+				* Sets every cells to its rightful class
+				* /!\ Slow function ! Do not overuse it (especially on mouseover)
+				*/				 
+
+				this.modify_system(this.system);  
+                                                                 
+				var $diagram = $('#diagram');
+				this.change_size_display();
+				                                
+				// sets the border
+				switch(this.border_color)
+				{
+				case "gray" :                     
+					$diagram.css('border', '5px solid gray');
+					break;
+				case "yellow" :
+					$diagram.css('border', '5px solid yellow');
+					break;
+				case "blue" :
+					$diagram.css('border', '5px solid blue');
+					break;
+				case "red" :
+					$diagram.css('border', '5px solid red');
+					break;
+				case "green" :
+					$diagram.css('border', '5px solid green');
+					break;
+				case "clear" :
+					$diagram.css('border', '5px solid transparent');
+					break;
+				case "none" :
+					$diagram.css('border', '5px solid transparent');
+					break;
+				default :
+					$diagram.css('border', '5px solid gray');
+					break;
+				
+				}
+
+				// sets hold_and next
+					this.modify_hold(this.hold);
+					this.modify_next1(this.next1);				
+					this.modify_next2(this.next2);				
+					this.modify_next3(this.next3);									
+				var $workingcell = '';	
+				// sets every cell
+				for(var i=0;i<this.pf_width;i++)
+				{
+					for(var j=0;j<this.pf_height;j++)
+					{      
+						$workingcell = $('#p'+i+'x'+j);
+						$inactivelayer = $workingcell.find('.inactivelayer');
+						$activelayer = $workingcell.find('.activelayer');
+						$decorationlayer = $workingcell.find('.decorationlayer');
+						
+						$inactivelayer.attr('class', 'activelayer');
+						$activelayer.attr('class', 'inactivelayer');
+						$decorationlayer.attr('class', 'decorationlayer'); 
+						$workingcell.removeClass('haspreview foreground-inactive hasinactive hasactive');
+						
+						/* inactive pixel active deco preview */
+
+						if(this.Tetrion[i][j]['content_active'])
 						{
-							
-							if(this.Tetrion[i][j]['content_active'] == "")
+							$activelayer.addClass('piece-'+this.Tetrion[i][j]['content_active']);
+							$workingcell.addClass('hasactive');    
+							if(this.Tetrion[i][j]['content'] != "_")
 							{
-							if(status)
+								$workingcell.addClass('hasinactive');    								
+							}   
+						}
+						else
+						{						
+							if(this.Tetrion[i][j]['content'] != "_") // <- if not empty cell
 							{
-								if(j-1>=0 && this.Tetrion[i][j-1]['content'] != "_")
-								{
-									outbkg += "top";
-								}					
-								
-								if(i+1<this.pf_width && this.Tetrion[i+1][j]['content'] != "_")
-								{
-									outbkg += "right";
-								}					
-								
-								if(j+1<this.pf_height && this.Tetrion[i][j+1]['content'] != "_")
-								{
-									outbkg += "bottom";
-								}										
-								
-								if(i-1>=0 && this.Tetrion[i-1][j]['content'] != "_")
-								{
-									outbkg += "left";
-								}
-							}
-							if(this.system)
-							{
-							$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + this.system + '/' + this.system + outbkg + 'Tet.png\')');						
-							}
-							else
-							{
-								$('#p'+i+'x'+j).css('background-image', 'url(\'img/blocks/' + defaultsystem + '/' + defaultsystem + outbkg + 'Tet.png\')');
-							}
-							outbkg ="";
+								$inactivelayer.addClass('piece-'+this.Tetrion[i][j]['content']);
+								$workingcell.addClass('hasinactive foreground-inactive');              
+
 							}
 						}
 						
+						if(this.Tetrion[i][j]['decoration'])
+						{
+							$decorationlayer.addClass(this.Tetrion[i][j]["decoration"]);
+						}
+						
+                                         
 					}
-					
 				}
+				$('#com').val(this.comment);
 				
+				if(this.stackborder_status)
+				{
+				this.draw_stackborder(this.stackborder_status);				
+				}
+
+
 			}
-			 
-			this.recursive_fill = function(x,y, replaced, replacer) {
-				x = parseFloat(x);
-				y = parseFloat(y);
-				
-				if (this.Tetrion[x][y]['content'] != replaced)
-					return;
-
-				this.modify(x, y, replacer);
-
-				if (y-1 >= 0)
-					this.recursive_fill(x, y-1, replaced, replacer);
-
-				if (y+1 < this.pf_height)
-					this.recursive_fill(x, y+1, replaced, replacer);
-
-				if (x+1 < this.pf_width)
-					this.recursive_fill(x+1, y, replaced, replacer);
-
-				if (x-1 >= 0)
-					this.recursive_fill(x-1, y, replaced, replacer);
-			}			
-			
+		
+			/* Undo manager */
 			this.Tetrion_History_Save = function (){
 				/**
 				* Stores the last frame in memory
@@ -2061,242 +2065,775 @@ $(document).ready(function(){
 			return output;
 		}
 
-		function get_orientation(piece_orientation,center){
+		function get_orientation(piece_orientation,center,system){
 			/**
 			* returns an two dimensionnals array that stores the position of the blocks
 			* relative to a center given in parameter and to a set orientation also given in parameter
 			*/
 			var t2 = new Array();
 			var t3 = new Array();
-			var t4 = new Array();
-			switch(piece_orientation)
+			var t4 = new Array();   
+			switch(system)
 			{
-				/*
-				This switch choose the cases to be modified
-				g: locked / garbage
-				i: initial orientation
-				ccw: CCW-rotation
-				cw: CW-rotation
-				u: reverse or rotated orientation
-				*/
-			/* T tetramino */
-
-			case "Ti" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Tccw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Tcw" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Tu" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			/* I tetramino */
-			case "Ii" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])-2;
-				t4['y'] = parseFloat(center['y'])+0;
-				break;
-			case "Iu" :
-				t2['x'] = parseFloat(center['x'])+0;
-				t2['y'] = parseFloat(center['y'])+1;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])-2;
-				break;
-			/* O tetramino */
-			case "Oi" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;       
-				break;
-			case "Ocw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Ou" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Occw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			/* Z tetramino */
-			case "Zi" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Zcw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+0;      
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Zu" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Zccw" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			/* S tetramino */
-			case "Si" :                              
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;      
-				t4['x'] = parseFloat(center['x'])-1;        
-				t4['y'] = parseFloat(center['y'])+1;
-				break;                                      
-			case "Scw" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;      
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])+1;          
-				break;                                       
-			case "Su" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Sccw" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+0;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;       			 			
-			/* L tetramino */
-			case "Li" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+1;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])+0;
-				break;
-			case "Lccw" :
-				t2['x'] = parseFloat(center['x'])+0;
-				t2['y'] = parseFloat(center['y'])+1;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Lcw" :
-				t2['x'] = parseFloat(center['x'])+0;
-				t2['y'] = parseFloat(center['y'])+1;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Lu" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			/* J tetramino */
-			case "Ji" :
-				t2['x'] = parseFloat(center['x'])+1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])-1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Jccw" :
-				t2['x'] = parseFloat(center['x'])+0;
-				t2['y'] = parseFloat(center['y'])+1;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])-1;
-				t4['x'] = parseFloat(center['x'])+1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
-			case "Jcw" :
-				t2['x'] = parseFloat(center['x'])+0;
-				t2['y'] = parseFloat(center['y'])-1;
-				t3['x'] = parseFloat(center['x'])+0;
-				t3['y'] = parseFloat(center['y'])+1;
-				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])+1;
-				break;
-			case "Ju" :
-				t2['x'] = parseFloat(center['x'])-1;
-				t2['y'] = parseFloat(center['y'])+0;
-				t3['x'] = parseFloat(center['x'])+1;
-				t3['y'] = parseFloat(center['y'])+0;
-				t4['x'] = parseFloat(center['x'])-1;
-				t4['y'] = parseFloat(center['y'])-1;
-				break;
+				case "ARS":
+					switch(piece_orientation)
+					{
+							/*
+							This switch choose the cases to be modified
+							g: locked / garbage
+							i: initial orientation
+							ccw: CCW-rotation
+							cw: CW-rotation
+							u: reverse or double-rotated orientation
+							*/
+						/* T tetramino */
+						case "Ti" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Tccw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Tcw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Tu" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* I tetramino */
+						case "Ii" :                         
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-2;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Iccw" :                         
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-2;
+							break;    
+						case "Iu" :                         
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-2;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Icw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-2;
+							break;
+						/* O tetramino */
+						case "Oi" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;       
+							break;
+						case "Ocw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Ou" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Occw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* Z tetramino */
+						case "Zi" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zcw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;      
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zu" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zccw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						/* S tetramino */
+						case "Si" :                              
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;      
+							t4['x'] = parseFloat(center['x'])-1;        
+							t4['y'] = parseFloat(center['y'])+1;
+							break;                                      
+						case "Scw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;      
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;                                       
+						case "Su" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Sccw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;       			 			
+						/* L tetramino */
+						case "Li" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;
+						case "Lccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Lcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Lu" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* J tetramino */
+						case "Ji" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Jccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Jcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Ju" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						default:
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+0;          
+							break;								
+					}					
+					break;  
+				case "SRS":
+					switch(piece_orientation)
+					{
+							/*
+							This switch choose the cases to be modified
+							g: locked / garbage
+							i: initial orientation
+							ccw: CCW-rotation
+							cw: CW-rotation
+							u: reverse or double-rotated orientation
+							*/
+						/* T tetramino */
+						case "Ti" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Tcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;
+						case "Tu" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Tccw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						/* I tetramino */
+						case "Ii" :                         
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-2;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Icw" :                         
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+2;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;                   
+						case "Iu" :                         
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-2;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Iccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+2;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;                                           
+						/* O tetramino */
+						case "Oi" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;       
+							break;
+						case "Ocw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Ou" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Occw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* S tetramino */
+						case "Si" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;
+						case "Scw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;      
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Su" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Sccw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						/* Z tetramino */
+						case "Zi" :                              
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;      
+							t4['x'] = parseFloat(center['x'])+1;        
+							t4['y'] = parseFloat(center['y'])+0;
+							break;                                      
+						case "Zcw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+1;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;                                       
+						case "Zu" :     
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;      
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;
+						case "Zccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])-1;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;       			 			
+						/* L tetramino */
+						case "Li" :                         
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;    
+						case "Lcw" :                         
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;    
+						case "Lu" :                         
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;    
+						case "Lccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;   
+						/* J tetramino */
+						case "Ji" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])-1;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;          
+							break;
+						case "Jcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+1;      
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;
+						case "Ju" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;
+						case "Jccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+0;      
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;
+						default:
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+0;          
+							break;								
+					}					
+					break;  
+				default:
+					switch(piece_orientation)
+					{
+							/*
+							This switch choose the cases to be modified
+							g: locked / garbage
+							i: initial orientation
+							ccw: CCW-rotation
+							cw: CW-rotation
+							u: reverse or double-rotated orientation
+							*/
+						/* T tetramino */
+						case "Ti" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Tccw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Tcw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Tu" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* I tetramino */
+						case "Ii" :                         
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-2;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Iccw" :                         
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-2;
+							break;    
+						case "Iu" :                         
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-2;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;    
+						case "Icw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])-2;
+							break;
+						/* O tetramino */
+						case "Oi" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;       
+							break;
+						case "Ocw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Ou" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Occw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* Z tetramino */
+						case "Zi" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zcw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;      
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zu" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Zccw" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						/* S tetramino */
+						case "Si" :                              
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;      
+							t4['x'] = parseFloat(center['x'])-1;        
+							t4['y'] = parseFloat(center['y'])+1;
+							break;                                      
+						case "Scw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;      
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;          
+							break;                                       
+						case "Su" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Sccw" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;       			 			
+						/* L tetramino */
+						case "Li" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+0;
+							break;
+						case "Lccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Lcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Lu" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						/* J tetramino */
+						case "Ji" :
+							t2['x'] = parseFloat(center['x'])+1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])-1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Jccw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])-1;
+							t4['x'] = parseFloat(center['x'])+1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						case "Jcw" :
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])-1;
+							t3['x'] = parseFloat(center['x'])+0;
+							t3['y'] = parseFloat(center['y'])+1;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])+1;
+							break;
+						case "Ju" :
+							t2['x'] = parseFloat(center['x'])-1;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+1;
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])-1;
+							t4['y'] = parseFloat(center['y'])-1;
+							break;
+						default:
+							t2['x'] = parseFloat(center['x'])+0;
+							t2['y'] = parseFloat(center['y'])+0;
+							t3['x'] = parseFloat(center['x'])+0;      
+							t3['y'] = parseFloat(center['y'])+0;
+							t4['x'] = parseFloat(center['x'])+0;
+							t4['y'] = parseFloat(center['y'])+0;          
+							break;								
+					}					
+					break;
 			}
 
+                      
 			var orientation = [t2,t3,t4]
 			return orientation;
 		}
@@ -2305,7 +2842,7 @@ $(document).ready(function(){
 		*
 		*  Base64 encode / decode courtesy of
 		*  http://www.webtoolkit.info/
-		*
+		*                                                 
 		**/
 
 		var Base64 = {
@@ -2447,31 +2984,36 @@ $(document).ready(function(){
 		/* -------------------------------------------------------------
 		Interface there
 		------------------------------------------------------------- */
-
 		var D = new Diagram();
 		D.init();
 		
-		// save handler
+		/*------------------------ Save control ------------------ */  
 		
-			var URLHash = window.location.hash;
-			if(URLHash) // load if there's something in the url
-			{
-				D.load(URLHash.slice(1));
-				D.first_playfield();
-				
-			}
+		var URLHash = window.location.search;
+		if(URLHash) // load if there's something in the url
+		{
+			var toLoad = URLHash.split('?');
+			D.load(toLoad[1]);
+			D.first_playfield();
+			                 
+		}      
         	
         	
-			$("#save-button").click(function(){
+		$("#save-button").click(function(){    
 					if ($('input[name=export]:checked').val() == 'All') {
-						if ($('#wiki:checked').val() != null)
-						{
-							D.export_all_to_tw();
-							$('#export').select();
-						}
-						else if ($('#url:checked').val() != null)
+						if($('input[name=exporturl]:checked').val() == 'url')
 						{
 							D.export_all_to_url();
+							$('#export').select();
+						}
+						else if($('input[name=exporturl]:checked').val() == 'urledit')
+						{
+							D.export_all_to_edit_url();
+							$('#export').select();
+						}
+						else if($('input[name=exporturl]:checked').val() == 'forum')
+						{
+							D.export_all_to_forum();
 							$('#export').select();
 						}
 						else
@@ -2482,14 +3024,19 @@ $(document).ready(function(){
 					}
         	
 					if ($('input[name=export]:checked').val() == 'Current') {
-						if ($('#wiki:checked').val() != null)
-						{
-							D.Playfields[D.current_playfield].export_to_tw();
-							$('#export').select();
-						}
-						else if ($('#url:checked').val() != null)
+						if($('input[name=exporturl]:checked').val() == 'url')
 						{
 							D.Playfields[D.current_playfield].export_to_url();
+							$('#export').select();
+						}
+						else if($('input[name=exporturl]:checked').val() == 'urledit')
+						{
+							D.Playfields[D.current_playfield].export_to_edit_url();
+							$('#export').select();
+						}
+						else if($('input[name=exporturl]:checked').val() == 'forum')
+						{
+							D.Playfields[D.current_playfield].export_to_forum();
 							$('#export').select();
 						}
 						else
@@ -2500,11 +3047,7 @@ $(document).ready(function(){
 					}
 			})
 
-		
-		// mouse handler
-			
-			
-			$("#load-button").click(function(){
+		$("#load-button").click(function(){
 					if ($('input[name=export]:checked').val() == 'All') {
 						var bigstr = $("#import").val();
 						D.load(bigstr);
@@ -2513,79 +3056,94 @@ $(document).ready(function(){
 						var str = $("#import").val();
 						D.Playfields[D.current_playfield].load_pf(str);
 					}
-			})
-                	
-			$('body').mousedown(function(){is_clicking = 1; right_clicking = 0;});
-			$('body').mouseup(function(){is_clicking = 0; right_clicking = 0; left_remove = 0;});
-			$('body').rightMouseDown(function(){is_clicking = 0; right_clicking = 1;});
-			$('body').rightMouseUp(function(){is_clicking = 0; right_clicking = 0;});
+			})    		
+		/*------------------------ Mouse control ------------------ */ 
+			 var $body = $('body'); 
+			$body.mousedown(function(){is_clicking = 1; right_clicking = 0;})
+				  .mouseup(function(){is_clicking = 0; right_clicking = 0; left_remove = 0;})
+		/*		  .rightMouseDown(function(){is_clicking = 0; right_clicking = 1;})
+				  .rightMouseUp(function(){is_clicking = 0; right_clicking = 0;});*/
 			
 			$('#diagram td').hover(function()
+			{
+				var position = $(this).attr("id");
+				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
+				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
+				var is_active = $('#active').attr('checked');
+				
+				if(right_clicking) // right click -> remove blocks by dragging with a right click
 				{
-					var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
-					var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
-					var is_active = $('#active').attr('checked');
-                	
-					if(right_clicking) // right click -> remove blocks by dragging with a right click
+					D.Playfields[D.current_playfield].modify_set_piece(position,"inactive","_",piece_orientation); // replace with empty
+				}
+				else if(is_clicking) // left click
+				{
+					if(piece_nature == 'decoration') // decoration
 					{
-                	
-						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive","_",piece_orientation); // replace with empty
+						var x_begin = position.indexOf('p');
+						var y_begin = position.indexOf('x');
+						
+						var x = parseInt(position.substring(x_begin+1, y_begin));
+						var y = parseInt(position.substring(y_begin+1));
+						
+						D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);	
 					}
-					else if(is_clicking) // left click
+					else  
 					{
-                	
-						// remove blocks by dragging with a left click
-						if (left_remove) {
-							D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive","_",piece_orientation);
+						if(is_active) //do we work on the active layer ?
+						{
+							D.Playfields[D.current_playfield].modify_set_piece(position,"active",piece_nature,piece_orientation);
 						}
-						// place blocks by dragging with a left click
-						else {
-							if(is_active)
+						else // else we work on the inactive
+						{
+							// does the click remove the block ? (-> if it's not empty & if it's the same piece nature)
+							if (D.Playfields[D.current_playfield].lookup_block(position) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) 
 							{
-							D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"active",piece_nature,piece_orientation); //add class						
+								D.Playfields[D.current_playfield].modify_set_piece(position,"inactive","_",piece_orientation);
 							}
-							else
+							else // else we add something
 							{
-							D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"inactive",piece_nature,piece_orientation); //add class
+								D.Playfields[D.current_playfield].modify_set_piece(position,"inactive",piece_nature,piece_orientation);
 							}
-						}
-					}
-					else // hover enter: add preview
-					{
-						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"addpreview",piece_nature,piece_orientation,is_active); // add preview
-					}
-                	
-				},                       
-				function(){
-					{
-						// hover quit: remove preview
-						var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
-						var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
-						var is_active = $('#active').attr('checked');
-						D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"removepreview",piece_nature,piece_orientation,is_active); // remove preview
+						}						
 					}
 				}
-				);
+				else // hover enter: add preview
+				{
+					D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"addpreview",piece_nature,piece_orientation,is_active); // add preview
+				}           
+			},                       
+			function()
+			{          
+				// hover quit: remove preview
+				var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
+				var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
+				var is_active = $('#active').attr('checked');
+				D.Playfields[D.current_playfield].modify_set_piece($(this).attr("id"),"removepreview",piece_nature,piece_orientation,is_active); // remove preview
+			}    
+			);
                 	
 			var rect_x_start, rect_x_end, rect_y_start,rect_y_end;
 			var have_coord;
                 	
 			$('#diagram td').mousedown(function(){
-					clicked = $(this).attr("id");
+					var clicked = $(this).attr("id");
 					var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class'); // get the selected tetramino nature (L, S, garbage, item...)
 					var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 					var is_active = $('#active').attr('checked');
 					var is_rectangle_mode = $('#rectangular-fill').attr('checked');
 					var is_recursive_fill_mode = $('#recursive-fill').attr('checked');
-                	
-					if(piece_nature == 'decoration')
-					{
-					var x_begin = clicked.indexOf('p');
-					var y_begin = clicked.indexOf('x');
-                	
-					var x = parseInt(clicked.substring(x_begin+1, y_begin));
-					var y = parseInt(clicked.substring(y_begin+1));
+					var is_advancing = $('#advance').attr('checked');
+					var is_painting = $('#paintactive').attr('checked');                                                                    
 					
+					
+					if(piece_nature == 'decoration') // decoration
+					{
+						var x_begin = clicked.indexOf('p');
+						var y_begin = clicked.indexOf('x');
+						
+						var x = parseInt(clicked.substring(x_begin+1, y_begin));
+						var y = parseInt(clicked.substring(y_begin+1));
+						
 						D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);						
 					}                                                                             
 					
@@ -2593,19 +3151,19 @@ $(document).ready(function(){
 					{
 						if(have_coord)
 						{                                                                      
-						$('#p'+rect_x_start+'x'+rect_y_start).css('background-color','');
-						rect_x_end = clicked.slice(1,clicked.indexOf("x"));	
-						rect_y_end = clicked.slice(clicked.indexOf("x")+1);
-						D.Playfields[D.current_playfield].rectangular_fill(rect_x_start,rect_y_start,rect_x_end, rect_y_end,piece_nature);	
-						have_coord = false;
-						$('#rectangular-fill').removeAttr('checked');					
+							$('#p'+rect_x_start+'x'+rect_y_start).css('background-color','');
+							rect_x_end = clicked.slice(1,clicked.indexOf("x"));	
+							rect_y_end = clicked.slice(clicked.indexOf("x")+1);
+							D.Playfields[D.current_playfield].rectangular_fill(rect_x_start,rect_y_start,rect_x_end, rect_y_end,piece_nature);	
+							have_coord = false;
+							$('#rectangular-fill').removeAttr('checked');					
 						}
 						else
 						{
-						rect_x_start = clicked.slice(1,clicked.indexOf("x"));	
-						rect_y_start = clicked.slice(clicked.indexOf("x")+1);    					
-						have_coord = true;
-						$('#'+clicked).css('background-color','green');
+							rect_x_start = clicked.slice(1,clicked.indexOf("x"));	
+							rect_y_start = clicked.slice(clicked.indexOf("x")+1);    					
+							have_coord = true;
+							$('#'+clicked).css('background-color','green');
 						}
 					}
 					else if(is_recursive_fill_mode) // recursive fill
@@ -2616,250 +3174,285 @@ $(document).ready(function(){
 					}
 					else // normal click
 					{
-						//does the click removes the blocks ? ?
-						if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) 
+						
+						if(is_active) //do we work on the active layer ?
 						{
-								if(is_active)
-								{
-								D.Playfields[D.current_playfield].modify_set_piece(clicked,"active","_",piece_orientation);
-								left_remove = 1;
-								}
-								else                                                              
-								{
+							D.Playfields[D.current_playfield].modify_set_piece(clicked,"active",piece_nature,piece_orientation);
+						}
+						else // else we work on the inactive
+						{
+							// does the click remove the block ? (-> if it's not empty & if it's the same piece nature)
+							if (D.Playfields[D.current_playfield].lookup_block(clicked) != "_" && D.Playfields[D.current_playfield].lookup_block(clicked) == piece_nature) 
+							{
 								D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive","_",piece_orientation);
-								left_remove = 1;
-								}
-						}
-						else //if not, it adds
-						{
-								if(is_active)
-								{
-								D.Playfields[D.current_playfield].modify_set_piece(clicked,"active",piece_nature,piece_orientation);
-								}
-								else                                                              
-								{
+							}
+							else // else we add something
+							{
 								D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation);
-								}
-						}
+
+							}
+						}						
 					}
 					// TODO: pf_modifly(clicked, "highlight");
+					if(is_painting){
+						D.Playfields[D.current_playfield].paint_active();
+						D.Playfields[D.current_playfield].draw();
+					}
+
+					if(is_advancing)
+					{
+							D.new_copy_playfield();
+					}    
 			} );
-                	
+                	/*
 			$('#diagram td').rightMouseDown(function(){
-					clicked = $(this).attr("id");
+					var clicked = $(this).attr("id");
 					var piece_nature = "_";
 					var piece_orientation = $('input[type=radio][name=tetramino]:checked').attr('value'); // get the selected tetramino type (L flat, upside down, etc...)
 					var is_active = $('#active').attr('checked');
-                	
+					
 					D.Playfields[D.current_playfield].modify_set_piece(clicked,"inactive",piece_nature,piece_orientation);
 					right_clicking = 1;                 
-			} );		
+			} );		*/
+		
+		/*------------------------ Checkbox control --------------- */  
 
-		/*------------------------ Button control ------------------ */
-			
-			$('#stackborder').change(function(){
-                	
-					if($('#stackborder:checked').val())
+			var $activecheckbox = $('#active');
+			var $recursivefill = $('#recursive-fill');
+			var $rectangularfill = $('#rectangular-fill');
+
+			$activecheckbox.click(function(){
+					$recursivefill.removeAttr('disabled','');
+					$rectangularfill.removeAttr('disabled','');
+					if($activecheckbox.attr('checked'))
 					{
-					D.Playfields[D.current_playfield].stackborder_status = 1;				
+					$recursivefill.attr('disabled','disabled');
+					$rectangularfill.attr('disabled','disabled');
 					}
-					else{
-					D.Playfields[D.current_playfield].stackborder_status = 0;									
-					}
-					D.Playfields[D.current_playfield].draw_stackborder(D.Playfields[D.current_playfield].stackborder_status);
-			})		
-			
+			})
+		
+		/*------------------------ Button control ------------------ */  
 			$('#com').change(function(){
 					D.Playfields[D.current_playfield].save_comment();
 			})
-
-			$('#size-change').click(function(){
-					for(var i=0 ; i < D.Playfields.length;i++)
-					{
-					D.Playfields[i].change_size($('#width').val(),$('#height').val());					
-					}
-					D.Playfields[D.current_playfield].change_size_display();
-			})		   			
+			/* Right panel */
+				/* Properties*/
+					$('#stackborder').change(function(){
+                				
+								if($('#stackborder:checked').val())
+								{
+								D.Playfields[D.current_playfield].stackborder_status = 1;				
+								}
+								else{
+								D.Playfields[D.current_playfield].stackborder_status = 0;									
+								}
+								D.Playfields[D.current_playfield].draw_stackborder(D.Playfields[D.current_playfield].stackborder_status);
+					})		
+					$('.size-change','#properties').change(function(){
+							if($('#size-all:checked').val())
+							{
+								D.Playfields[D.current_playfield].change_size($('#width').val(),$('#height').val());					
+							}
+							for(var i=0 ; i < D.Playfields.length;i++)
+							{
+							D.Playfields[i].change_size($('#width').val(),$('#height').val());					
+							}
+							D.Playfields[D.current_playfield].change_size_display();
+					})		   			
+					$('#size-change-reset').click(function(){                          
+							defaultwidth = 10;
+							defaultheight = 20;
+							for(var i=0 ; i < D.Playfields.length;i++)
+							{
+							D.Playfields[i].change_size(10,20);					
+							}
+							D.Playfields[D.current_playfield].change_size_display();					
+					})	
+					$('#cmd_size_default').click(function(){
+							defaultwidth = $('#width').val();
+							defaultheight = $('#height').val();
+					})					
+					$("#cmd_spawn").click(function(){
+							var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class')
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].spawn_piece(piece_nature);
+					
+					})		
+					$("#cmd_hold").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].switchhold();
+					})	
+					$("#cmd_advance_next").click(function(){
+							D.Playfields[D.current_playfield].advance_next();
+					})
+					$('#border_color').change(function(){
+							if($('#border_all:checked').val())
+							{
+								D.set_border_to_all($('#border_color').val());
+							}
+							else
+							{
+								D.Playfields[D.current_playfield].modify_border($('#border_color').val());
+							}
+					})
+					$('#cmd_border_default').click(function(){
+								D.set_default_border($('#border_color').val());
+					})
+					$('#cmd_border_reset').click(function(){
+							if($('#border_all:checked').val())
+							{
+								D.set_border_to_all($(''));
+							}
+							else
+							{
+								D.Playfields[D.current_playfield].modify_border('');
+							}					
+					})
+					$('#hold').change(function(){
+							D.Playfields[D.current_playfield].modify_hold($('#hold').val());
+					})
+					$('#next1').change(function(){
+							D.Playfields[D.current_playfield].modify_next1($('#next1').val());
+					})
+					$('#next2').change(function(){
+							D.Playfields[D.current_playfield].modify_next2($('#next2').val());
+					})
+					$('#next3').change(function(){
+							D.Playfields[D.current_playfield].modify_next3($('#next3').val());
+					})
+				
+				/* Frame manipulation */
+					$("#cmd_new").click(function(){
+							D.new_playfield();
+					})
+					$("#cmd_next").click(function(){
+							if(D.current_playfield == D.Playfields.length-1) 
+							{
+							D.new_copy_playfield();
+							}
+							else
+							{
+							D.next_playfield();
+							}
+					})
+					$("#cmd_prev").click(function(){
+							D.previous_playfield();
+					})
+					$("#cmd_last").click(function(){
+							D.last_playfield();
+					})
+					$("#cmd_first").click(function(){
+							D.first_playfield();
+					})
+					$("#cmd_new_copy").click(function(){
+							D.new_copy_playfield();
+					})
+					$("#cmd_del").click(function(){
+							D.remove_current_playfield();
+					})
+					$("#cmd_del_follow").click(function(){
+							var agree = confirm("This will remove every frame after the current one. \n Are you sure ?");
+							if (agree)
+							{
+								D.remove_following_playfields();
+							}
+					})
+					$("#cmd_del_all").click(function(){
+						var agree = confirm("This will nuke everything ! \n Are you sure ?");
+						if (agree)
+						{
+							D.remove_all_playfields();
+						}
+					})
+                		/* Active manipulation*/
+                	
+					$("#cmd_up").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('up');
+					})
+					$("#cmd_down").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('down');
+					})
+					$("#cmd_left").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('left');
+					})
+					$("#cmd_right").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('right');
+					})
+					$("#cmd_cw").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('cw');
+					})
+					$("#cmd_ccw").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].move_piece('ccw');
+					})
+					$("#cmd_recall").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Recall();
+					})
+					$("#cmd_clearactive").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].rebootActive();
+					})
+					$("#cmd_paintactive").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].paint_active();
+					})		
+					$("#cmd_lockactive").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].lock_active();
+					})		
+					$("#cmd_dropactive").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].drop_active_piece();
+					})						
+				/* Field manipulation */
+					$("#cmd_line_clear").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].line_clear();
+					})
+					$("#cmd_shift_field_up").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('up');
+					})
+					$("#cmd_shift_field_down").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('down');
+					})
+					$("#cmd_shift_field_left").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('left');
+					})
+					$("#cmd_shift_field_right").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].shift_field('right');
+					})
+					$("#cmd_clear_field").click(function(){
+							D.Playfields[D.current_playfield].Tetrion_History_Save();
+							D.Playfields[D.current_playfield].rebootPlayfield();
+							D.Playfields[D.current_playfield].draw();
+                			
+					})
+					$('#system').change(function(){
+							var new_system = $('#system').val();
+							if($('#system_all:checked').val())
+							{
+								D.set_system_to_all(new_system);
+							}
+							else
+							{
+								D.Playfields[D.current_playfield].modify_system(new_system);						
+							}
+					})
+					$('#system-change-default').click(function(){
+							var new_system = $('#system').val();
+							D.set_default_system(new_system);
+					})
 			
-			$('#size-change-reset').click(function(){                          
-					defaultwidth = 10;
-					defaultheight = 20;
-					for(var i=0 ; i < D.Playfields.length;i++)
-					{
-					D.Playfields[i].change_size(10,20);					
-					}
-					D.Playfields[D.current_playfield].change_size_display();					
-			})		   
-
-
 			
-			$("#cmd_spawn").click(function(){
-					var piece_nature = $('input[type=radio][name=tetramino]:checked').attr('class')
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].spawn_piece(piece_nature);
-			
-			})		
-			$("#cmd_hold").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].switchhold();
-			})	
-                	
-			$("#cmd_advance_next").click(function(){
-					D.Playfields[D.current_playfield].advance_next();
-			})
-			
-			$("#cmd_new").click(function(){
-					D.new_playfield();
-			})
-                	
-			$("#cmd_next").click(function(){
-					if(D.current_playfield == D.Playfields.length-1 && editor_mode) 
-					{
-					D.new_copy_playfield();
-					}
-					else
-					{
-					D.next_playfield();
-					}
-			})
-                	
-			$("#cmd_prev").click(function(){
-					D.previous_playfield();
-			})
-                	
-			$("#cmd_last").click(function(){
-					D.last_playfield();
-			})
-                	
-			$("#cmd_first").click(function(){
-					D.first_playfield();
-			})
-                	
-			$("#cmd_new_copy").click(function(){
-					D.new_copy_playfield();
-			})
-                	
-			$("#cmd_del").click(function(){
-					D.remove_current_playfield();
-			})
-			$("#cmd_del_follow").click(function(){
-					var agree = confirm("This will remove every frame after the current one. \n Are you sure ?");
-					if (agree)
-					{
-						D.remove_following_playfields();
-					}
-			})
-			$("#cmd_del_all").click(function(){
-					var agree = confirm("This will nuke everything ! \n Are you sure ?");
-					if (agree)
-					{
-						D.remove_all_playfields();
-					}
-			})
-			$("#cmd_up").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('up');
-			})
-			$("#cmd_down").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('down');
-			})
-			$("#cmd_left").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('left');
-			})
-			$("#cmd_right").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('right');
-			})
-			$("#cmd_cw").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('cw');
-			})
-			$("#cmd_ccw").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].move_piece('ccw');
-			})
-                	
-			$("#cmd_clearactive").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].rebootActive();
-			})
-                	
-			$("#cmd_paintactive").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].paint_active();
-			})		
-                	
-			$("#cmd_lockactive").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].lock_active();
-			})		
-			
-			$("#cmd_recall").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Recall();
-			})
-                	
-                	
-			$('#border_color').change(function(){
-					D.Playfields[D.current_playfield].modify_border($('#border_color').val());
-			})
-			$("#cmd_line_clear").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].line_clear();
-			})
-			$("#cmd_shift_field_up").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].shift_field('up');
-			})
-			$("#cmd_shift_field_down").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].shift_field('down');
-			})
-			$("#cmd_shift_field_left").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].shift_field('left');
-			})
-			$("#cmd_shift_field_right").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].shift_field('right');
-			})
-			$("#cmd_clear_field").click(function(){
-					D.Playfields[D.current_playfield].Tetrion_History_Save();
-					D.Playfields[D.current_playfield].rebootPlayfield();
-					D.Playfields[D.current_playfield].draw();
-                	
-			})
-			$('#system').change(function(){
-					var new_system = $('#system').val();
-					D.Playfields[D.current_playfield].modify_system(new_system);
-					//D.Playfields[D.current_playfield].update_class();
-                	
-			})
-                	
-			$('#system-change-all').click(function(){
-					var new_system = $('#system').val();
-					D.set_system_to_all(new_system);
-			})
-                	
-			$('#system-change-default').click(function(){
-					var new_system = $('#system').val();
-					D.set_default_system(new_system);
-			})
-			
-			
-			$('#hold').change(function(){
-					D.Playfields[D.current_playfield].modify_hold($('#hold').val());
-			})
-			$('#next1').change(function(){
-					D.Playfields[D.current_playfield].modify_next1($('#next1').val());
-			})
-			$('#next2').change(function(){
-					D.Playfields[D.current_playfield].modify_next2($('#next2').val());
-			})
-			$('#next3').change(function(){
-					D.Playfields[D.current_playfield].modify_next3($('#next3').val());
-			})
 
 		/*------------------------ Keyboard control ------------------ */
 			
@@ -2885,8 +3478,6 @@ $(document).ready(function(){
 			var kb_6;		
 			var kb_7;		
 			var kb_8;		
-			
-			
 			
 			function kb_default(){
 				kb_modifier = 16; //shift
@@ -2940,7 +3531,7 @@ $(document).ready(function(){
    			}	          
 		
 			kb_default();
-			
+			/* Cookies */
 			if(readCookie('kb_modifier'))
 			{
 				kb_modifier = readCookie('kb_modifier');		

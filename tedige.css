@@ -1,174 +1,236 @@
-head, body {
-	background: black;
+  /* --------------------------------------------------------*/
+ /* -------- Utility class - Do not delete or modify those !--------- */       
+/* ------------------------------------------------------- */
+
+
+.hidden{
+	display:none;
 }
 
-table#diagram{
-	border:5px solid gray;	
-	line-height: 12px;
-	border-spacing: 0px;
-	margin: 0 auto 0 auto;
+.boxcheck{
+	background-color: lightgreen !important;
 }
 
-#diagram tr{	
-	height: 12px;
-	padding: 0px;
+  /* ------------------------*/
+ /* -------- Layout--------- */       
+/* ----------------------- */
+
+#wrapper{ 
+	position:relative;
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 2em;
+	
+	background-color:#333;
+	
+	border:3px solid #eee;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;	
 }
-#diagram td{
-	margin-left: 1px;
-	padding:0px;
-	width: 12px;	
-}		
-.right-frame{ valign: top;}                                                                       
-.ARS_{ background-color: #000000;} 		
 
-.ARST{ background-color: cyan;}        
-.ARSL{ background-color: orange;}        
-.ARSJ{ background-color: blue;}                                                                        
-.ARSS{ background-color: magenta;}           
-.ARSZ{ background-color: green;}                                                                   
-.ARSI{ background-color: red;} 
-.ARSO{ background-color: yellow;} 
-
-.SRST{ background-color: cyan;}        
-.SRSL{ background-color: orange;}        
-.SRSJ{ background-color: blue;}                                                                        
-.SRSS{ background-color: magenta;}           
-.SRSZ{ background-color: green;}                                                                   
-.SRSI{ background-color: red;} 
-.SRSO{ background-color: yellow;} 
-
-.active{}
-.cover{background-color:red;}
-.preview{ 
-	width: 12px;
-	height: 12px; 
-
+#col-right{
+	float:right;
+	width:300px;
 }
-.bordered{border: 1px solid black;}  
-
-#palette{
+#col-left{
 	float:left;
-	width: 30%;
+	width: 300px;
+}
+#col-center{
+	width: 300px;
+	text-align:center;
+	margin-left: auto; 
+	margin-right: auto; 
+}
+  /* ----------------------------------*/
+ /* -------- Borders and colors--------- */       
+/* --------------------------------- */
+body{
+	font-family: frutiger,helvetica,arial, sans-serif;
+	background-color:#000;
+	color:#eee;
 }
 
+#header h1{
+	text-align:center;
+	margin-bottom:-8px;
+	margin-left: -600px;
+}
+.h2-title{
+	margin-top: -22px;
+	margin-bottom:0;
+	margin-left: 15px;
+	color:#777;
+}
+/*OMG HAXXX !!!!!! The following code block targets webkit (Safari & Chrome)*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+.h2-title{
+	margin-top: -24px;
+	margin-bottom:0;
+	margin-left: 15px;
+	color:#777;
+
+ }
+ }
+
+.group{
+	/* .group is the magic class for fancy rounded border*/
+  	background-color:#333;
+	border:3px solid #777;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	margin-bottom:30px;
+}
+/* Center column - The blocks are handled by ressources/<rotation system>.css (default is ARS)*/
+#playfield-title{
+	color:#eee;
+	text-align:left;
+}
+
+
+#playfield{
+  	background-color:#333;
+	border:3px solid #eee;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#playfield textarea{
+	color: #eee;
+	border:1px solid #777;
+	background-color: #222;
+}
+#modifier{
+	text-align:left;
+	margin-top: 30px;
+}
+
+/* Left column - The palette is handled by ressources/<rotation system>.css (default is ARS)*/
 #palette input[id^=select]{
 	display:none;
 }
-.boxcheck{
-background-color: lightgreen !important;
+
+#palette p{
+	margin-bottom:8px;
+	margin-bottom:4px;
 }
 
-
-#movement{ 	line-height: 15px;}
-#movement tr{	
-	height: 10px;
-	padding: 0px;
-}
-#movement td{                                                                                                          
-	margin-left: 1px;
-	padding:0px;
-	width: 10px;
+#properties dd{
+	font-size: 14px;
 }
 
-h1{text-align: center}
-h2{margin:.5em;}
+#field-manipulation{
+	width:250px;
+}
+#field-manipulation-title{margin-left:3px;}
 
-#header-green {
-	border-bottom: 1px solid #337715;
-	width: 100%;
+	/*Tab set 1*/
+ul.tabs {
+	float:right;
+	list-style-type:none;
+	padding:0;
+	margin-right:-63px;
+	margin-top:3px;
+}
+ul.tabs li {
+	width:55px;
+	border-top:1px solid #333;
+	padding:3px;
+	background-color: #777;
+}
+ul.tabs li a {
+	color:#aaa;
+	font-weight:bold;
+	text-decoration:none;
+}
+.active-tab{
+	border-right: 1px solid red;
+}
+.active-tab a{
+	color:#333 !important;
+}
+#field-manipulation p{
+	text-align:center;                                         
 }
 
-.wrapper{
-	position:relative;
+ /*Footer*/
+
+ #footer{
+ 	 padding-top:10px;
+	clear:both;
+}
+ #Console-control{
+	text-align:center;
 	width: 800px;
-	background-color:#000000;
+	position:relative;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 1em;
-	color: #EEEEEE;
+}
+#Console-title{
+	text-align:left;
 }
 
-#seed{
-float:left;
-	width: 40%;
+#Console-control .console{
+	width: 400px;
+	float:left;
+}
+#Console-control textarea{
+	width: 380px;
+	height: 100px;
+	color: #777;
+	border:1px solid #777;
+	background-color: #222;
+}
+#Keyboard-control{
+	width: 800px;
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+#Keyboard-title{
+	text-align:left;
+}
+
+#Help{
+	width: 800px;
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+#Help-title{
+	text-align:left;
+}
+	/*Tab set 2*/
+ul.tabs2 {
+	float:right;
+	list-style-type:none;
+	padding:0;
+	margin-right:-9px;
+	margin-top:3px;
+}
+ul.tabs2 li {
+	width:80px;
+	border-top:1px solid #333;
+	padding:3px;
+	background-color: #777;
+}
+ul.tabs2 li a {
+	color:#aaa;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+/* Link*/
+#links{
 	text-align:center;
+	font-size: 10px;
 }
-
-#controls-wrapper{
-	float:left;
-	width: 30%;
-	text-align: center;
-}
-
-#active-control{
-	margin: 1em 0 1em 0;
-	border:1px solid #761C16;
-	background: #0C0000;
-	
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-#playfield-properties{
-	margin: 1em 0 1em 0;
-	border:1px solid #3E5FC9;
-	background: #0C0000;
-	
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-#field-control{
-	margin: 1em 0 1em 0;
-	border:1px solid #337715;
-	background: #000A00;
-	
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-#new-delete-wrapper{
-	margin: 1em 0 1em 0;
-	border:1px solid #766216;
-	background: #090A00;
-	
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-#console-wrapper{
-	clear:left;
-	text-align: center;
-}
-
-.console{
-	float:left;
-	width: 46%;
-	padding: 1em;
-	text-align: left;
-}
-.console-textarea{
-	height: 10em;
-	width: 100%;
-	border: 1px solid #202020;
-	background: #070707;
-	color: #EEEEEE;
-}
-.inactive{
-	opacity:0.8;
-}
-.active
-{
-	width: 12px;
-	height: 12px; 
-}
-.transparent-preview{
-	background-image:url("img/previewblock.png");
-}
-.hidden{
-display:none;
+#links a{
+color:white;
 }

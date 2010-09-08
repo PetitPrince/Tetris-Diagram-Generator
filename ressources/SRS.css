@@ -1,0 +1,431 @@
+  /* -----------------------------------------------------------------------*/
+ /* --------  Modify here if you want to use a different standard image size--------- */       
+/* ---------------------------------------------------------------------- */
+
+/*Size of an undividual cell (previewlayer is the last layer of each cell)*/
+.previewlayer,.decorationlayer{
+width:16px;
+height:16px;
+}
+/*Size of the hold and next boxes */
+	/* next1box should be 4*<size of a individual cell>*/
+#next1box{
+width:64px;
+height:32px;
+}
+
+	/*holdbox, next2box and next3box should be 2*<size of a individual cell>*/
+#holdbox,#next2box,#next3box{
+width:32px;
+height:32px;
+}
+
+/*Size of an individual cell in the palette*/
+	/*It should be the same as an individual cell*/
+#palette table label span{
+	width:16px;
+	height:16px;                 
+}        
+   
+  /* ----------------------------------------------------------------------------- */
+ /* --------  DO NOT MODIFY PAST HERE UNLESS YOU KNOW WHAT YOU DO -------------- */       
+/* ----------------------------------------------------------------------------- */
+
+table.diagram, table#diagram {
+
+	border:5px solid gray;	
+	border-spacing: 0px;
+	margin: 0 auto 0 auto;
+	background-color: black;
+
+}
+
+table.diagram tr, #diagram tr{
+	padding: 0px;
+}
+table.diagram td, #diagram td{
+	padding:0px;
+}		
+.border-gray{
+	border: 5px solid gray;';
+}			
+.border-yellow{
+	border: 5px solid yellow';
+}			
+.border-blue{
+	border: 5px solid blue';
+}			
+.border-red{
+	border: 5px solid red';
+}			
+.border-green{
+	border: 5px solid green';
+}			
+.border-clear{
+	border: 5px solid transparent';
+}			
+.border-none{
+	border: 5px solid transparent';	
+}		
+
+  /* ----------------------- */
+ /* -------- Blocks--------- */       
+/* ----------------------- */
+
+
+.border-top{background-image:url("images/border/border-top.png") !important;}                                         
+.border-topbottom{background-image:url("images/border/border-top-bottom.png") !important;}                                         
+.border-topbottomleft{background-image:url("images/border/border-top-bottom-left.png") !important;}                                         
+.border-topright{background-image:url("images/border/border-top-right.png") !important;}                                         
+.border-toprightbottom{background-image:url("images/border/border-top-right-bottom.png") !important;}                                         
+.border-toprightbottomleft{background-image:url("images/border/border-top-right-bottom-left.png") !important;}                                         
+.border-toprightleft{background-image:url("images/border/border-top-right-left.png") !important;}                                         
+
+
+
+.border-right{background-image:url("images/border/border-right.png") !important;}                                         
+.border-rightbottom{background-image:url("images/border/border-right-bottom.png") !important;}                                         
+.border-rightbottomleft{background-image:url("images/border/border-right-bottom-left.png") !important;}                                         
+.border-bottom{background-image:url("images/border/border-bottom.png") !important;}                                         
+.border-bottomleft{background-image:url("images/border/border-bottom-left.png") !important;}                                         
+.border-left{background-image:url("images/border/border-left.png") !important;}                                         
+.border-topleft{background-image:url("images/border/border-top-left.png") !important;}                                         
+.border-rightleft{background-image:url("images/border/border-right-left.png") !important;}                                         
+
+
+
+
+.foreground-inactive{
+opacity:0.7;
+}
+.transparent-preview{
+	outline:1px dotted #ccc;
+}
+
+
+.piece-T{background-image:url("images/SRS/blocks/t.png") !important;}
+.piece-L{background-image:url("images/SRS/blocks/l.png") !important;}
+.piece-J{background-image:url("images/SRS/blocks/j.png") !important;}
+.piece-S{background-image:url("images/SRS/blocks/s.png") !important;}
+.piece-Z{background-image:url("images/SRS/blocks/z.png") !important;}
+.piece-I{background-image:url("images/SRS/blocks/i.png") !important;}
+.piece-O{background-image:url("images/SRS/blocks/o.png") !important;}
+.piece-G{background-image:url("images/SRS/blocks/g2.png") !important;}
+
+/* Top box*/
+#top-box div{
+display:inline-block;
+}
+
+.next1-T{background-image:url("images/SRS/next/T.png");}
+.next1-L{background-image:url("images/SRS/next/L.png");}
+.next1-J{background-image:url("images/SRS/next/J.png");}
+.next1-S{background-image:url("images/SRS/next/S.png");}
+.next1-Z{background-image:url("images/SRS/next/Z.png");}
+.next1-I{background-image:url("images/SRS/next/I.png");}
+.next1-O{background-image:url("images/SRS/next/O.png");}
+                
+.hold-T,.next2-T, .next3-T{background-image:url("images/SRS/next-small/T.png");}
+.hold-L,.next2-L, .next3-L{background-image:url("images/SRS/next-small/L.png");}
+.hold-J,.next2-J, .next3-J{background-image:url("images/SRS/next-small/J.png");}
+.hold-S,.next2-S, .next3-S{background-image:url("images/SRS/next-small/S.png");}
+.hold-Z,.next2-Z, .next3-Z{background-image:url("images/SRS/next-small/Z.png");}
+.hold-I,.next2-I, .next3-I{background-image:url("images/SRS/next-small/I.png");}
+.hold-O,.next2-O, .next3-O{background-image:url("images/SRS/next-small/O.png");}
+
+/* --- Utility ---*/
+
+.blue{background-image:url("images/utility/overlay/blue.png")}
+.green{background-image:url("images/utility/overlay/green.png")}
+.pink{background-image:url("images/utility/overlay/pink.png")}
+.red{background-image:url("images/utility/overlay/red.png")}
+.yellow{background-image:url("images/utility/overlay/yellow.png")}
+
+
+.question{background-image:url("images/utility/question.png")}
+.exclamation{background-image:url("images/utility/exclamation.png")}
+.ccw{background-image:url("images/utility/ccw.png")}
+.cw{background-image:url("images/utility/cw.png")}
+
+.arrowleft{background-image:url("images/utility/arrows/left.png")}
+.arrowdown{background-image:url("images/utility/arrows/down.png")}
+.arrowright{background-image:url("images/utility/arrows/right.png")}
+.arrowup{background-image:url("images/utility/arrows/up.png")}
+.arrowdownleft{background-image:url("images/utility/arrows/down-left.png")}
+.arrowleftup{background-image:url("images/utility/arrows/left-up.png")}
+.arrowupright{background-image:url("images/utility/arrows/up-right.png")}
+.arrowrightdown{background-image:url("images/utility/arrows/right-down.png")}
+
+.no0{background-image:url("images/utility/numbers/0.png")}
+.no1{background-image:url("images/utility/numbers/1.png")}
+.no2{background-image:url("images/utility/numbers/2.png")}
+.no3{background-image:url("images/utility/numbers/3.png")}
+.no4{background-image:url("images/utility/numbers/4.png")}
+.no5{background-image:url("images/utility/numbers/5.png")}
+.no6{background-image:url("images/utility/numbers/6.png")}
+.no7{background-image:url("images/utility/numbers/7.png")}
+.no8{background-image:url("images/utility/numbers/8.png")}
+.no9{background-image:url("images/utility/numbers/9.png")}
+
+.piece-b0{background-image:url("images/utility/blocks-number/block-0.png")}
+.piece-b1{background-image:url("images/utility/blocks-number/block-1.png")}
+.piece-b2{background-image:url("images/utility/blocks-number/block-2.png")}
+.piece-b3{background-image:url("images/utility/blocks-number/block-3.png")}
+.piece-b4{background-image:url("images/utility/blocks-number/block-4.png")}
+.piece-b5{background-image:url("images/utility/blocks-number/block-5.png")}
+.piece-b6{background-image:url("images/utility/blocks-number/block-6.png")}
+.piece-b7{background-image:url("images/utility/blocks-number/block-7.png")}
+.piece-b8{background-image:url("images/utility/blocks-number/block-8.png")}
+.piece-b9{background-image:url("images/utility/blocks-number/block-9.png")}
+
+.piece-x{background-image:url("images/utility/line-clear.png")}
+.piece-xr{background-image:url("images/utility/lcr.png")}
+.piece-xc{background-image:url("images/utility/lcc.png")}
+.piece-xl{background-image:url("images/utility/lcl.png")}
+
+  /* --------------------------------- */
+ /* -------- Tetramino palette --------- */       
+/* --------------------------------- */
+
+#pr2 table{                                                                                                                                                                                                                                                                    
+border: 2px solid #777;
+width:100%;
+height:100%;
+}
+#palette table label span{
+	display: inline-block;                                                                                                                                                                                                                                    
+	width:16px;
+	height:16px;                 
+}                           
+.last-br{
+display:none;
+}
+
+/* All pieces except I are 3x3*/
+label .s-1-4,
+label .s-2-4,
+label .s-3-4,
+label .s-4-4,
+label .s-4-1,
+label .s-4-2,
+label .s-4-3,
+label .s-4-4{
+display:none !important;
+}
+
+/* Borders */     
+label .s-1-1,
+label .s-1-2,
+label .s-1-3{
+border-top: 1px solid #777;
+}                  
+label .s-3-1,
+label .s-3-2,
+label .s-3-3{
+border-bottom: 1px solid #777;
+}
+label .s-1-1,
+label .s-2-1,                                                                                                                                                                                                                          
+label .s-3-1{                                                                                                                                                                                                                         
+border-left: 1px solid #777;
+}
+label .s-1-3,
+label .s-2-3,
+label .s-3-3{
+border-right: 1px solid #777;
+}                                                 
+                                                      
+label[for="select-T"] .s-2-2,                         
+label[for="select-Ti"] .s-2-1,                        
+label[for="select-Ti"] .s-2-2,                        
+label[for="select-Ti"] .s-2-3,                        
+label[for="select-Ti"] .s-1-2,                        
+label[for="select-Tcw"] .s-1-2,                       
+label[for="select-Tcw"] .s-2-2,                       
+label[for="select-Tcw"] .s-3-2,                       
+label[for="select-Tcw"] .s-2-3,                       
+label[for="select-Tu"] .s-2-1,
+label[for="select-Tu"] .s-2-2,
+label[for="select-Tu"] .s-2-3,
+label[for="select-Tu"] .s-3-2,
+label[for="select-Tccw"] .s-1-2,
+label[for="select-Tccw"] .s-2-2,
+label[for="select-Tccw"] .s-3-2,
+label[for="select-Tccw"] .s-2-1{
+background-image:url("images/SRS/blocks/t.png") !important;
+}
+                                                                   
+                                                        
+label[for="select-L"] .s-2-2,       
+label[for="select-Li"] .s-1-3, 
+label[for="select-Li"] .s-2-1,    
+label[for="select-Li"] .s-2-2,
+label[for="select-Li"] .s-2-3,
+label[for="select-Lcw"] .s-1-2,             
+label[for="select-Lcw"] .s-2-2,
+label[for="select-Lcw"] .s-3-2,
+label[for="select-Lcw"] .s-3-3,
+label[for="select-Lu"] .s-2-1,      
+label[for="select-Lu"] .s-2-2,
+label[for="select-Lu"] .s-2-3,
+label[for="select-Lu"] .s-3-1,
+label[for="select-Lccw"] .s-1-2,
+label[for="select-Lccw"] .s-2-2,
+label[for="select-Lccw"] .s-3-2,
+label[for="select-Lccw"] .s-1-1{
+	background-image:url("images/SRS/blocks/l.png") !important;
+}
+
+label[for="select-J"] .s-2-2,       
+label[for="select-Ji"] .s-2-1,
+label[for="select-Ji"] .s-2-2,
+label[for="select-Ji"] .s-2-3,
+label[for="select-Ji"] .s-1-1,
+label[for="select-Jcw"] .s-1-2,
+label[for="select-Jcw"] .s-2-2,
+label[for="select-Jcw"] .s-3-2,
+label[for="select-Jcw"] .s-1-3,    
+label[for="select-Ju"] .s-3-3,
+label[for="select-Ju"] .s-2-1,
+label[for="select-Ju"] .s-2-2,
+label[for="select-Ju"] .s-2-3,
+label[for="select-Jccw"] .s-1-2,
+label[for="select-Jccw"] .s-2-2,
+label[for="select-Jccw"] .s-3-2,
+label[for="select-Jccw"] .s-3-1{
+background-image:url("images/SRS/blocks/j.png") !important;
+}
+      
+label[for="select-S"] .s-2-2,       
+label[for="select-Si"] .s-1-2,      
+label[for="select-Si"] .s-1-3,
+label[for="select-Si"] .s-2-1,
+label[for="select-Si"] .s-2-2,       
+label[for="select-Scw"] .s-1-2,
+label[for="select-Scw"] .s-2-2,
+label[for="select-Scw"] .s-2-3,
+label[for="select-Scw"] .s-3-3,
+label[for="select-Su"] .s-2-2,      
+label[for="select-Su"] .s-2-3,
+label[for="select-Su"] .s-3-1,
+label[for="select-Su"] .s-3-2,       
+label[for="select-Sccw"] .s-1-1,
+label[for="select-Sccw"] .s-2-1,
+label[for="select-Sccw"] .s-2-2,
+label[for="select-Sccw"] .s-3-2{
+background-image:url("images/SRS/blocks/s.png") !important;
+}                                                                 
+
+label[for="select-Z"] .s-2-2,          
+label[for="select-Zi"] .s-1-1,      
+label[for="select-Zi"] .s-1-2,
+label[for="select-Zi"] .s-2-2,
+label[for="select-Zi"] .s-2-3,       
+label[for="select-Zcw"] .s-1-3,
+label[for="select-Zcw"] .s-2-2,
+label[for="select-Zcw"] .s-2-3,
+label[for="select-Zcw"] .s-3-2,
+label[for="select-Zu"] .s-2-1,      
+label[for="select-Zu"] .s-2-2,
+label[for="select-Zu"] .s-3-2,
+label[for="select-Zu"] .s-3-3,       
+label[for="select-Zccw"] .s-1-2,
+label[for="select-Zccw"] .s-2-1,
+label[for="select-Zccw"] .s-2-2,
+label[for="select-Zccw"] .s-3-1{
+background-image:url("images/SRS/blocks/z.png") !important;
+}                                                                 
+
+label[for="select-O"] .s-2-2,       
+label[for="select-Oi"] .s-2-1,      
+label[for="select-Oi"] .s-2-2,
+label[for="select-Oi"] .s-3-1,
+label[for="select-Oi"] .s-3-2{  
+background-image:url("images/SRS/blocks/o.png") !important;
+}                                                    
+
+label[for="select-G"] .s-2-2{  
+	background-image:url("images/SRS/blocks/g1.png") !important;
+}      
+
+/* -- I particularities --*/
+#ifiller{
+width:66px;
+}
+label[for^=select-I] .s-1-4,
+label[for^=select-I] .s-2-4,
+label[for^=select-I] .s-3-4,
+label[for^=select-I] .s-4-4,    
+label[for^=select-I] .s-4-1,                          
+label[for^=select-I] .s-4-2,                                            
+label[for^=select-I] .s-4-3,
+label[for^=select-I] .s-4-4{
+display:inline-block !important;
+}
+
+/* Borders */
+
+label[for^=select-I] .s-1-1,
+label[for^=select-I] .s-1-2,
+label[for^=select-I] .s-1-3,
+label[for^=select-I] .s-1-4{                                       
+border-top: 1px solid #777;
+}                  
+label[for^=select-I] .s-1-1,
+label[for^=select-I] .s-2-1,                 
+label[for^=select-I] .s-3-1,                 
+label[for^=select-I] .s-4-1{ 
+border-left: 1px solid #777;
+}
+
+label[for^=select-I] .s-4-1,
+label[for^=select-I] .s-4-2,
+label[for^=select-I] .s-4-3,
+label[for^=select-I] .s-4-4{
+border-bottom: 1px solid #777;
+}
+label[for^=select-I] .s-1-4,
+label[for^=select-I] .s-2-4,
+label[for^=select-I] .s-3-4,
+label[for^=select-I] .s-4-4{
+border-right: 1px solid #777;
+}                             
+
+label[for^=select-I] .s-3-1,
+label[for^=select-I] .s-3-2,
+label[for^=select-I] .s-3-3,
+label[for^=select-I] .s-1-3,
+label[for^=select-I] .s-2-3,
+label[for^=select-I] .s-3-3{
+	border-bottom: none;
+	border-right: none;
+}
+
+label[for^=select-I] .last-br{
+display:inline;
+}
+                                            
+label[for="select-I"] .s-2-3,       
+label[for="select-Ii"] .s-2-1,      
+label[for="select-Ii"] .s-2-2,
+label[for="select-Ii"] .s-2-3,
+label[for="select-Ii"] .s-2-4,       
+label[for="select-Icw"] .s-1-3,
+label[for="select-Icw"] .s-2-3,
+label[for="select-Icw"] .s-3-3,
+label[for="select-Icw"] .s-4-3,       
+label[for="select-Iu"] .s-3-1,      
+label[for="select-Iu"] .s-3-2,
+label[for="select-Iu"] .s-3-3,
+label[for="select-Iu"] .s-3-4,       
+label[for="select-Iccw"] .s-1-2,
+label[for="select-Iccw"] .s-2-2,
+label[for="select-Iccw"] .s-3-2,
+label[for="select-Iccw"] .s-4-2{
+background-image:url("images/SRS/blocks/i.png") !important;
+}                                                    
+
+
+
+                    
+                 

@@ -1,1381 +1,1733 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head>
-<title>TeDiGe</title>
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<head>
+
+		<title>TeDiGe</title> 
+
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+		<link id="style-layout" rel="stylesheet" type="text/css" href="tedige.css"/>
+
+		<link id="style-blocks" rel="stylesheet" type="text/css" href="ressources/ARS.css"/>
+
+		<script type="text/javascript" src="jquery.js"></script> 
+
+
+		<script type="text/javascript">    
+		$(document).ready(function() {     
+
+			//Tab set 1          
+			//When page loads...
+			$(".tab_content").hide(); //Hide all content
+			$("ul.tabs li:first").addClass("active-tab").show(); //Activate first tab
+			$(".tab_content:first").show(); //Show first tab content
+							      
+			//On Click Event
+			$("ul.tabs li").click(function() {
 		
-<link rel="stylesheet" type="text/css" href="tedige.css" />
-                             
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="tedige.js"></script>
-</head>
-
-<body>
-<div class="wrapper">
-
-<h1>TeDiGe</h1>
-
-
-<!-- ------------------------- Palette ------------------------- -->
-<div id="palette">  
-<h3>Utility blocks</h3>
-	<table>							                                                                                   
-	<tbody>   
-<tr>
-	<td><label for="select-i"> <img src="img/blocks/ARS/lowercase/ARSiTet.png" alt="i"></label><input id="select-i" class="i" name="tetramino" value="i" type="radio"></td>
-	<td><label for="select-t"> <img src="img/blocks/ARS/lowercase/ARStTet.png" alt="t"></label><input id="select-t" class="t" name="tetramino" value="t" type="radio"></td>
-	<td><label for="select-j"> <img src="img/blocks/ARS/lowercase/ARSjTet.png" alt="j"></label><input id="select-j" class="j" name="tetramino" value="j" type="radio"></td>
-	<td><label for="select-o"> <img src="img/blocks/ARS/lowercase/ARSoTet.png" alt="o"></label><input id="select-o" class="o" name="tetramino" value="o" type="radio"></td>
-	<td><label for="select-l"> <img src="img/blocks/ARS/lowercase/ARSlTet.png" alt="l"></label><input id="select-l" class="l" name="tetramino" value="l" type="radio"></td>
-	<td><label for="select-s"> <img src="img/blocks/ARS/lowercase/ARSsTet.png" alt="s"></label><input id="select-s" class="s" name="tetramino" value="s" type="radio"></td>
-	<td><label for="select-z"> <img src="img/blocks/ARS/lowercase/ARSzTet.png" alt="z"></label><input id="select-z" class="z" name="tetramino" value="z" type="radio"></td>
-	<td><label for="select-g"> <img src="img/blocks/ARS/lowercase/ARSgTet.png" alt="g"></label><input id="select-g" class="g" name="tetramino" value="g" type="radio"></td>
-</tr>                 
-<tr>
-	<td><label for="select-0"> <img src="img/blocks/ARS/ARS0Tet.png" alt="0"></label><input id="select-0" class="0" name="tetramino" value="0" type="radio"></td>
-	<td><label for="select-1"> <img src="img/blocks/ARS/ARS1Tet.png" alt="1"></label><input id="select-1" class="1" name="tetramino" value="1" type="radio"></td>
-	<td><label for="select-2"> <img src="img/blocks/ARS/ARS2Tet.png" alt="2"></label><input id="select-2" class="2" name="tetramino" value="2" type="radio"></td>
-	<td><label for="select-3"> <img src="img/blocks/ARS/ARS3Tet.png" alt="3"></label><input id="select-3" class="3" name="tetramino" value="3" type="radio"></td>
-	<td><label for="select-4"> <img src="img/blocks/ARS/ARS4Tet.png" alt="4"></label><input id="select-4" class="4" name="tetramino" value="4" type="radio"></td>
-	<td><label for="select-5"> <img src="img/blocks/ARS/ARS5Tet.png" alt="5"></label><input id="select-5" class="5" name="tetramino" value="5" type="radio"></td>
-	<td><label for="select-6"> <img src="img/blocks/ARS/ARS6Tet.png" alt="6"></label><input id="select-6" class="6" name="tetramino" value="6" type="radio"></td>
-	<td><label for="select-7"> <img src="img/blocks/ARS/ARS7Tet.png" alt="7"></label><input id="select-7" class="7" name="tetramino" value="7" type="radio"></td>
-	<td><label for="select-8"> <img src="img/blocks/ARS/ARS8Tet.png" alt="8"></label><input id="select-8" class="8" name="tetramino" value="8" type="radio"></td>
-	<td><label for="select-9"> <img src="img/blocks/ARS/ARS9Tet.png" alt="9"></label><input id="select-9" class="9" name="tetramino" value="9" type="radio"></td>
-</tr>
-<tr>
-	<td><label for="select-C"> <img src="img/blocks/ARS/ARSCTet.png" alt="C"></label><input id="select-C" class="C" name="tetramino" value="C" type="radio"></td>
-	<td><label for="select-c"> <img src="img/blocks/ARS/lowercase/ARScTet.png" alt="c"></label><input id="select-c" class="c" name="tetramino" value="c" type="radio"></td>
-	<td><label for="select--"> <img src="img/blocks/ARS/ARS-Tet.png" alt="-"></label><input id="select--" class="-" name="tetramino" value="-" type="radio"></td>
-	<td><label for="select-."> <img src="img/blocks/ARS/ARS.Tet.png" alt="."></label><input id="select-." class="." name="tetramino" value="." type="radio"></td>
-	<td><label for="select-X"> <img src="img/blocks/ARS/ARSXTet.png" alt="X"></label><input id="select-X" class="X" name="tetramino" value="X" type="radio"></td>
-	<td><label for="select-x"> <img src="img/blocks/ARS/lowercase/ARSxTet.png" alt="x"></label><input id="select-x" class="x" name="tetramino" value="x" type="radio"></td>
-	<td><label for="select-B"> <img src="img/blocks/ARS/ARSBTet.png" alt="B"></label><input id="select-B" class="B" name="tetramino" value="B" type="radio"></td>
-	<td><label for="select-@"> <img src="img/blocks/ARS/ARS@Tet.png" alt="@"></label><input id="select-@" class="@" name="tetramino" value="@" type="radio"></td>
-
-
-</td>           
-	</tbody>   
-</table>	
-
-<h3>Utility decoration</h3>
-
-	<table>							                                                                                   
-	<tbody>   
-	<tr>	
-	<td><label for="select-pink"> <img src="img/blocks/Utility/pink.png" alt="pink"></label><input id="select-pink" class="decoration" name="tetramino" value="pink" type="radio"></td>
-	<td><label for="select-red"> <img src="img/blocks/Utility/red.png" alt="red"></label><input id="select-red" class="decoration" name="tetramino" value="red" type="radio"></td>
-	<td><label for="select-blue"> <img src="img/blocks/Utility/blue.png" alt="blue"></label><input id="select-blue" class="decoration" name="tetramino" value="blue" type="radio"></td>
-	<td><label for="select-green"> <img src="img/blocks/Utility/green.png" alt="green"></label><input id="select-green" class="decoration" name="tetramino" value="green" type="radio"></td>
-	<td><label for="select-yellow"> <img src="img/blocks/Utility/yellow.png" alt="yellow"></label><input id="select-yellow" class="decoration" name="tetramino" value="yellow" type="radio"></td>
-	<td><label for="select-question"> <img src="img/blocks/Utility/question.png" alt="question"></label><input id="select-question" class="decoration" name="tetramino" value="question" type="radio"></td>
-	<td><label for="select-exclamation"> <img src="img/blocks/Utility/exclamation.png" alt="exclamation"></label><input id="select-exclamation" class="decoration" name="tetramino" value="exclamation" type="radio"></td>
-	<td><label for="select-ccw"> <img src="img/blocks/Utility/ccw.png" alt="ccw"></label><input id="select-ccw" class="decoration" name="tetramino" value="ccw" type="radio"></td>
-	<td><label for="select-cw"> <img src="img/blocks/Utility/cw.png" alt="cw"></label><input id="select-cw" class="decoration" name="tetramino" value="cw" type="radio"></td>
-	</tr>
-	<tr>
-	<td><label for="select-arrowleft"> <img src="img/blocks/Utility/arrowleft.png" alt="arrowleft"></label><input id="select-arrowleft" class="decoration" name="tetramino" value="arrowleft" type="radio"></td>
-	<td><label for="select-arrowup"> <img src="img/blocks/Utility/arrowup.png" alt="arrowup"></label><input id="select-arrowup" class="decoration" name="tetramino" value="arrowup" type="radio"></td>
-	<td><label for="select-arrowright"> <img src="img/blocks/Utility/arrowright.png" alt="arrowright"></label><input id="select-arrowright" class="decoration" name="tetramino" value="arrowright" type="radio"></td>
-	<td><label for="select-arrowdown"> <img src="img/blocks/Utility/arrowdown.png" alt="arrowdown"></label><input id="select-arrowdown" class="decoration" name="tetramino" value="arrowdown" type="radio"></td>
-	<td><label for="select-arrowdownleft"> <img src="img/blocks/Utility/arrowdownleft.png" alt="arrowdownleft"></label><input id="select-arrowdownleft" class="decoration" name="tetramino" value="arrowdownleft" type="radio"></td>
-	<td><label for="select-arrowleftup"> <img src="img/blocks/Utility/arrowleftup.png" alt="arrowleftup"></label><input id="select-arrowleftup" class="decoration" name="tetramino" value="arrowleftup" type="radio"></td>
-	<td><label for="select-arrowupright"> <img src="img/blocks/Utility/arrowupright.png" alt="arrowupright"></label><input id="select-arrowupright" class="decoration" name="tetramino" value="arrowupright" type="radio"></td>
-	<td><label for="select-arrowrightdown"> <img src="img/blocks/Utility/arrowrightdown.png" alt="arrowrightdown"></label><input id="select-arrowrightdown" class="decoration" name="tetramino" value="arrowrightdown" type="radio"></td>
-
-	</tr>	
-          
-	</tbody>   
-</table>	
-
-<h3>Pieces</h3>	
-	<table>		
-	<tbody>   
-<tr id="pr1">
-	<td> <label for="select-T"> <img src="img/t.png" alt="T"> </label> <input checked="checked" id="select-T" class="T" name="tetramino" value="T" type="radio"> </td> 
-	<td> <label for="select-Ti"> <img src="img/ti.png" alt="Ti"> </label> <input id="select-Ti" class="T" name="tetramino" value="Ti" type="radio"> </td> 
-	<td> <label for="select-Tcw"> <img src="img/tcw.png" alt="Tcw"> </label> <input id="select-Tcw" class="T" name="tetramino" value="Tcw" type="radio"> </td> 
-	<td> <label for="select-Tccw"> <img src="img/tccw.png" alt="Tccw"> </label> <input id="select-Tccw" name="tetramino" class="T" value="Tccw" type="radio"> </td> 
-	<td> <label for="select-Tu"> <img src="img/tu.png" alt="Tu"> </label> <input id="select-Tu" name="tetramino" class="T" value="Tu" type="radio"> </td>  
-</tr>	                                                           
-<tr id="pr2">                                                             
-	<td> <label for="select-L"> <img src="img/l.png" alt="L"> </label> <input id="select-L" class="L" name="tetramino" value="L" type="radio"> </td> 
-	<td> <label for="select-Li"> <img src="img/li.png" alt="Li"> </label> <input id="select-Li" class="L" name="tetramino" value="Li" type="radio"> </td> 
-	<td> <label for="select-Lcw"> <img src="img/lcw.png" alt="Lcw"> </label> <input id="select-Lcw" class="L" name="tetramino" value="Lcw" type="radio"> </td> 
-	<td> <label for="select-Lccw"> <img src="img/lccw.png" alt="Lccw"> </label> <input id="select-Lccw" name="tetramino" class="L" value="Lccw" type="radio"> </td> 
-	<td> <label for="select-Lu"> <img src="img/lu.png" alt="Lu"> </label> <input id="select-Lu" name="tetramino" class="L" value="Lu" type="radio"> </td>    
-</tr>	                                                           
-<tr id="pr3">                                                             
-	<td> <label for="select-J"> <img src="img/j.png" alt="J"> </label> <input id="select-J" class="J" name="tetramino" value="J" type="radio"> </td> 
-	<td> <label for="select-Ji"> <img src="img/ji.png" alt="Ji"> </label> <input id="select-Ji" class="J" name="tetramino" value="Ji" type="radio"> </td> 
-	<td> <label for="select-Jccw"> <img src="img/jccw.png" alt="Jccw"> </label> <input id="select-Jccw" class="J" name="tetramino" value="Jccw" type="radio"> </td> 
-	<td> <label for="select-Jcw"> <img src="img/jcw.png" alt="Jcw"> </label> <input id="select-Jcw" name="tetramino" class="J" value="Jcw" type="radio"> </td> 
-	<td> <label for="select-Ju"> <img src="img/ju.png" alt="Ju"> </label> <input id="select-Ju" name="tetramino" class="J" value="Ju" type="radio"> </td>       
-</tr>	                                                           
-<tr id="pr4">                                                             
-	<td> <label for="select-S"> <img src="img/s.png" alt="S"> </label> <input id="select-S" class="S" name="tetramino" value="S" type="radio"> </td> 
-	<td> <label for="select-Si"> <img src="img/si.png" alt="Si"> </label> <input id="select-Si" class="S" name="tetramino" value="Si" type="radio"> </td>
-	<td> <label for="select-Scw"> <img src="img/scw.png" alt="Scw"> </label> <input id="select-Scw" class="S" name="tetramino" value="Scw" type="radio"> </td> 
-</tr>	                                                           
-<tr id="pr5">                                                             
-	<td> <label for="select-Z"> <img src="img/z.png" alt="Z"> </label> <input id="select-Z" class="Z" name="tetramino" value="Z" type="radio"> </td>
-	<td> <label for="select-Zi"> <img src="img/zi.png" alt="Zi"> </label> <input id="select-Zi" class="Z" name="tetramino" value="Zi" type="radio"> </td> 
-	<td> <label for="select-Zcw"> <img src="img/zcw.png" alt="Zcw"> </label> <input id="select-Zcw" class="Z" name="tetramino" value="Zcw" type="radio"> </td>
-</tr>                                                            
-<tr id="pr6">                                                             
-	<td> <label for="select-I"> <img src="img/i.png" alt="I"> </label> <input id="select-I" class="I" name="tetramino" value="I" type="radio"> </td> 
-	<td> <label for="select-Ii"> <img src="img/ii.png" alt="Ii"> </label> <input id="select-Ii" class="I" name="tetramino" value="Ii" type="radio"> </td>
-	<td> <label for="select-Iu"> <img src="img/iu.png" alt="Iu"> </label> <input id="select-Iu" class="I" name="tetramino" value="Iu" type="radio"> </td>
-</tr>
-<tr id="pr7">
-	<td> <label for="select-O"> <img src="img/o.png" alt="O"> </label> <input id="select-O" class="O" name="tetramino" value="O" type="radio"> </td> 
-	<td> <label for="select-Oi"> <img src="img/oi.png" alt="Oi"> </label> <input id="select-Oi" class="O" name="tetramino" value="Oi" type="radio"> </td>
-</tr>	
-<tr  id="pr8">
-	<td> <label for="select-G"> <img src="img/g.png" alt="G"> </label> <input id="select-G" class="G" name="tetramino" value="G" type="radio"> </td>
-	</tbody>
-	</table>
-<h3>Modifier</h3>
-
-	<input id="active" type="checkbox"> Active ? <br />
-	<input id="rectangular-fill" type="checkbox"> Rectangular fill mode ?<br />
-	<input id="recursive-fill" type="checkbox"> Recursive fill mode ?<br />
-	<input id="cmd_spawn" value="Spawn (active)" type="button"> <input id="cmd_hold" value="Hold current active" type="button">
-
-</div>
-
-<!-- ------------------------- Playfield ------------------------- -->
-<div id="seed">
-<div>
-	<p><textarea id="com" rows="3" style="color:white; width:90%; border:1px solid #202020; background: #070707;"></textarea></p>
-
-	<p><span id="current-frame">1</span> / <span id="total-frame">1</span></p>
-	
-	<input id="cmd_first" value="|◄" type="button">
-	<input id="cmd_prev" value="◄" type="button">
-	<input id="cmd_next" value="►" type="button">
-	<input id="cmd_last" value="►|" type="button">
-	</div>
-</div>
-
-<!-- ------------------------- Controls ------------------------- -->
-<div id="controls-wrapper">
-	W: 	<select id="width" >
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10" selected="selected">10</option>		
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
-			<option value="24">24</option>
-			<option value="25">25</option>
-			<option value="26">26</option>	
-		</select>
-	H: <select id="height" >
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>		
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20" selected="selected">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
-			<option value="24">24</option>
-			<option value="25">25</option>
-			<option value="26">26</option>	
+				$("ul.tabs li").removeClass("active-tab"); //Remove any "active" class
+				$(this).addClass("active-tab"); //Add "active" class to selected tab
+				$(".tab_content").hide(); //Hide all tab content
+		
+				var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active ID content
+				return false;
+			});                   
+		
+			//Tab set 2
+			//When page loads...
+			$(".tab2_content").hide(); //Hide all content
+			$("ul.tabs2 li:first").addClass("active-tab").show(); //Activate first tab
+			$(".tab2_content:first").show(); //Show first tab content
+		
+			//On Click Event
+			$("ul.tabs2 li").click(function() {
+		
+				$("ul.tabs2 li").removeClass("active-tab"); //Remove any "active" class
+				$(this).addClass("active-tab"); //Add "active" class to selected tab
+				$(".tab2_content").hide(); //Hide all tab content
+		
+				var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+				$(activeTab).fadeIn(); //Fade in the active ID content
+				return false;
+			});                   
 			
-		</select>
-		<br /><input id="size-change" value="Set" type="button" /> <input id="size-change-reset" value="reset" type="button" /><br />
+		});
+		</script>
 
-	<br />
-	<br />
+		<script type="text/javascript" src="tedige.js"></script>
+	</head> 
 
-	Border: <select id="border_color" >
-		<option selected="selected" value=""></option>
-		<option value="gray" style="background-color: gray; color: #EEEEEE;">Gray</option>
-		<option value="yellow" style="background-color: yellow">Yellow</option>
-		<option value="blue" style="background-color: blue; color: #EEEEEE;">Blue</option>
-		<option value="red" style="background-color: red; color: #EEEEEE;">Red</option>
-		<option value="green" style="background-color: green; color: #EEEEEE;">Green</option>
-		<option value="clear">Clear</option>
-		<option value="none">None</option>
-	</select>
-	<input id="border-change-all" value="Set to all" type="button"> <input id="border-change-default" value="Set as default" type="button">
-	<br />
-	<input id="stackborder" type="checkbox"> Stack border
-	<br />
-	
-	System: <select id="system" >
-		<option value="" selected="selected"></option>
-		<option value="ARS">ARS</option>
-		<option value="SRS">SRS</option>
-		<option value="GB">GB</option>
-		<option value="TNT">TNT</option>
-	</select>
-	<input id="system-change-all" value="Set to all" type="button"> <input id="system-change-default" value="Set as default" type="button">
-	
-	<br />
-	
-	Hold:
-	<select id="hold" >
-		<option value=""></option>
-		<option value="I">I</option>
-		<option value="O">O</option>
-		<option value="J">J</option>
-		<option value="L">L</option>
-		<option value="S">S</option>
-		<option value="Z">Z</option>
-		<option value="T">T</option>
-	</select>
-	<br />
-	Next 1:	
-	<select id="next1" >
-		<option value=""></option>
-		<option value="I">I</option>
-		<option value="O">O</option>
-		<option value="J">J</option>
-		<option value="L">L</option>
-		<option value="S">S</option>
-		<option value="Z">Z</option>
-		<option value="T">T</option>
-	</select>
 
-	Next 2:
-	<select id="next2" >
-		<option value=""></option>
-		<option value="I">I</option>
-		<option value="O">O</option>
-		<option value="J">J</option>
-		<option value="L">L</option>
-		<option value="S">S</option>
-		<option value="Z">Z</option>
-		<option value="T">T</option>
-	</select>
-	
-	Next 3:	
-	<select id="next3" >
-		<option value=""></option>
-		<option value="I">I</option>
-		<option value="O">O</option>
-		<option value="J">J</option>
-		<option value="L">L</option>
-		<option value="S">S</option>
-		<option value="Z">Z</option>
-		<option value="T">T</option>
-	</select>        
-	<br /> <input id="cmd_advance_next" value="Advance next" type="button">
-	<div id="active-control">
-	<h2>Active Piece</h2>
-	<table id="movement" style="margin:0 auto 0 auto">
-	<tbody>
-		<tr>
-			<td></td>
-			<td><input id="cmd_up" value="↑" type="button"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td><input id="cmd_left" value="←" type="button"></td>
-			<td></td>
-			<td><input id="cmd_right" value="→" type="button"></td>
-		</tr>
-		<tr>
-			<td><input id="cmd_ccw" value="↪" type="button"></td>
-			<td><input id="cmd_down" value="↓" type="button"></td>
-			<td><input id="cmd_cw" value="↩" type="button"></td>
-		</tr>
-	</tbody>
-	</table>
-	<input id="cmd_clearactive" value="Clear active" type="button"> 
-	<input id="cmd_paintactive" value="Paint active" type="button">
-	<input id="cmd_lockactive" value="Lock active" type="button">
-	</div>
 
-	<div id="field-control">
-	<h2>Field Control</h2>
-	<table style="margin:0 auto 0 auto">
-	<tbody>
-		<tr>
-			<td></td>
-			<td><input id="cmd_shift_field_up" value="↑" type="button"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td><input id="cmd_shift_field_left" value="←" type="button"></td>
-			<td></td>
-			<td><input id="cmd_shift_field_right" value="→" type="button"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input id="cmd_shift_field_down" value="↓" type="button"></td>
-			<td></td>
-		</tr>
-	</tbody>
-	</table>
-	<input id="cmd_line_clear" value="Clear line(s)" type="button">
-	<input id="cmd_clear_field" value="Clear field" type="button">
-	<input id="cmd_recall" value="Undo" type="button">
-	</div>
+	<body>
+                       
 
-	<div id="new-delete-wrapper">
-		<h2>New Frame</h2>
-
-		<input id="cmd_new" value="Empty" type="button">
-		<input id="cmd_new_copy" value="Copy" type="button">
-	
-		<h2>Delete Frame</h2>
-	
-		<input id="cmd_del" value="Current" type="button">
-		<input id="cmd_del_follow" value="After" type="button">
-		<input id="cmd_del_all" value="All" type="button">	
+		<div id="header">
+			<h1>TeDiGe</h1>
 		</div>
-</div> <!-- close controls-wrapper-->
+		<div id="wrapper">
 
-<!-- ------------------------- Console ------------------------- -->
-<div id="console-wrapper">
+			<div id="col-left">  
+					<div id="palette" class="group">
+						<h2 id="palette-title" class="h2-title">Palette</h2>
+						<p>Utility overlay</p>
+						<table>							                                                                                   
+							<tbody>   
+								<tr>	
+									<td><label for="select-pink"> <img src="ressources/images/utility/overlay/pink.png" alt="pink"></label><input id="select-pink" class="decoration" name="tetramino" value="pink" type="radio"></td>
+									<td><label for="select-red"> <img src="ressources/images/utility/overlay/red.png" alt="red"></label><input id="select-red" class="decoration" name="tetramino" value="red" type="radio"></td>
+									<td><label for="select-blue"> <img src="ressources/images/utility/overlay/blue.png" alt="blue"></label><input id="select-blue" class="decoration" name="tetramino" value="blue" type="radio"></td>
+									<td><label for="select-green"> <img src="ressources/images/utility/overlay/green.png" alt="green"></label><input id="select-green" class="decoration" name="tetramino" value="green" type="radio"></td>
+									<td><label for="select-yellow"> <img src="ressources/images/utility/overlay/yellow.png" alt="yellow"></label><input id="select-yellow" class="decoration" name="tetramino" value="yellow" type="radio"></td>
+									<td><label for="select-question"> <img src="ressources/images/utility/question.png" alt="question"></label><input id="select-question" class="decoration" name="tetramino" value="question" type="radio"></td>
+									<td><label for="select-exclamation"> <img src="ressources/images/utility/exclamation.png" alt="exclamation"></label><input id="select-exclamation" class="decoration" name="tetramino" value="exclamation" type="radio"></td>
+									<td><label for="select-ccw"> <img src="ressources/images/utility/ccw.png" alt="ccw"></label><input id="select-ccw" class="decoration" name="tetramino" value="ccw" type="radio"></td>
+									<td><label for="select-cw"> <img src="ressources/images/utility/cw.png" alt="cw"></label><input id="select-cw" class="decoration" name="tetramino" value="cw" type="radio"></td>
+								</tr>
 
-	<div class="console">
-		Export Console
-		<br />
-		<textarea id="export" class="console-textarea" readonly="readonly"></textarea>
-		<br/>
-		<span id="console-description"></span>
-	</div>
+								<tr>
+									<td><label for="select-no0"><span> <img src="ressources/images/utility/numbers/0.png" alt="0"></span></label><input id="select-no0" class="decoration" name="tetramino" value="no0" type="radio"></td>
+									<td><label for="select-no1"><span> <img src="ressources/images/utility/numbers/1.png" alt="1"></span></label><input id="select-no1" class="decoration" name="tetramino" value="no1" type="radio"></td>
+									<td><label for="select-no2"><span> <img src="ressources/images/utility/numbers/2.png" alt="2"></span></label><input id="select-no2" class="decoration" name="tetramino" value="no2" type="radio"></td>
+									<td><label for="select-no3"><span> <img src="ressources/images/utility/numbers/3.png" alt="3"></span></label><input id="select-no3" class="decoration" name="tetramino" value="no3" type="radio"></td>
+									<td><label for="select-no4"><span> <img src="ressources/images/utility/numbers/4.png" alt="4"></span></label><input id="select-no4" class="decoration" name="tetramino" value="no4" type="radio"></td>
+									<td><label for="select-no5"><span> <img src="ressources/images/utility/numbers/5.png" alt="5"></span></label><input id="select-no5" class="decoration" name="tetramino" value="no5" type="radio"></td>
+									<td><label for="select-no6"><span> <img src="ressources/images/utility/numbers/6.png" alt="6"></span></label><input id="select-no6" class="decoration" name="tetramino" value="no6" type="radio"></td>
+									<td><label for="select-no7"><span> <img src="ressources/images/utility/numbers/7.png" alt="7"></span></label><input id="select-no7" class="decoration" name="tetramino" value="no7" type="radio"></td>
+									<td><label for="select-no8"><span> <img src="ressources/images/utility/numbers/8.png" alt="8"></span></label><input id="select-no8" class="decoration" name="tetramino" value="no8" type="radio"></td>
+									<td><label for="select-no9"><span> <img src="ressources/images/utility/numbers/9.png" alt="9"></span></label><input id="select-no9" class="decoration" name="tetramino" value="no9" type="radio"></td>
+								</tr>	
+								
+								<tr>
+									<td><label for="select-arrowleft"> <img src="ressources/images/utility/arrows/left.png" alt="arrowleft"></label><input id="select-arrowleft" class="decoration" name="tetramino" value="arrowleft" type="radio"></td>
+									<td><label for="select-arrowup"> <img src="ressources/images/utility/arrows/up.png" alt="arrowup"></label><input id="select-arrowup" class="decoration" name="tetramino" value="arrowup" type="radio"></td>
+									<td><label for="select-arrowright"> <img src="ressources/images/utility/arrows/right.png" alt="arrowright"></label><input id="select-arrowright" class="decoration" name="tetramino" value="arrowright" type="radio"></td>
+									<td><label for="select-arrowdown"> <img src="ressources/images/utility/arrows/down.png" alt="arrowdown"></label><input id="select-arrowdown" class="decoration" name="tetramino" value="arrowdown" type="radio"></td>
+									<td><label for="select-arrowdownleft"> <img src="ressources/images/utility/arrows/down-left.png" alt="arrowdownleft"></label><input id="select-arrowdownleft" class="decoration" name="tetramino" value="arrowdownleft" type="radio"></td>
+									<td><label for="select-arrowleftup"> <img src="ressources/images/utility/arrows/left-up.png" alt="arrowleftup"></label><input id="select-arrowleftup" class="decoration" name="tetramino" value="arrowleftup" type="radio"></td>
+									<td><label for="select-arrowupright"> <img src="ressources/images/utility/arrows/up-right.png" alt="arrowupright"></label><input id="select-arrowupright" class="decoration" name="tetramino" value="arrowupright" type="radio"></td>
+									<td><label for="select-arrowrightdown"> <img src="ressources/images/utility/arrows/right-down.png" alt="arrowrightdown"></label><input id="select-arrowrightdown" class="decoration" name="tetramino" value="arrowrightdown" type="radio"></td>
+								</tr>	 
+							</tbody>   
+						</table>
+						<p>Utility blocks</p>
+						<table>							                                                                                   
+							<tbody>   
+								<tr>      
+									<td><label for="select-x"> <img src="ressources/images/utility/line-clear.png" alt="x"></label><input id="select-x" class="x" name="tetramino" value="x" type="radio"></td>
+									<td><label for="select-xl"> <img src="ressources/images/utility/lcl.png" alt="xl"></label><input id="select-xl" class="xl" name="tetramino" value="xl" type="radio"></td>
+									<td><label for="select-xc"> <img src="ressources/images/utility/lcc.png" alt="xc"></label><input id="select-xc" class="xc" name="tetramino" value="xc" type="radio"></td>
+									<td><label for="select-xr"> <img src="ressources/images/utility/lcr.png" alt="xr"></label><input id="select-xr" class="xr" name="tetramino" value="xr" type="radio"></td>
+								</tr>
+								<tr>      
+									<td><label for="select-b0"> <img src="ressources/images/utility/blocks-number/block-0.png" alt="0"></label><input id="select-b0" class="b0" name="tetramino" value="b0" type="radio"></td>
+									<td><label for="select-b1"> <img src="ressources/images/utility/blocks-number/block-1.png" alt="1"></label><input id="select-b1" class="b1" name="tetramino" value="b1" type="radio"></td>
+									<td><label for="select-b2"> <img src="ressources/images/utility/blocks-number/block-2.png" alt="2"></label><input id="select-b2" class="b2" name="tetramino" value="b2" type="radio"></td>
+									<td><label for="select-b3"> <img src="ressources/images/utility/blocks-number/block-3.png" alt="3"></label><input id="select-b3" class="b3" name="tetramino" value="b3" type="radio"></td>
+									<td><label for="select-b4"> <img src="ressources/images/utility/blocks-number/block-4.png" alt="4"></label><input id="select-b4" class="b4" name="tetramino" value="b4" type="radio"></td>
+									<td><label for="select-b5"> <img src="ressources/images/utility/blocks-number/block-5.png" alt="5"></label><input id="select-b5" class="b5" name="tetramino" value="b5" type="radio"></td>
+									<td><label for="select-b6"> <img src="ressources/images/utility/blocks-number/block-6.png" alt="6"></label><input id="select-b6" class="b6" name="tetramino" value="b6" type="radio"></td>
+									<td><label for="select-b7"> <img src="ressources/images/utility/blocks-number/block-7.png" alt="7"></label><input id="select-b7" class="b7" name="tetramino" value="b7" type="radio"></td>
+									<td><label for="select-b8"> <img src="ressources/images/utility/blocks-number/block-8.png" alt="8"></label><input id="select-b8" class="b8" name="tetramino" value="b8" type="radio"></td>
+									<td><label for="select-b9"> <img src="ressources/images/utility/blocks-number/block-9.png" alt="9"></label><input id="select-b9" class="b9" name="tetramino" value="b9" type="radio"></td>
+								</tr>	
 
-	<div class="console">
-		Import Console
-		<br />
-		<textarea id="import" class="console-textarea"></textarea>
-	</div>
+							</tbody>   
+						</table>							
+						<p>Pieces</p>	
+						<table>		
+							<tbody>   
+								<tr id="pr1">                                                                                                                                                                                                           
+									<td>
+										<label for="select-T"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input checked="checked" id="select-T" class="T" name="tetramino" value="T" type="radio"> 
+									</td> 
+									<td>
+										<label for="select-Ti"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Ti" class="T" name="tetramino" value="Ti" type="radio"> 
+									</td> 
+									<td>
+										<label for="select-Tcw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Tcw" class="T" name="tetramino" value="Tcw" type="radio">
+									</td> 
+									<td>
+										<label for="select-Tu"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Tu" name="tetramino" class="T" value="Tu" type="radio">
+									</td> 
+									<td> <label for="select-Tccw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Tccw" name="tetramino" class="T" value="Tccw" type="radio">
+									</td>  
+								</tr>	                                                           
+								<tr id="pr2"> 
+									<td> 
+										<label for="select-L"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-L" class="L" name="tetramino" value="L" type="radio">
+									</td> 
+									<td> 
+										<label for="select-Li"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Li" class="L" name="tetramino" value="Li" type="radio">
+									</td> 
+									<td> 
+										<label for="select-Lcw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Lcw" class="L" name="tetramino" value="Lcw" type="radio">
+									</td> 
+									<td>
+										<label for="select-Lu"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Lu" name="tetramino" class="L" value="Lu" type="radio">
+									</td>   
+									<td>
+										<label for="select-Lccw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Lccw" name="tetramino" class="L" value="Lccw" type="radio">
+									</td> 									
+								</tr>	                                                           
+								<tr id="pr3">                                                             
+									<td>
+										<label for="select-J"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-J" class="J" name="tetramino" value="J" type="radio">
+									</td> 
+									<td>
+										<label for="select-Ji"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Ji" class="J" name="tetramino" value="Ji" type="radio">
+									</td> 
+									<td> 
+										<label for="select-Jcw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Jcw" name="tetramino" class="J" value="Jcw" type="radio">
+									</td> 
+									<td>
+										<label for="select-Ju"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Ju" name="tetramino" class="J" value="Ju" type="radio"> 
+									</td>       
+									<td>
+										<label for="select-Jccw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Jccw" class="J" name="tetramino" value="Jccw" type="radio">
+									</td> 
+								</tr>	                                                           
+								<tr id="pr4">                                                             
+									<td> 
+										<label for="select-S"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-S" class="S" name="tetramino" value="S" type="radio">
+									</td> 
+									<td>
+										<label for="select-Si"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Si" class="S" name="tetramino" value="Si" type="radio">
+									</td>  
+									<td>
+										<label for="select-Scw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Scw" class="S" name="tetramino" value="Scw" type="radio">
+									</td>   
+									<td>
+										<label for="select-Su"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Su" class="S" name="tetramino" value="Su" type="radio">
+									</td>  								
+									<td>
+										<label for="select-Sccw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Sccw" class="S" name="tetramino" value="Sccw" type="radio">
+									</td>
+								</tr>	                                                           
+								<tr id="pr5">                                                             
+									<td>
+										<label for="select-Z"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Z" class="Z" name="tetramino" value="Z" type="radio">
+									</td>
+									<td>
+										<label for="select-Zi"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Zi" class="Z" name="tetramino" value="Zi" type="radio">
+									</td> 
+									<td>
+										<label for="select-Zcw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Zcw" class="Z" name="tetramino" value="Zcw" type="radio">
+									</td>
+									<td>
+										<label for="select-Zu"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Zu" class="Z" name="tetramino" value="Zu" type="radio">
+									</td> 
+									<td>
+										<label for="select-Zccw"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Zccw" class="Z" name="tetramino" value="Zccw" type="radio">
+									</td>									
+								</tr>          
+							</tbody>   
+						</table>	
+						<div id="pr6">
+							<table>							                                                                                   
+								<tbody>   
+									<tr>                                                             
+										<td>
+											<label for="select-I"> 
+											<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+											<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+											<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+											<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+											</label> <input id="select-I" class="I" name="tetramino" value="I" type="radio">
+										</td> 
+										<td>
+											<label for="select-Ii"> 
+											<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+											<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+											<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+											<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+											</label> <input id="select-Ii" class="I" name="tetramino" value="Ii" type="radio"> 
+										</td>
+										<td>
+											<label for="select-Icw"> 
+											<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+											<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+											<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+											<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+											</label> <input id="select-Icw" class="I" name="tetramino" value="Icw" type="radio"> 
+										</td>
+									</tr>                         
+								</tbody>    
+							</table>
+							<table id="ifillertable">			
+								<tbody>  
+									<tr>
+										<td id="ifiller">
+										&nbsp;
+										</td>
+										<td>   
+											<label for="select-Iu"> 
+											<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+											<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+											<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+											<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+											</label> <input id="select-Iu" class="I" name="tetramino" value="Iu" type="radio"> 
+										</td>
+										<td>
+											<label for="select-Iccw"> 
+											<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+											<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+											<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+											<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+											</label> <input id="select-Iccw" class="I" name="tetramino" value="Iccw" type="radio"> 
+										</td>
+									</tr>                         
+								</tbody>    
+							</table>	
+						</div>
+						<table>							                                                                                   
+							<tbody>   
+								<tr id="pr7">
+									<td> 
+										<label for="select-O"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-O" class="O" name="tetramino" value="O" type="radio">
+									</td> 
+									<td>
+										<label for="select-Oi"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-Oi" class="O" name="tetramino" value="Oi" type="radio">
+									</td>
+								</tr>	
+								<tr  id="pr8">
+									<td>
+										<label for="select-G"> 
+										<span class="s-1-1"></span><span class="s-1-2"></span><span class="s-1-3"></span><span class="s-1-4"></span><br />
+										<span class="s-2-1"></span><span class="s-2-2"></span><span class="s-2-3"></span><span class="s-2-4"></span><br />
+										<span class="s-3-1"></span><span class="s-3-2"></span><span class="s-3-3"></span><span class="s-3-4"></span><br class="before-last-br" />
+										<span class="s-4-1"></span><span class="s-4-2"></span><span class="s-4-3"></span><span class="s-4-4"></span><br class="last-br" />
+										</label> <input id="select-G" class="G" name="tetramino" value="G" type="radio">
+									</td>
+							</tbody>
+						</table>
+						
+					</div>		                           
+				
+			</div>
+				
+			<div id="col-right">  
+				<!-- Properties -->
+				<div id="properties" class="group">
+					<h2 id="properties-title" class="h2-title">Properties</h2>			
+					<dl>
+						<dt>Dimensions</dt>                                
+							<dd>
+								Width: 	
+								<select class="size-change" id="width" >
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10" selected="selected">10</option>		
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+									<option value="21">21</option>
+									<option value="22">22</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+									<option value="25">25</option>
+									<option value="26">26</option>	
+								</select>
+								Height: 
+								<select class="size-change" id="height" >
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>		
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20" selected="selected">20</option>
+									<option value="21">21</option>
+									<option value="22">22</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+									<option value="25">25</option>
+									<option value="26">26</option>	
+									
+								</select>					
+								<input id="cmd_size_default" value="as default" type="button"> <input id="size-change-reset" value="Reset" type="button" /> to all<input id="size-all" type="checkbox">
+							</dd>
+						<dt>Border</dt>
+							<dd>
+								<select id="border_color" >
+									<option selected="selected" value="gray" style="background-color: gray; color: #EEEEEE;">Gray</option>
+									<option value="yellow" style="background-color: yellow">Yellow</option>
+									<option value="blue" style="background-color: blue; color: #EEEEEE;">Blue</option>
+									<option value="red" style="background-color: red; color: #EEEEEE;">Red</option>
+									<option value="green" style="background-color: green; color: #EEEEEE;">Green</option>
+									<option value="clear">Clear</option>
+									<option value="none">None</option>
+								</select>
+								 <input id="cmd_border_default" value="as default" type="button"> <input id="cmd_border_reset" value="Reset" type="button"> to all<input id="border_all" type="checkbox">
+							</dd>                           
+							
+						<dt>System</dt>	
+							<dd>
+								<select id="system" >
+									<option value="ARS" selected="selected">ARS</option>
+									<option value="SRS">SRS</option>
+								</select>
+								<input id="system-change-default" value="as default" type="button"> to all<input id="system-all" type="checkbox">
+							</dd>         
+						<dt>Hold</dt>
+							<dd>
+								<select id="hold" >
+									<option value=""></option>
+									<option value="I">I</option>
+									<option value="O">O</option>
+									<option value="J">J</option>
+									<option value="L">L</option>
+									<option value="S">S</option>
+									<option value="Z">Z</option>
+									<option value="T">T</option>
+								</select>
+							</dd>
+						<dt>Next</dt>
+							<dd>
+							1<sup>st</sup> 				
+							<select id="next1" >
+								<option value=""></option>
+								<option value="I">I</option>
+								<option value="O">O</option>
+								<option value="J">J</option>
+								<option value="L">L</option>
+								<option value="S">S</option>
+								<option value="Z">Z</option>
+								<option value="T">T</option>
+							</select>         
+							2<sup>nd</sup>
+							<select id="next2" >
+								<option value=""></option>
+								<option value="I">I</option>
+								<option value="O">O</option>
+								<option value="J">J</option>
+								<option value="L">L</option>
+								<option value="S">S</option>
+								<option value="Z">Z</option>
+								<option value="T">T</option>
+							</select>
+							3<sup>rd</sup>
+							<select id="next3" >
+								<option value=""></option>
+								<option value="I">I</option>
+								<option value="O">O</option>
+								<option value="J">J</option>
+								<option value="L">L</option>
+								<option value="S">S</option>
+								<option value="Z">Z</option>
+								<option value="T">T</option>
+							</select>   
+							<br /> <input id="cmd_advance_next" value="Advance next" type="button">
+								     <!--<input id="cmd_spawn" value="Spawn (active)" type="button"> -->
+								     <input id="cmd_hold" value="Hold current active" type="button">
+							</dd>                               
+						<dt>Stack border</dt>
+							<dd><input id="stackborder" type="checkbox"> Activated</dd>
+					</dl>
+				</div>
 
-	<div id="import-export-wrapper" style="clear:left">                                                       
-		<input id="save-button" value="Export" type="button">
-		<input id="load-button" value="Import" type="button">
+				<div id="field-manipulation" class="group">                                                                                                                                                                                                                                                                             
+					<h2 class="h2-title" id="Field-manipulation-title">Field manipulation</h2>
+					
+					<ul class="tabs">
+						<li><a href="#Frame-control">Frame</a></li>
+						<li><a href="#Field-control">Field</a></li>
+						<li><a href="#Active-piece-control">Active </a></li>
+					</ul>              
+					<div id="Frame-control" class="tab_content">
+						<dl>
+							<dt>+ New frame</dt>
+								<dd><input id="cmd_new" value="Empty" type="button"> <input id="cmd_new_copy" value="Copy" type="button"></dd>
+							<dt>- Delete frame</dt>    
+								<dd><input id="cmd_del" value="Current" type="button"> <input id="cmd_del_follow" value="After" type="button"> <input id="cmd_del_all" value="All" type="button"></dd>	
+						</dl>
+					</div>
+				    
+					<div id="Field-control" class="tab_content">
+						<table style="margin:0 auto 0 auto">
+							<tbody>
+								<tr>
+									<td></td>
+									<td><input id="cmd_shift_field_up" value="↑" type="button"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><input id="cmd_shift_field_left" value="←" type="button"></td>
+									<td></td>
+									<td><input id="cmd_shift_field_right" value="→" type="button"></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input id="cmd_shift_field_down" value="↓" type="button"></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							<input id="cmd_line_clear" value="Clear line(s)" type="button">
+							<input id="cmd_clear_field" value="Clear field" type="button">
+							<input id="cmd_recall" value="Undo" type="button">
+						</p>
+					</div>
+					
+					<div id="Active-piece-control" class="tab_content">
+						<table style="margin:0 auto 0 auto">
+							<tbody>
+								<tr>
+									<td></td>
+									<td><input id="cmd_up" value="↑" type="button"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><input id="cmd_left" value="←" type="button"></td>
+									<td></td>
+									<td><input id="cmd_right" value="→" type="button"></td>
+									</tr>
+								<tr>
+								<td><input id="cmd_ccw" value="↪" type="button"></td>
+								<td><input id="cmd_down" value="↓" type="button"></td>
+								<td><input id="cmd_cw" value="↩" type="button"></td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							<input id="cmd_clearactive" value="Clear" type="button"> 
+							<input id="cmd_paintactive" value="Paint" type="button">
+							<input id="cmd_lockactive" value="Lock" type="button">
+							<input id="cmd_dropactive" value="Drop" type="button">
+						</p>   
+					</div>
+					
+				</div>
 
-		<input name="export" value="All" type="radio" checked="checked"> All
-		<input name="export" value="Current" type="radio"> Current
-		<input id="url" type="checkbox"> URL
-		<input id="wiki" type="checkbox"> Wiki                                 
-		<input id="slidagram" type="checkbox"> Slidagram
-
-		</div> <!-- close import-export-wrapper-->
-
-</div> <!-- close console-wrapper-->
-
-<div id="help">
-
-</div>
-
-
-
-<!-- ------------------------- Keyboard control  ------------------------- -->
-
-<hr />
-<div class="kb-control">
-<input id="kb-control-status" type="checkbox" />	Activate keyboard control <br />
-
-	[Modifier] set to <select id="kb_modifier" >
-		<option value="16">Shift</option>
-		<option value="17">Control</option>
-		<option value="18">Alt</option>
-	</select>
-	<br />
-
-	↑ set to <select id="kb_up" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
-	← set to <select id="kb_left" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
-	→ set to <select id="kb_right" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
-	↓ set to <select id="kb_down" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
-	↪ set to <select id="kb_ccw" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
-	↩ set to <select id="kb_cw" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to shift playfield)
-	<br />
+			</div>
+			
+			<div id="col-center">  			                                 
+				<div id="playfield">
+					<h2 id="playfield-title" class="h2-title">Playfield</h2>										
+					<div id="seed"></div>
+					<p><textarea id="com" ></textarea></p>
+					<p>
+						<span id="current-frame">1</span> / <span id="total-frame">1</span><br />
+						<input id="cmd_first" value="|◄" type="button" />
+						<input id="cmd_prev" value="◄" type="button" />
+						<input id="cmd_next" value="►" type="button" />
+						<input id="cmd_last" value="►|" type="button" />
+					</p>				
+				</div> 
+				<div id="modifier" class="group">
+						<h2 class="h2-title">Modifier</h2> 
+					<dl>
+						<dd><input id="active" type="checkbox"> Active ?</dd>
+						<dd><input id="collision" type="checkbox"> Collision ?</dd>
+						<dd><input id="drop" type="checkbox"> Drop ?</dd>
+						<dd><input id="advance" type="checkbox"> Advance after click ?</dd>
+						<dd><input id="paintactive" type="checkbox"> Paint active after click ?</dd>
+						<dd><input id="rectangular-fill" type="checkbox"> Rectangular fill mode ?</dd>
+						<dd><input id="recursive-fill" type="checkbox"> Recursive fill mode ?</dd>
+					</dl>
+				</div>
+			</div>
+			<div id="footer">     
+			
+				<ul class="tabs2">
+					<li><a href="#Console-control">Console</a></li>
+					<li><a href="#Keyboard-control">Keyboard</a></li>
+					<li><a href="#Help">Help</a></li>
+				</ul>              
+			
+				<div id="Console-control" class="group tab2_content">
+					<h2 class="h2-title" id="Console-title">Console</h2>
+					<div class="console">
+						Export Console
+						<br />                                              
+						<textarea id="export" class="console-textarea" readonly="readonly"></textarea>
+						<br/>                                             
+						<span id="console-description"></span>
+					</div>
+				
+					<div class="console">
+						Import Console
+						<br />
+						<textarea id="import" class="console-textarea"></textarea>
+					</div>
+				
+					<div id="import-export-wrapper" style="clear:left">                                                       
+						<input id="save-button" value="Export" type="button">
+						<input id="load-button" value="Import" type="button">
+						<br />
+						<input name="export" value="All" type="radio" checked="checked"> All
+						<input name="export" value="Current" type="radio"> Current
+						<br />
+						<input name="exporturl"  value="code" type="radio" checked="checked"> Code
+						<input name="exporturl"  value="forum" type="radio" checked="checked"> Forum
+						<input name="exporturl" value="url" type="radio"> URL
+						<input name="exporturl" value="urledit" type="radio"> URL (editor)
+				
+						</div> <!-- close import-export-wrapper-->
+				
+				</div> <!-- close console-wrapper-->
+ 
+				<div id="Keyboard-control" class="group tab2_content">                         
+					<h2 id="Keyboard-title" class="h2-title">Keyboard</h2>
+					<input id="kb-control-status" type="checkbox" />	Activate keyboard control <br />
+					<dl>
+						<dt>Modifier</dt>
+						<dd>[Modifier] set to <select id="kb_modifier" >
+							<option value="16">Shift</option>
+							<option value="17">Control</option>
+							<option value="18">Alt</option>
+							</select>
+						</dd>
+						<dt>Playfield manipulation</dt>
+						<dd>
+							↑ set to <select id="kb_up" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+							<br />
+							← set to <select id="kb_left" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+							<br />
+							→ set to <select id="kb_right" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+							<br />
+							↓ set to <select id="kb_down" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+							<br />
+							↪ set to <select id="kb_ccw" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+							<br />
+							↩ set to <select id="kb_cw" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to shift playfield)
+						</dd>
+						<dt>Frame manipulation</dt>
+						<dd>
+							[New frame] set to <select id="kb_new" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to copy into new frame)
+							<br />
+							[Delete frame] set to <select id="kb_del" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to Delete all after)
+							<br />
+							[Previous frame] set to <select id="kb_previous" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to get to the first)
+							<br />
+							[Next frame] set to <select id="kb_next" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to go to the last)
+							<br />	 
+						</dd>
+						<dt>Palette manipulation</dt>
+						<dd>
+							[Paint Piece] set to <select id="kb_paint" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> (+[Modifier] to lock)
+							<br />	 
+							[Next Piece] set to <select id="kb_browse_next" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	 
+							[Previous Piece] set to <select id="kb_browse_previous" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	 
+							[1st row cycle] set to <select id="kb_1" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[2nd row cycle] set to <select id="kb_2" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[3rd row cycle] set to <select id="kb_3" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[4th row cycle] set to <select id="kb_4" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[5th row cycle] set to <select id="kb_5" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[6th row cycle] set to <select id="kb_6" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[7th row cycle] set to <select id="kb_7" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+							<br />	
+							[8th row cycle] set to <select id="kb_8" >
+								<option value=""></option>
+								<option value="37">←</option>
+								<option value="38">↑</option>
+								<option value="39">→</option>
+								<option value="40">↓</option>
+								<option value="48">0</option>
+								<option value="49">1</option>
+								<option value="50">2</option>
+								<option value="51">3</option>
+								<option value="52">4</option>
+								<option value="53">5</option>
+								<option value="54">6</option>
+								<option value="55">7</option>
+								<option value="56">8</option>
+								<option value="57">9</option>
+								<option value="58">9</option>
+								<option value="65">a</option>
+								<option value="66">b</option>
+								<option value="67">c</option>
+								<option value="68">d</option>
+								<option value="69">e</option>
+								<option value="70">f</option>
+								<option value="71">g</option>
+								<option value="72">h</option>
+								<option value="73">i</option>
+								<option value="74">j</option>
+								<option value="75">k</option>
+								<option value="76">l</option>
+								<option value="77">m</option>
+								<option value="78">n</option>
+								<option value="79">o</option>
+								<option value="80">p</option>
+								<option value="81">q</option>
+								<option value="82">r</option>
+								<option value="83">s</option>
+								<option value="84">t</option>
+								<option value="85">u</option>
+								<option value="86">v</option>
+								<option value="87">w</option>
+								<option value="88">x</option>
+								<option value="89">y</option>
+								<option value="90">z</option>
+							</select> 
+						</dd>
+					</dl>	
+						<input id="kb-control-save" value="Save config (cookies)" type="button" /> <input id="kb-control-default" value="Default" type="button" />
+					
+				</div>				        
+				<div id="Help" class="group tab2_content">
+					<h2 id="Help-title" class="h2-title">Help</h2>        
+							<h3>Piece placement</h3>
+							<ul>
+								<li>Click on an element of the palette to select it.</li>
+								<li>Click on the playfield to place that element. Some elements ("decoration") are drawn as overlay</li>
+								<li>Cliking on the playfield while the "Active ?" checkbox is ticked place a unique (per 
+									playfield) active piece. It can then be moved at will in the Field manipulation area.</li> 
+								<li>Checking "Advance after click" will do the same as clicking on the "New copy" button.</li>
+								<li>Rectangular fill fills a rectangular area of the selected element. The area is determined by two clicks.</li>
+								<li>Recursive fill works like the paint bucked of your average image editor.</li>
+							</ul>                    
+							<h3>Diagram exportation and importation</h3>
+							<ul>
+								<li>Clicking on the export button will produce a string in the appropriate console.
+									The string represents your drawn playfield in an encoded form.</li>
+								<li>You can select which part of the diagram you wish to encode (the whole playfield or only
+									the current frame.</li>                                     
+								<li>You can select whetever you want pure code, an already BBtagged code or the direct links to either the viewer or the editor. </li>
+							</ul>							                                       
+				</div>
+				<div id="links">
+					<p><a href="http://www.tetrisconcept.net" title="Tetrisconcept">Tetrisconcept</a> | <a href="http://www.harddrop.com" title="Harddrop">Harddrop</a> | powered by <a href="http://jquery.com/">jQuery</a></p>
+					</div>
+			</div>
+		</div>
 	
-	[New frame] set to <select id="kb_new" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to copy into new frame)
-	<br />
-	[Delete frame] set to <select id="kb_del" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to Delete all after)
-	<br />
-
-	[Previous frame] set to <select id="kb_previous" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to get to the first)
-	<br />
-	[Next frame] set to <select id="kb_next" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to go to the last)
-	<br />	 
-
-	[Paint Piece] set to <select id="kb_paint" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> (+[Modifier] to lock)
-	<br />	 
-
-	[Next Piece] set to <select id="kb_browse_next" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	 
-
-	[Previous Piece] set to <select id="kb_browse_previous" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	 
 	
-	[1st row cycle] set to <select id="kb_1" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	
-	[2nd row cycle] set to <select id="kb_2" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
+	</body> 
 
-	[3rd row cycle] set to <select id="kb_3" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
+</html> 
 
-	[4th row cycle] set to <select id="kb_4" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	
-	[5th row cycle] set to <select id="kb_5" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	[6th row cycle] set to <select id="kb_6" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	[7th row cycle] set to <select id="kb_7" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	[8th row cycle] set to <select id="kb_8" >
-		<option value=""></option>
-		<option value="37">←</option>
-		<option value="38">↑</option>
-		<option value="39">→</option>
-		<option value="40">↓</option>
-		<option value="48">0</option>
-		<option value="49">1</option>
-		<option value="50">2</option>
-		<option value="51">3</option>
-		<option value="52">4</option>
-		<option value="53">5</option>
-		<option value="54">6</option>
-		<option value="55">7</option>
-		<option value="56">8</option>
-		<option value="57">9</option>
-		<option value="58">9</option>
-		<option value="65">a</option>
-		<option value="66">b</option>
-		<option value="67">c</option>
-		<option value="68">d</option>
-		<option value="69">e</option>
-		<option value="70">f</option>
-		<option value="71">g</option>
-		<option value="72">h</option>
-		<option value="73">i</option>
-		<option value="74">j</option>
-		<option value="75">k</option>
-		<option value="76">l</option>
-		<option value="77">m</option>
-		<option value="78">n</option>
-		<option value="79">o</option>
-		<option value="80">p</option>
-		<option value="81">q</option>
-		<option value="82">r</option>
-		<option value="83">s</option>
-		<option value="84">t</option>
-		<option value="85">u</option>
-		<option value="86">v</option>
-		<option value="87">w</option>
-		<option value="88">x</option>
-		<option value="89">y</option>
-		<option value="90">z</option>
-	</select> 
-	<br />	
-	
-	<input id="kb-control-save" value="Save config" type="button" /> <input id="kb-control-default" value="Default" type="button" />
-	
-</div>
-
-
-</div> <!-- close wrapper-->
-                                                                                                   
-
-</body>
-</html>

@@ -5,66 +5,41 @@
 <title>TeDiGe viewer</title>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 		
-<link rel="stylesheet" type="text/css" href="img/tedige.css" />
+		<link id="style-layout" rel="stylesheet" type="text/css" href="tedige-viewer.css"/>
+		<link id="style-blocks" rel="stylesheet" type="text/css" href="ressources/mini-ARS.css"/>
                              
 <script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="tedige.js"></script>
+<script type="text/javascript" src="tedige-viewer.js"></script>
 
-<style type="text/css">
-.wrapper{
-	position:absolute;
-	top:0;
-	left:0;
-	margin-left:0;	
-	margin-right:0;	
-	width: 330px;
-	padding:0
-}
-body{
-margin:0;
-padding:0;
-}
-#diagram{float:left;}
-#control{text-align:center}
-#current-frame{font-weight: bold}
-.inactive{
-	opacity:0.8;
-}
-.active
-{
-	width: 12px;
-	height: 12px; 
-}
-.hidden{
-display:none;
-}
-</style>
+
 
 </head>
 
-<body class="viwer">
-<div class="wrapper">
+<body class="viewer">
+<div id="wrapper">
 
-<!-- ------------------------- Playfield ------------------------- -->
-<div id="seed">
-</div>
-<div id="control">
-<br />
-	<p id="comment-area"><textarea disabled="true" id="com" rows="3" style="color:white; width:40%; border:1px solid #555555; background: #070707;"></textarea></p>
-<br />
-	<p id="frame-counter"><span id="current-frame">1</span> / <span id="total-frame">1</span></p>
+	<div id="colleft">
+
+				<div id="playfield">
+					<div id="seed"></div>
+				</div>  
+	</div>
+
+	<div id="colright">
+
+		<div id="com" ></div>		
+		<p id="controls">
+			<span id="current-frame">1</span> / <span id="total-frame">1</span><br />
+			<input id="cmd_first" value="|◄" type="button" />
+			<input id="cmd_prev" value="◄" type="button" />
+			<input id="cmd_next" value="►" type="button" />
+			<input id="cmd_last" value="►|" type="button" />
+		</p>				
+
+
+	</div>	
 	
-	<input id="cmd_prev" value="◄" type="button">
-	<input id="cmd_next" value="►" type="button">
-
-<br />
-
-	<input id="cmd_first" value="|◄" type="button">
-	<input id="cmd_last" value="►|" type="button">
-
-</div>
-</div>
-
+	</div>
 
 </body>
 </html>

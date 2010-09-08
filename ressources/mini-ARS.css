@@ -1,0 +1,183 @@
+  /* ----------------------------------------------------------------------------------*/
+ /* --------  Modify here if you want to use a different standard image size--------- */       
+/* -------------------------------------------------------------------------------- */
+
+ /*Size of an undividual cell (previewlayer is the last layer of each cell)*/
+.previewlayer,.decorationlayer{
+width:8px;
+height:8px;
+}
+/*Size of the hold and next boxes */
+	/* next1box should be 4*<size of a individual cell>*/
+#next1box{
+width:32px;
+height:16px;
+}
+
+	/*holdbox, next2box and next3box should be 2*<size of a individual cell>*/
+#holdbox,#next2box,#next3box{
+width:16px;
+height:16px;
+}
+
+/*Size of an individual cell in the palette*/
+	/*It should be the same as an individual cell*/
+#palette table label span{
+	width:8px;
+	height:8px;                 
+}        
+
+  /* ----------------------------------------------------------------------------- */
+ /* --------  DO NOT MODIFY PAST HERE UNLESS YOU KNOW WHAT YOU DO -------------- */       
+/* ----------------------------------------------------------------------------- */
+
+table.diagram, table#diagram {
+	float:left;
+	border:5px solid gray;	
+	border-spacing: 0px;
+	margin: 0 auto 0 auto;
+	background-color: black;
+}
+
+table.diagram tr, #diagram tr{
+	padding: 0px !important;
+}
+table.diagram td, #diagram td{
+	padding:0px !important;
+}		
+.border-gray{
+	border: 5px solid gray;';
+}			
+.border-yellow{
+	border: 5px solid yellow';
+}			
+.border-blue{
+	border: 5px solid blue';
+}			
+.border-red{
+	border: 5px solid red';
+}			
+.border-green{
+	border: 5px solid green';
+}			
+.border-clear{
+	border: 5px solid transparent';
+}			
+.border-none{
+	border: 5px solid transparent';	
+}		
+  /* ----------------------- */
+ /* -------- Blocks--------- */       
+/* ----------------------- */
+
+
+.border-top{background-image:url("images-small/border/border-top.png") !important;}                                         
+.border-topbottom{background-image:url("images-small/border/border-top-bottom.png") !important;}                                         
+.border-topbottomleft{background-image:url("images-small/border/border-top-bottom-left.png") !important;}                                         
+.border-topright{background-image:url("images-small/border/border-top-right.png") !important;}                                         
+.border-toprightbottom{background-image:url("images-small/border/border-top-right-bottom.png") !important;}                                         
+.border-toprightbottomleft{background-image:url("images-small/border/border-top-right-bottom-left.png") !important;}                                         
+.border-toprightleft{background-image:url("images-small/border/border-top-right-left.png") !important;}                                         
+
+
+
+.border-right{background-image:url("images-small/border/border-right.png") !important;}                                         
+.border-rightbottom{background-image:url("images-small/border/border-right-bottom.png") !important;}                                         
+.border-rightbottomleft{background-image:url("images-small/border/border-right-bottom-left.png") !important;}                                         
+.border-bottom{background-image:url("images-small/border/border-bottom.png") !important;}                                         
+.border-bottomleft{background-image:url("images-small/border/border-bottom-left.png") !important;}                                         
+.border-left{background-image:url("images-small/border/border-left.png") !important;}                                         
+.border-topleft{background-image:url("images-small/border/border-top-left.png") !important;}                                         
+.border-rightleft{background-image:url("images-small/border/border-right-left.png") !important;}                                          
+
+
+
+
+.foreground-inactive{
+opacity:0.7;
+}
+.transparent-preview{
+	outline:1px dotted #ccc;
+}
+
+
+.piece-T{background-image:url("images-small/ARS/blocks/t.png") !important;}
+.piece-L{background-image:url("images-small/ARS/blocks/l.png") !important;}
+.piece-J{background-image:url("images-small/ARS/blocks/j.png") !important;}
+.piece-S{background-image:url("images-small/ARS/blocks/s.png") !important;}
+.piece-Z{background-image:url("images-small/ARS/blocks/z.png") !important;}
+.piece-I{background-image:url("images-small/ARS/blocks/i.png") !important;}
+.piece-O{background-image:url("images-small/ARS/blocks/o.png") !important;}
+.piece-G{background-image:url("images-small/ARS/blocks/g2.png") !important;}
+
+/* Top box*/
+#top-box div{
+display:inline-block;
+}
+
+.next1-T{background-image:url("images-small/ARS/next/T.png");}
+.next1-L{background-image:url("images-small/ARS/next/L.png");}
+.next1-J{background-image:url("images-small/ARS/next/J.png");}
+.next1-S{background-image:url("images-small/ARS/next/S.png");}
+.next1-Z{background-image:url("images-small/ARS/next/Z.png");}
+.next1-I{background-image:url("images-small/ARS/next/I.png");}
+.next1-O{background-image:url("images-small/ARS/next/O.png");}
+                
+.hold-T,.next2-T, .next3-T{background-image:url("images-small/ARS/next-small/T.png");}
+.hold-L,.next2-L, .next3-L{background-image:url("images-small/ARS/next-small/L.png");}
+.hold-J,.next2-J, .next3-J{background-image:url("images-small/ARS/next-small/J.png");}
+.hold-S,.next2-S, .next3-S{background-image:url("images-small/ARS/next-small/S.png");}
+.hold-Z,.next2-Z, .next3-Z{background-image:url("images-small/ARS/next-small/Z.png");}
+.hold-I,.next2-I, .next3-I{background-image:url("images-small/ARS/next-small/I.png");}
+.hold-O,.next2-O, .next3-O{background-image:url("images-small/ARS/next-small/O.png");}
+
+/* --- Utility ---*/
+
+.blue{background-image:url("images-small/utility/overlay/blue.png")}
+.green{background-image:url("images-small/utility/overlay/green.png")}
+.pink{background-image:url("images-small/utility/overlay/pink.png")}
+.red{background-image:url("images-small/utility/overlay/red.png")}
+.yellow{background-image:url("images-small/utility/overlay/yellow.png")}
+
+
+.question{background-image:url("images-small/utility/question.png")}
+.exclamation{background-image:url("images-small/utility/exclamation.png")}
+.ccw{background-image:url("images-small/utility/ccw.png")}
+.cw{background-image:url("images-small/utility/cw.png")}
+
+.arrowleft{background-image:url("images-small/utility/arrows/left.png")}
+.arrowdown{background-image:url("images-small/utility/arrows/down.png")}
+.arrowright{background-image:url("images-small/utility/arrows/right.png")}
+.arrowup{background-image:url("images-small/utility/arrows/up.png")}
+.arrowdownleft{background-image:url("images-small/utility/arrows/down-left.png")}
+.arrowleftup{background-image:url("images-small/utility/arrows/left-up.png")}
+.arrowupright{background-image:url("images-small/utility/arrows/up-right.png")}
+.arrowrightdown{background-image:url("images-small/utility/arrows/right-down.png")}
+
+.no0{background-image:url("images-small/utility/numbers/0.png")}
+.no1{background-image:url("images-small/utility/numbers/1.png")}
+.no2{background-image:url("images-small/utility/numbers/2.png")}
+.no3{background-image:url("images-small/utility/numbers/3.png")}
+.no4{background-image:url("images-small/utility/numbers/4.png")}
+.no5{background-image:url("images-small/utility/numbers/5.png")}
+.no6{background-image:url("images-small/utility/numbers/6.png")}
+.no7{background-image:url("images-small/utility/numbers/7.png")}
+.no8{background-image:url("images-small/utility/numbers/8.png")}
+.no9{background-image:url("images-small/utility/numbers/9.png")}
+
+.piece-b0{background-image:url("images-small/utility/blocks-number/block-0.png")}
+.piece-b1{background-image:url("images-small/utility/blocks-number/block-1.png")}
+.piece-b2{background-image:url("images-small/utility/blocks-number/block-2.png")}
+.piece-b3{background-image:url("images-small/utility/blocks-number/block-3.png")}
+.piece-b4{background-image:url("images-small/utility/blocks-number/block-4.png")}
+.piece-b5{background-image:url("images-small/utility/blocks-number/block-5.png")}
+.piece-b6{background-image:url("images-small/utility/blocks-number/block-6.png")}
+.piece-b7{background-image:url("images-small/utility/blocks-number/block-7.png")}
+.piece-b8{background-image:url("images-small/utility/blocks-number/block-8.png")}
+.piece-b9{background-image:url("images-small/utility/blocks-number/block-9.png")}
+
+.piece-x{background-image:url("images-small/utility/line-clear.png")}
+.piece-xr{background-image:url("images-small/utility/lcr.png")}
+.piece-xc{background-image:url("images-small/utility/lcc.png")}
+.piece-xl{background-image:url("images-small/utility/lcl.png")}
+ 
