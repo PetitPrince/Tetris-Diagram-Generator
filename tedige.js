@@ -2525,7 +2525,7 @@ $(document).ready(function(){
 							t4['x'] = parseFloat(center['x'])+1;
 							t4['y'] = parseFloat(center['y'])-1;
 							break;    
-						case "Lcw" :                         
+						case "Lccw" :                         
 							t2['x'] = parseFloat(center['x'])-1;
 							t2['y'] = parseFloat(center['y'])-1;
 							t3['x'] = parseFloat(center['x'])+0;
@@ -2541,7 +2541,7 @@ $(document).ready(function(){
 							t4['x'] = parseFloat(center['x'])-1;
 							t4['y'] = parseFloat(center['y'])+1;
 							break;    
-						case "Lccw" :
+						case "Lcw" :
 							t2['x'] = parseFloat(center['x'])+0;
 							t2['y'] = parseFloat(center['y'])+1;
 							t3['x'] = parseFloat(center['x'])+0;
