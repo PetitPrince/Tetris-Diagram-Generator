@@ -2459,7 +2459,7 @@ $(document).ready(function(){
 							t4['x'] = parseFloat(center['x'])-1;
 							t4['y'] = parseFloat(center['y'])+0;
 							break;
-						case "Scw" :
+						case "Sccw" :
 							t2['x'] = parseFloat(center['x'])+0;
 							t2['y'] = parseFloat(center['y'])-1;
 							t3['x'] = parseFloat(center['x'])+1;
@@ -2475,7 +2475,7 @@ $(document).ready(function(){
 							t4['x'] = parseFloat(center['x'])+0;
 							t4['y'] = parseFloat(center['y'])+1;
 							break;
-						case "Sccw" :
+						case "Scw" :
 							t2['x'] = parseFloat(center['x'])-1;
 							t2['y'] = parseFloat(center['y'])-1;
 							t3['x'] = parseFloat(center['x'])-1;
