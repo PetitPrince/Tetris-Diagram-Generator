@@ -933,6 +933,19 @@ $(document).ready(function(){
 				
 				return this.Tetrion[x][y]['content'];
 			}
+			this.lookup_decoration = function(id) {
+				/**
+				* Looks for the decoration type at the coordinate in parameter (e.g. p3x2)
+				*/				
+
+				var x_begin = id.indexOf('p');
+				var y_begin = id.indexOf('x');
+
+				var x = parseInt(id.substring(x_begin+1, y_begin));
+				var y = parseInt(id.substring(y_begin+1));
+				
+				return this.Tetrion[x][y]['decoration'];
+			}			
 			this.spawn_piece = function(piece_nature){
 				/**
 				*	Spawn an active piece to the top of a playfield, juste like a normal game would do
@@ -3079,13 +3092,19 @@ $(document).ready(function(){
 				{
 					if(piece_nature == 'decoration') // decoration
 					{
-						var x_begin = position.indexOf('p');
-						var y_begin = position.indexOf('x');
+						var x_begin = clicked.indexOf('p');
+						var y_begin = clicked.indexOf('x');
+
+						var x = parseInt(clicked.substring(x_begin+1, y_begin));
+						var y = parseInt(clicked.substring(y_begin+1));
 						
-						var x = parseInt(position.substring(x_begin+1, y_begin));
-						var y = parseInt(position.substring(y_begin+1));
-						
-						D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);	
+						if(D.Playfields[D.current_playfield].lookup_decoration(clicked) && D.Playfields[D.current_playfield].lookup_decoration(clicked) == piece_orientation)
+						{
+						D.Playfields[D.current_playfield].modify_decoration(x,y,"");						
+						}
+						else{
+						D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);						
+						}
 					}
 					else  
 					{
@@ -3140,11 +3159,18 @@ $(document).ready(function(){
 					{
 						var x_begin = clicked.indexOf('p');
 						var y_begin = clicked.indexOf('x');
-						
+
 						var x = parseInt(clicked.substring(x_begin+1, y_begin));
 						var y = parseInt(clicked.substring(y_begin+1));
 						
+						if(D.Playfields[D.current_playfield].lookup_decoration(clicked) && D.Playfields[D.current_playfield].lookup_decoration(clicked) == piece_orientation)
+						{
+						D.Playfields[D.current_playfield].modify_decoration(x,y,"");						
+						}
+						else{
 						D.Playfields[D.current_playfield].modify_decoration(x,y,piece_orientation);						
+						}
+						
 					}                                                                             
 					
 					else if(is_rectangle_mode) // rectangular fill

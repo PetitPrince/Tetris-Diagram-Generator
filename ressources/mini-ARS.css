@@ -145,6 +145,11 @@ display:inline-block;
 .ccw{background-image:url("images-small/utility/ccw.png")}
 .cw{background-image:url("images-small/utility/cw.png")}
 
+.yes{background-image:url("images/utility/yes.png")}
+.hai{background-image:url("images/utility/hai.png")}
+.no{background-image:url("images/utility/no.png")}
+
+
 .arrowleft{background-image:url("images-small/utility/arrows/left.png")}
 .arrowdown{background-image:url("images-small/utility/arrows/down.png")}
 .arrowright{background-image:url("images-small/utility/arrows/right.png")}
