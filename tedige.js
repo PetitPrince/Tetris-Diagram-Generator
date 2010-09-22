@@ -392,7 +392,7 @@ $(document).ready(function(){
 				$workingcell.removeClass('haspreview hasinactive foreground-inactive');
 				
 				if(value == "_") //if we add something empty...                                                     
-				{                                                                                                    
+				{
 					$inactivelayer.attr('class', 'inactivelayer'); //removes everything except inactivelayer 
 				}
 				else // ...else it's not void
@@ -1879,15 +1879,15 @@ $(document).ready(function(){
 						$activelayer = $workingcell.find('.activelayer');
 						$decorationlayer = $workingcell.find('.decorationlayer');
 						
-						$inactivelayer.attr('class', 'activelayer');
-						$activelayer.attr('class', 'inactivelayer');
+						$inactivelayer.attr('class', 'inactivelayer');
+						$activelayer.attr('class', 'activelayer');                               
 						$decorationlayer.attr('class', 'decorationlayer'); 
 						$workingcell.removeClass('haspreview foreground-inactive hasinactive hasactive');
-						
-						/* inactive pixel active deco preview */
+						                                                                  
+						/* inactive pixel active deco preview */                         
 
 						if(this.Tetrion[i][j]['content_active'])
-						{
+						{                                                                    
 							$activelayer.addClass('piece-'+this.Tetrion[i][j]['content_active']);
 							$workingcell.addClass('hasactive');    
 							if(this.Tetrion[i][j]['content'] != "_")
@@ -1895,14 +1895,12 @@ $(document).ready(function(){
 								$workingcell.addClass('hasinactive');    								
 							}   
 						}
-						else
-						{						
-							if(this.Tetrion[i][j]['content'] != "_") // <- if not empty cell
-							{
-								$inactivelayer.addClass('piece-'+this.Tetrion[i][j]['content']);
-								$workingcell.addClass('hasinactive foreground-inactive');              
-
-							}
+						
+						if(this.Tetrion[i][j]['content'] != "_") // <- if not empty cell
+						{                                                                     
+							$inactivelayer.addClass('piece-'+this.Tetrion[i][j]['content']);
+							$workingcell.addClass('hasinactive foreground-inactive');              
+                                                
 						}
 						
 						if(this.Tetrion[i][j]['decoration'])

@@ -149,6 +149,11 @@ display:inline-block;
 .hai{background-image:url("images/utility/hai.png")}
 .no{background-image:url("images/utility/no.png")}
 
+.x{background-image:url("images-small/utility/line-clear.png")}
+.xr{background-image:url("images-small/utility/lcr.png")}
+.xc{background-image:url("images-small/utility/lcc.png")}
+.xl{background-image:url("images-small/utility/lcl.png")}
+
 
 .arrowleft{background-image:url("images-small/utility/arrows/left.png")}
 .arrowdown{background-image:url("images-small/utility/arrows/down.png")}
@@ -181,8 +186,4 @@ display:inline-block;
 .piece-b8{background-image:url("images-small/utility/blocks-number/block-8.png")}
 .piece-b9{background-image:url("images-small/utility/blocks-number/block-9.png")}
 
-.piece-x{background-image:url("images-small/utility/line-clear.png")}
-.piece-xr{background-image:url("images-small/utility/lcr.png")}
-.piece-xc{background-image:url("images-small/utility/lcc.png")}
-.piece-xl{background-image:url("images-small/utility/lcl.png")}
  

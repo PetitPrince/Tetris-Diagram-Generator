@@ -157,6 +157,12 @@ display:inline-block;
 .arrowupright{background-image:url("images/utility/arrows/up-right.png")}
 .arrowrightdown{background-image:url("images/utility/arrows/right-down.png")}
 
+.x{background-image:url("images/utility/line-clear.png")}
+.xr{background-image:url("images/utility/lcr.png")}
+.xc{background-image:url("images/utility/lcc.png")}
+.xl{background-image:url("images/utility/lcl.png")}
+
+
 .no0{background-image:url("images/utility/numbers/0.png")}
 .no1{background-image:url("images/utility/numbers/1.png")}
 .no2{background-image:url("images/utility/numbers/2.png")}
@@ -179,10 +185,6 @@ display:inline-block;
 .piece-b8{background-image:url("images/utility/blocks-number/block-8.png")}
 .piece-b9{background-image:url("images/utility/blocks-number/block-9.png")}
 
-.piece-x{background-image:url("images/utility/line-clear.png")}
-.piece-xr{background-image:url("images/utility/lcr.png")}
-.piece-xc{background-image:url("images/utility/lcc.png")}
-.piece-xl{background-image:url("images/utility/lcl.png")}
   /* --------------------------------- */
  /* -------- Tetramino palette --------- */       
 /* --------------------------------- */
