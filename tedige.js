@@ -1223,13 +1223,13 @@ $(document).ready(function(){
 				* change_size changed the class attribute, change_size_display actually
 				* changes how the playfield is displayed
 				*/
-				
+				var $diagram = $('#diagram');
 					for(var i=0;i<26;i++)
 					{
-						$('.row'+i,'#diagram').removeClass('hidden');					
+						$('.row'+i, $diagram).removeClass('hidden');					
 						for(var j=0;j<this.pf_width;j++)
 						{
-							$('.col'+j,'#diagram').removeClass('hidden');
+							$('.col'+j,$diagram).removeClass('hidden');
 						}
 					}
 					
@@ -1240,12 +1240,12 @@ $(document).ready(function(){
 						{
 							for(var j=this.pf_width;j<26;j++)
 							{
-								$('.col'+j,'#diagram').addClass('hidden');
+								$('.col'+j,$diagram).addClass('hidden');
 							}
 						}
 						else
 						{
-							$('.row'+i,'#diagram').addClass('hidden');					
+							$('.row'+i,$diagram).addClass('hidden');					
 						}
 						
 					}
@@ -1831,7 +1831,7 @@ $(document).ready(function(){
 				this.modify_system(this.system);  
                                                                  
 				var $diagram = $('#diagram');
-				this.change_size_display();
+				//this.change_size_display();
 				                                
 				// sets the border
 				switch(this.border_color)
